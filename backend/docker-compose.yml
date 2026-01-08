@@ -1,0 +1,69 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: foodio_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: foodio_user
+      POSTGRES_PASSWORD: foodio123
+      POSTGRES_DB: foodio
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - foodio_network
+    healthcheck:
+      test: ['CMD', 'pg_isready -U foodio']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # NestJS Application
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: foodio_app
+  #   restart: unless-stopped
+  #   ports:
+  #     - '3000:3000'
+  #   environment:
+  #     NODE_ENV: development
+  #     DATABASE_URL: postgresql://foodio_user:foodio123@postgres:5432/foodio
+  #     PORT: 3000
+  #   volumes:
+  #     - .:/app
+  #     - /app/node_modules
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   networks:
+  #     - foodio_network
+  #   command: npm run start:dev
+
+  # pgAdmin (Optional - Database Management UI)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: foodio_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@foodio.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - '5050:80'
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - foodio_network
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  foodio_network:
+    driver: bridge
