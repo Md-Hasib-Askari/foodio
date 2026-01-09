@@ -1,7 +1,8 @@
 ### Variables
 @baseUrl = http://localhost:3000
 @contentType = application/json
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMTBlNmU2NC1mNGQxLTQwZjktYTRiYy03MTcxMWZhYzc2OTEiLCJlbWFpbCI6ImphbmVAZXhhbXBsZS5jb20iLCJpYXQiOjE3Njc5NzQ5MjEsImV4cCI6MTc2ODA2MTMyMX0.aUWsj7d44SGDZnjwHT9LOMpsI4YuNITrEfrN29hzM_c
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NDM4YWUwMC04YzI5LTQyMzktYTE1NC1kMmI2MDBlZDA2ODAiLCJlbWFpbCI6ImphbmUyQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3Njc5NzY2NzIsImV4cCI6MTc2ODA2MzA3Mn0.dLTCt-B-HFem7pZi82IQfpP111jWRYSlXjUFfULspKc
+@ADMIN_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjc4OWVkOC01YTQwLTQ0ZmQtYmNiZC1mMDhlYmM0YjQ0MDEiLCJlbWFpbCI6ImphbmUzQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzY3OTc2NjU3LCJleHAiOjE3NjgwNjMwNTd9.EuVjlUqVOJ60PfdbIuKcArV_2fBak9IbF8V99QcYF4Y
 
 ### Health Check
 GET {{baseUrl}}/health
@@ -21,12 +22,13 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "jane@example.com",
+  "email": "jane2@example.com",
   "password": "securepassword"
 }
 
 ### Auth - Get Profile
 GET {{baseUrl}}/auth/profile
+# Authorization: Bearer {{ADMIN_TOKEN}}
 Authorization: Bearer {{token}}
 
 ### Users
