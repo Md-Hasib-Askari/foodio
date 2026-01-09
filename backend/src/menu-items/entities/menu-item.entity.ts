@@ -2,19 +2,18 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
-    ForeignKey,
     CreateDateColumn,
     UpdateDateColumn,
-    OneToMany,
-    ManyToOne
+    ManyToOne,
+    JoinColumn
 } from 'typeorm';
 import { Category } from '../../categories/entities/category.entity';
-import { Order } from 'src/orders/entities/order.entity';
+import { Order } from '../../orders/entities/order.entity';
 
 @Entity('menu_items')
 export class MenuItem {
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    menuItemId: string;
 
     @Column('varchar', { unique: true, length: 100 })
     name: string;
@@ -31,14 +30,15 @@ export class MenuItem {
     @Column({ default: true })
     available: boolean;
 
-    @ForeignKey(() => Category)
-    @Column()
-    categoryId: string;
-
-    @ManyToOne(() => Category, category => category.menuItems)
+    @ManyToOne(() => Category, category => category.menuItems, {
+        onDelete: 'SET NULL',
+        nullable: false,
+    })
+    @JoinColumn({ name: 'categoryId' })
     category: Category;
 
     @ManyToOne(() => Order, order => order.menuItem)
+    @JoinColumn({ name: 'orderId' })
     orders: Order[];
 
     @CreateDateColumn()

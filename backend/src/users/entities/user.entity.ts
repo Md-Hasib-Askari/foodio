@@ -1,10 +1,10 @@
-import { Order } from "src/orders/entities/order.entity";
+import { Order } from "../../orders/entities/order.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('users')
 export class User {
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    userId: string;
 
     @Column('varchar', { unique: true, length: 100 })
     email: string;

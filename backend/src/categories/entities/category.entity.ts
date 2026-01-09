@@ -1,10 +1,10 @@
-import { MenuItem } from 'src/menu-items/entities/menu-item.entity';
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { MenuItem } from '../../menu-items/entities/menu-item.entity';
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('categories')
 export class Category {
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    categoryId: string;
 
     @Column({ unique: true })
     name: string;
@@ -12,7 +12,10 @@ export class Category {
     @Column({ nullable: true })
     description: string;
 
-    @OneToMany(() => MenuItem, menuItem => menuItem.category)
+    @OneToMany(() => MenuItem, menuItem => menuItem.category, {
+        cascade: true,
+    })
+    @JoinColumn({ name: 'menuItemId' })
     menuItems: MenuItem[];
 
     @CreateDateColumn()

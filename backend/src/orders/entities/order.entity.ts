@@ -1,11 +1,11 @@
-import { MenuItem } from "src/menu-items/entities/menu-item.entity";
-import { User } from "src/users/entities/user.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { MenuItem } from "../../menu-items/entities/menu-item.entity";
+import { User } from "../../users/entities/user.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('orders')
 export class Order {
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    orderId: string;
 
     @Column('decimal', { precision: 10, scale: 2 })
     orderPrice: number;
@@ -16,6 +16,7 @@ export class Order {
     @ManyToOne(() => User, user => user.orders)
     user: User;
 
-    @ManyToOne(() => MenuItem, menuItem => menuItem.orders)
+    @ManyToOne(() => MenuItem)
+    @JoinColumn({ name: 'menuItemId' })
     menuItem: MenuItem;
 }
