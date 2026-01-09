@@ -1,0 +1,63 @@
+### Variables
+@baseUrl = http://localhost:3000
+@contentType = application/json
+@token = ""
+
+### Health Check
+GET {{baseUrl}}/health
+
+### Auth - Register
+POST {{baseUrl}}/auth/register
+Content-Type: {{contentType}}
+
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "name": "John Doe"
+}
+
+### Auth - Login
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+
+### Auth - Get Profile
+GET {{baseUrl}}/auth/profile
+Authorization: Bearer {{token}}
+
+### Users - Get All
+GET {{baseUrl}}/users
+
+### Users - Get By ID
+GET {{baseUrl}}/users/1
+
+### Users - Create
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+
+{
+  "name": "Jane Doe",
+  "email": "jane@example.com"
+}
+
+### Users - Update
+PUT {{baseUrl}}/users/1
+Content-Type: {{contentType}}
+
+{
+  "name": "Jane Smith",
+  "email": "jane.smith@example.com"
+}
+
+### Users - Delete
+DELETE {{baseUrl}}/users/1
+
+### Categories - Get All
+GET {{baseUrl}}/categories
+
+### Categories - Get By ID
+GET {{baseUrl}}/categories/1
