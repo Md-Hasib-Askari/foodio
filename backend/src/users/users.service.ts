@@ -50,6 +50,10 @@ export class UsersService {
     return userWithoutPassword;
   }
 
+  async findByEmail(email: string) {
+    return await this._repo.findOneByEmail(email);
+  }
+
   async update(userId: string, updateUserDto: UpdateUserDto) {
     const user = await this._repo.findOne(userId);
     if (!user) {

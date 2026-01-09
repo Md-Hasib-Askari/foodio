@@ -1,7 +1,7 @@
 ### Variables
 @baseUrl = http://localhost:3000
 @contentType = application/json
-@token = ""
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMTBlNmU2NC1mNGQxLTQwZjktYTRiYy03MTcxMWZhYzc2OTEiLCJlbWFpbCI6ImphbmVAZXhhbXBsZS5jb20iLCJpYXQiOjE3Njc5NzQ5MjEsImV4cCI6MTc2ODA2MTMyMX0.aUWsj7d44SGDZnjwHT9LOMpsI4YuNITrEfrN29hzM_c
 
 ### Health Check
 GET {{baseUrl}}/health
@@ -21,8 +21,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "user@example.com",
-  "password": "password123"
+  "email": "jane@example.com",
+  "password": "securepassword"
 }
 
 ### Auth - Get Profile
@@ -30,16 +30,19 @@ GET {{baseUrl}}/auth/profile
 Authorization: Bearer {{token}}
 
 ### Users
-@userId = 4871946b-fb2e-4502-9c35-0b913bdfedb7
+@userId = 110e6e64-f4d1-40f9-a4bc-71711fac7691
 ### Users - Get All
 GET {{baseUrl}}/users
+Authorization: Bearer {{token}}
 
 ### Users - Get By ID
 GET {{baseUrl}}/users/{{userId}}
+Authorization: Bearer {{token}}
 
 ### Users - Create
 POST {{baseUrl}}/users
 Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
 
 {
   "fullName": "Jane Doe 3",
@@ -51,6 +54,7 @@ Content-Type: {{contentType}}
 ### Users - Update
 PATCH  {{baseUrl}}/users/{{userId}}
 Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
 
 {
   "fullName": "Jane Smith 55",
@@ -59,7 +63,7 @@ Content-Type: {{contentType}}
 
 ### Users - Delete
 DELETE {{baseUrl}}/users/{{userId}}
-
+Authorization: Bearer {{token}}
 
 ### Categories
 @categoryId = f4e6ce22-70e4-42f0-a940-2195ad29240d
