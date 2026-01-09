@@ -29,32 +29,37 @@ Content-Type: {{contentType}}
 GET {{baseUrl}}/auth/profile
 Authorization: Bearer {{token}}
 
+### Users
+@userId = 4871946b-fb2e-4502-9c35-0b913bdfedb7
 ### Users - Get All
 GET {{baseUrl}}/users
 
 ### Users - Get By ID
-GET {{baseUrl}}/users/1
+GET {{baseUrl}}/users/{{userId}}
 
 ### Users - Create
 POST {{baseUrl}}/users
 Content-Type: {{contentType}}
 
 {
-  "name": "Jane Doe",
-  "email": "jane@example.com"
+  "fullName": "Jane Doe 3",
+  "email": "jane3@example.com",
+  "password1": "securepassword",
+  "password2": "securepassword"
 }
 
 ### Users - Update
-PUT {{baseUrl}}/users/1
+PATCH  {{baseUrl}}/users/{{userId}}
 Content-Type: {{contentType}}
 
 {
-  "name": "Jane Smith",
-  "email": "jane.smith@example.com"
+  "fullName": "Jane Smith 55",
+  "email": "jane@example.com"
 }
 
 ### Users - Delete
-DELETE {{baseUrl}}/users/1
+DELETE {{baseUrl}}/users/{{userId}}
+
 
 ### Categories
 @categoryId = f4e6ce22-70e4-42f0-a940-2195ad29240d

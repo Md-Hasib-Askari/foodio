@@ -10,6 +10,5 @@ import { MenuItem } from 'src/menu-items/entities/menu-item.entity';
   imports: [TypeOrmModule.forFeature([Category, MenuItem])],
   controllers: [CategoriesController],
   providers: [CategoriesService, CategoriesRepository],
-  exports: [CategoriesRepository],
 })
 export class CategoriesModule { }

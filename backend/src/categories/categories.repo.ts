@@ -35,9 +35,6 @@ export class CategoriesRepository {
 
   async remove(categoryId: string): Promise<boolean> {
     const result = await this._repo.delete(categoryId);
-    if (result.affected && result.affected > 0) {
-      return true;
-    }
-    return false;
+    return !!(result.affected && result.affected > 0);
   }
 }

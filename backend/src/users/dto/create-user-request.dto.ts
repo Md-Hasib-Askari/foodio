@@ -1,7 +1,8 @@
 import { User } from "../entities/user.entity";
 
-export class CreateUserDto {
+export class CreateUserRequest {
     readonly email: string;
-    readonly hashedPassword: string;
+    readonly password1: string;
+    readonly password2: string;
     readonly fullName: string;
 }
