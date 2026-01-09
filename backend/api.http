@@ -56,8 +56,32 @@ Content-Type: {{contentType}}
 ### Users - Delete
 DELETE {{baseUrl}}/users/1
 
+### Categories
+@categoryId = f4e6ce22-70e4-42f0-a940-2195ad29240d
+
+### Categories - Create
+POST {{baseUrl}}/categories
+Content-Type: {{contentType}}
+
+{
+  "name": "Fast Food",
+  "description": "Quick and convenient meals"
+}
+
 ### Categories - Get All
 GET {{baseUrl}}/categories
 
 ### Categories - Get By ID
-GET {{baseUrl}}/categories/1
+GET {{baseUrl}}/categories/{{categoryId}}
+
+### Categories - Update
+PATCH {{baseUrl}}/categories/{{categoryId}}
+Content-Type: {{contentType}}
+
+{
+  "name": "Updated Fast Food",
+  "description": "Updated description for quick meals"
+}
+
+### Categories - Delete
+DELETE {{baseUrl}}/categories/{{categoryId}}

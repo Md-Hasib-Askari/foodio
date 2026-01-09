@@ -7,23 +7,23 @@ import { CategoriesRepository } from './categories.repo';
 export class CategoriesService {
   constructor(private readonly categoryRepo: CategoriesRepository) { }
 
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  async create(createCategoryDto: CreateCategoryDto) {
+    return await this.categoryRepo.create(createCategoryDto);
   }
 
   async findAll() {
     return await this.categoryRepo.findAll();
   }
 
-  async findOne(id: string) {
-    return await this.categoryRepo.findOne(id);
+  async findOne(categoryId: string) {
+    return await this.categoryRepo.findOne(categoryId);
   }
 
-  update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(categoryId: string, updateCategoryDto: UpdateCategoryDto) {
+    return await this.categoryRepo.update(categoryId, updateCategoryDto);
   }
 
-  async remove(id: string) {
-    return await this.categoryRepo.remove(id);
+  async remove(categoryId: string) {
+    return await this.categoryRepo.remove(categoryId);
   }
 }

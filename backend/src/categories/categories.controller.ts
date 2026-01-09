@@ -17,18 +17,18 @@ export class CategoriesController {
     return await this.categoriesService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.categoriesService.findOne(id);
+  @Get(':categoryId')
+  async findOne(@Param('categoryId') categoryId: string) {
+    return await this.categoriesService.findOne(categoryId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
-    return this.categoriesService.update(id, updateCategoryDto);
+  @Patch(':categoryId')
+  update(@Param('categoryId') categoryId: string, @Body() updateCategoryDto: UpdateCategoryDto) {
+    return this.categoriesService.update(categoryId, updateCategoryDto);
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return await this.categoriesService.remove(id);
+  @Delete(':categoryId')
+  async remove(@Param('categoryId') categoryId: string) {
+    return await this.categoriesService.remove(categoryId);
   }
 }

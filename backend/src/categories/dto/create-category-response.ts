@@ -1,4 +1,5 @@
-export class CreateCategoryDto {
+export class CreateCategoryResponse {
+    readonly id: string;
     readonly name: string;
     readonly description?: string;
 }

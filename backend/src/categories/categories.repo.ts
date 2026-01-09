@@ -12,23 +12,32 @@ export class CategoriesRepository {
     private readonly _repo: Repository<Category>,
   ) { }
 
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
+    const category = this._repo.create(createCategoryDto);
+    return await this._repo.save(category);
   }
 
-  async findAll() {
+  async findAll(): Promise<Category[]> {
     return await this._repo.find();
   }
 
-  async findOne(id: string) {
-    return await this._repo.findOneBy({ categoryId: id });
+  async findOne(categoryId: string): Promise<Category | null> {
+    return await this._repo.findOneBy({ categoryId });
   }
 
-  update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(categoryId: string, updateCategoryDto: UpdateCategoryDto): Promise<Category | null> {
+    const result = await this._repo.update(categoryId, updateCategoryDto);
+    if (result.affected && result.affected > 0) {
+      return this.findOne(categoryId);
+    }
+    return null;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} category`;
+  async remove(categoryId: string): Promise<boolean> {
+    const result = await this._repo.delete(categoryId);
+    if (result.affected && result.affected > 0) {
+      return true;
+    }
+    return false;
   }
 }
