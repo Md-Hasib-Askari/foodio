@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import bcrypt from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
 import { SignInRequestDto } from './dto/signin-request.dto';
@@ -11,7 +11,6 @@ import { Role } from 'src/common/enums/roles.enum';
 export class AuthService {
     constructor(
         private readonly usersService: UsersService,
-        private readonly _userRepo: UsersRepository,
         private readonly jwtService: JwtService,
     ) { }
 
@@ -44,20 +43,17 @@ export class AuthService {
             hashedPassword,
             fullName
         };
-        const createdUser = await this._userRepo.create(userToCreate);
-        const { hashedPassword: _, ...userWithoutPassword } = createdUser;
-        return userWithoutPassword;
+        const createdUser = await this.usersService.create(userToCreate);
+        return createdUser;
     }
 
     async changeUserRole(userId: string, newRole: Role): Promise<any> {
-        const user = await this._userRepo.findOne(userId);
+        const user = await this.usersService.findOne(userId);
         if (!user) {
             throw new NotFoundException('User not found');
         }
-        user.role = newRole;
-        const updatedUser = await this._userRepo.update(user);
-        const { hashedPassword: _, ...userWithoutPassword } = updatedUser;
-        return userWithoutPassword;
+        const updatedUser = await this.usersService.update(userId, { role: newRole });
+        return updatedUser;
     }
 
     private async validatePassword(plainTextPassword: string, hashedPassword: string): Promise<boolean> {

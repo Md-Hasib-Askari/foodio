@@ -1,13 +1,11 @@
-import { IsStrongPassword, MinLength } from "class-validator";
-import { Match } from "src/common/validators/match.validator";
+import { IsEnum, MinLength } from "class-validator";
+import { Role } from "src/common/enums/roles.enum";
 
 export class UpdateUserDto {
     @MinLength(2)
     readonly fullName?: string;
+    readonly hashedPassword?: string;
 
-    @IsStrongPassword()
-    readonly password1?: string;
-
-    @Match('password1', { message: 'Passwords do not match' })
-    readonly password2?: string;
+    @IsEnum(Role, { message: 'role must be a valid enum value' })
+    readonly role?: Role;
 }

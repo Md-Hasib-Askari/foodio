@@ -41,27 +41,22 @@ export class UsersService {
   }
 
   async update(userId: string, updateUserDto: UpdateUserDto) {
+    const { fullName, hashedPassword, role } = updateUserDto;
     const user = await this._repo.findOne(userId);
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    if (updateUserDto.password1 || updateUserDto.password2) {
-      if (updateUserDto.password1 !== updateUserDto.password2) {
-        throw new ConflictException('Passwords do not match');
-      }
-      if (updateUserDto.password1 && updateUserDto.password1.length < 6) {
-        throw new BadRequestException('Password must be at least 6 characters long');
-      }
-      const hashedPassword = bcrypt.hashSync(updateUserDto.password1, 10);
-      user['hashedPassword'] = hashedPassword;
+    if (hashedPassword) {
+      user['hashedPassword'] = hashedPassword
     }
 
-    if (updateUserDto.fullName !== undefined) {
-      if (updateUserDto.fullName.trim() === '') {
-        throw new BadRequestException('Full name cannot be empty');
-      }
-      user['fullName'] = updateUserDto.fullName;
+    if (fullName) {
+      user['fullName'] = fullName;
+    }
+
+    if (role) {
+      user['role'] = role;
     }
 
     const updatedUser = await this._repo.update(user);
