@@ -16,6 +16,10 @@ export class MenuItemsService {
     return `This action returns a #${id} menuItem`;
   }
 
+  findAllByCategory(categoryId: string) {
+    return `This action returns all menuItems for category #${categoryId}`;
+  }
+
   update(id: number, updateMenuItemDto: UpdateMenuItemDto) {
     return `This action updates a #${id} menuItem`;
   }
