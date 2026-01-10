@@ -6,8 +6,8 @@ export class ChangePasswordDto {
     readonly currentPassword: string;
 
     @IsStrongPassword()
-    readonly newPassword: string;
+    readonly newPassword1: string;
 
-    @Match('newPassword', { message: 'Passwords do not match' })
-    readonly confirmNewPassword: string;
+    @Match('newPassword1', { message: 'Passwords do not match' })
+    readonly newPassword2: string;
 }

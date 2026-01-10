@@ -27,6 +27,16 @@ Content-Type: {{contentType}}
   "password": "securepassword"
 }
 
+### Auth - Change Password
+POST {{baseUrl}}/auth/change-password
+Content-Type: {{contentType}}
+
+{
+  "currentPassword": "securepassword",
+  "newPassword1": "newsecurepassword",
+  "newPassword2": "newsecurepassword"
+}
+
 ### Auth - Get Profile
 GET {{baseUrl}}/auth/profile
 # Authorization: Bearer {{ADMIN_TOKEN}}
