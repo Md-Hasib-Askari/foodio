@@ -1,10 +1,12 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInRequestDto } from './dto/signin-request.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { RolesGuard } from './guards/roles.guard';
-import { Roles } from './decorators/roles.decorator';
-import { Role } from './enums/roles.enum';
+import { Roles } from '../common/decorators/roles.decorator';
+import { Role } from '../common/enums/roles.enum';
+import { RegisterRequestDto } from './dto/register-request.dto';
+import { ChangeRoleDto } from './dto/change-role.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -14,6 +16,17 @@ export class AuthController {
     @Post('login')
     async signIn(@Body() signInRequestDto: SignInRequestDto) {
         return this.authService.signIn(signInRequestDto);
+    }
+
+    @Post('register')
+    async register(@Body() registerRequestDto: RegisterRequestDto) {
+        return this.authService.register(registerRequestDto);
+    }
+
+    @Patch('change-role/:userId')
+    async changeUserRole(@Param('userId') userId: string, @Body('role') changeRoleDto: ChangeRoleDto) {
+        const { role } = changeRoleDto;
+        return this.authService.changeUserRole(userId, role);
     }
 
     @UseGuards(AuthGuard, RolesGuard)

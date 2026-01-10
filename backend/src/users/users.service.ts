@@ -1,8 +1,8 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import bcrypt from 'bcrypt'
 import { UpdateUserDto } from './dto/update-user.dto';
-import { CreateUserRequest } from './dto/create-user-request.dto';
 import { UsersRepository } from './users.repo';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -10,27 +10,13 @@ export class UsersService {
     private readonly _repo: UsersRepository,
   ) { }
 
-  async create(createUserRequest: CreateUserRequest) {
-    const existingUser = await this._repo.findOneByEmail(createUserRequest.email);
+  async create(createUserDto: CreateUserDto) {
+    const { email } = createUserDto;
+    const existingUser = await this._repo.findOneByEmail(email);
     if (existingUser) {
       throw new ConflictException('User with this email already exists');
     }
-    if (createUserRequest.password1 !== createUserRequest.password2) {
-      throw new ConflictException('Passwords do not match');
-    }
-    if (createUserRequest.password1.length < 6) {
-      throw new BadRequestException('Password must be at least 6 characters long');
-    }
-    if (!createUserRequest.fullName || createUserRequest.fullName.trim() === '') {
-      throw new BadRequestException('Full name is required');
-    }
-    const hashedPassword = bcrypt.hashSync(createUserRequest.password1, 10);
-    const userToCreate = {
-      email: createUserRequest.email,
-      hashedPassword: hashedPassword,
-      fullName: createUserRequest.fullName,
-    };
-    const createdUser = await this._repo.create(userToCreate);
+    const createdUser = await this._repo.create(createUserDto);
 
     const { hashedPassword: _, ...userWithoutPassword } = createdUser;
     return userWithoutPassword;

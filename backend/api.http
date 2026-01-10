@@ -13,8 +13,9 @@ Content-Type: {{contentType}}
 
 {
   "email": "user@example.com",
-  "password": "password123",
-  "name": "John Doe"
+  "password1": "password123",
+  "password2": "password123",
+  "fullName": "John Doe"
 }
 
 ### Auth - Login
@@ -40,18 +41,6 @@ Authorization: Bearer {{token}}
 ### Users - Get By ID
 GET {{baseUrl}}/users/{{userId}}
 Authorization: Bearer {{token}}
-
-### Users - Create
-POST {{baseUrl}}/users
-Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
-
-{
-  "fullName": "Jane Doe 3",
-  "email": "jane3@example.com",
-  "password1": "securepassword",
-  "password2": "securepassword"
-}
 
 ### Users - Update
 PATCH  {{baseUrl}}/users/{{userId}}

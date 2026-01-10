@@ -1,8 +1,8 @@
 // Service Interface
-export interface IUserService {
-    findAll(): Promise<any[]>;
-    findById(userId: string): Promise<any>;
-    create(userData: any): Promise<any>;
-    update(userId: string, userData: any): Promise<any>;
-    delete(userId: string): Promise<boolean>;
+export interface IAuthService {
+    register(registerRequestDto: any): Promise<any>;
+    signIn(signInRequestDto: any): Promise<any>;
+    changeUserRole(userId: string, newRole: string): Promise<any>;
+    logout(userId: string): Promise<void>;
+    changePassword(userId: string, newPassword: string): Promise<void>;
 }
