@@ -2,6 +2,7 @@
 export interface IOrderService {
     findAll(): Promise<any[]>;
     findById(orderId: string): Promise<any>;
+    findByUserId(userId: string): Promise<any[]>;
     create(orderData: any): Promise<any>;
     update(orderId: string, orderData: any): Promise<any>;
     delete(orderId: string): Promise<boolean>;
@@ -11,6 +12,7 @@ export interface IOrderService {
 export interface IOrderRepository {
     findAll(): Promise<any[]>;
     findById(orderId: string): Promise<any>;
+    findByUserId(userId: string): Promise<any[]>;
     create(orderData: any): Promise<any>;
     update(orderId: string, orderData: any): Promise<any>;
     delete(orderId: string): Promise<boolean>;

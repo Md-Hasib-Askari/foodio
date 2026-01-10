@@ -1,98 +1,285 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Foodio Backend API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A RESTful API backend for the Foodio food ordering application built with NestJS, PostgreSQL, and TypeORM.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Features
 
-## Description
+- **Authentication & Authorization**: JWT-based authentication with role-based access control (RBAC)
+- **User Management**: User registration, profile management, and role assignment
+- **Categories**: Manage food categories
+- **Menu Items**: Create and manage restaurant menu items
+- **Orders**: Order creation and management system
+- **Database Migrations**: TypeORM migration support for database versioning
+- **Docker Support**: Containerized deployment with Docker Compose
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📋 Prerequisites
 
-## Project setup
+Before you begin, ensure you have the following installed:
 
-```bash
-$ npm install
-```
+- **Node.js**: v18 or higher
+- **npm**: v8 or higher
+- **PostgreSQL**: v16 (or use Docker)
+- **Docker & Docker Compose** (optional, for containerized setup)
 
-## Compile and run the project
+## 🛠️ Technology Stack
 
-```bash
-# development
-$ npm run start
+- **Framework**: NestJS 11.x
+- **Database**: PostgreSQL 16
+- **ORM**: TypeORM 0.3.x
+- **Authentication**: JWT (@nestjs/jwt)
+- **Password Hashing**: bcrypt
+- **Language**: TypeScript 5.x
+- **Testing**: Jest
+- **Linting**: ESLint with Prettier
 
-# watch mode
-$ npm run start:dev
+## ⚙️ Installation
 
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
+### 1. Clone the Repository
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone <repository-url>
+cd foodio/backend
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 2. Install Dependencies
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 3. Environment Configuration
 
-## Resources
+Create a `.env` file in the backend directory with the following variables:
 
-Check out a few resources that may come in handy when working with NestJS:
+```env
+# Database Configuration
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_USERNAME=foodio_user
+POSTGRES_PASSWORD=foodio123
+POSTGRES_DATABASE=foodio
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# Application Configuration
+PORT=3000
+NODE_ENV=development
 
-## Support
+# JWT Configuration
+JWT_SECRET=your-secret-key-here
+JWT_EXPIRATION=1d
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+> **Note**: Replace `your-secret-key-here` with a secure random string for production.
 
-## Stay in touch
+## 🐳 Docker Setup (Recommended)
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Start with Docker Compose
 
-## License
+The project includes PostgreSQL and pgAdmin services configured in Docker Compose:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```bash
+# Start PostgreSQL and pgAdmin
+docker-compose up -d
+
+# Check running containers
+docker-compose ps
+```
+
+This will start:
+- **PostgreSQL**: Available at `localhost:5432`
+- **pgAdmin**: Available at `http://localhost:5050`
+  - Email: `admin@foodio.com`
+  - Password: `admin123`
+
+### Stop Docker Services
+
+```bash
+docker-compose down
+
+# To remove volumes as well
+docker-compose down -v
+```
+
+## 📦 Database Setup
+
+### Run Migrations
+
+```bash
+# Run all pending migrations
+npm run migration:run
+
+# Revert the last migration
+npm run migration:revert
+
+# Generate a new migration
+npm run migration:generate -- src/migrations/MigrationName
+```
+
+## 🚀 Running the Application
+
+### Development Mode
+
+```bash
+# Start with hot-reload
+npm run start:dev
+```
+
+The API will be available at `http://localhost:3000`
+
+### Debug Mode
+
+```bash
+npm run start:debug
+```
+
+### Production Mode
+
+```bash
+# Build the application
+npm run build
+
+# Start production server
+npm run start:prod
+```
+
+## 🧪 Testing
+
+```bash
+# Run unit tests
+npm run test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run test coverage
+npm run test:cov
+
+# Run e2e tests
+npm run test:e2e
+```
+
+## 📚 API Documentation
+
+The API includes the following main modules:
+
+- **Auth** (`/auth`): Authentication and authorization endpoints
+- **Users** (`/users`): User management
+- **Categories** (`/categories`): Food category management
+- **Menu Items** (`/menu-items`): Menu item management
+- **Orders** (`/orders`): Order management
+
+You can test the API endpoints using the provided `api.http` file with REST Client extension in VS Code.
+
+## 🏗️ Project Structure
+
+```
+backend/
+├── src/
+│   ├── auth/              # Authentication module
+│   │   ├── decorators/    # Custom decorators (roles, etc.)
+│   │   ├── dto/           # Data transfer objects
+│   │   ├── guards/        # Auth & roles guards
+│   │   └── interfaces/    # TypeScript interfaces
+│   ├── categories/        # Categories module
+│   ├── database/          # Database configuration
+│   ├── menu-items/        # Menu items module
+│   ├── orders/            # Orders module
+│   ├── users/             # Users module
+│   ├── migrations/        # Database migrations
+│   └── main.ts            # Application entry point
+├── test/                  # E2E tests
+├── docker-compose.yml     # Docker services configuration
+├── Dockerfile             # Docker image build configuration
+└── package.json           # Dependencies and scripts
+```
+
+## 🔧 Development Scripts
+
+```bash
+# Format code
+npm run format
+
+# Lint code
+npm run lint
+
+# Build application
+npm run build
+```
+
+## 🐋 Docker Deployment
+
+### Build Docker Image
+
+```bash
+docker build -t foodio-backend .
+```
+
+### Run Container
+
+```bash
+docker run -p 3000:3000 --env-file .env foodio-backend
+```
+
+### Use Docker Compose (Full Stack)
+
+Uncomment the `app` service in `docker-compose.yml` and run:
+
+```bash
+docker-compose up -d
+```
+
+## 🔐 Authentication Flow
+
+1. Users register or sign in through `/auth/signin`
+2. Server returns JWT token
+3. Include token in Authorization header: `Bearer <token>`
+4. Protected routes validate token and check user roles
+
+## 📝 Migration Workflow
+
+1. Make changes to entity files
+2. Generate migration: `npm run migration:generate -- src/migrations/DescriptionOfChange`
+3. Review the generated migration file
+4. Run migration: `npm run migration:run`
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit changes: `git commit -m 'Add some feature'`
+4. Push to branch: `git push origin feature/your-feature`
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under UNLICENSED.
+
+## 👥 Author
+
+- Md Hasib Askari - [GitHub](https://github.com/Md-Hasib-Askari)
+
+## 🐛 Troubleshooting
+
+### Database Connection Issues
+
+- Verify PostgreSQL is running: `docker-compose ps`
+- Check environment variables in `.env`
+- Ensure database credentials match `docker-compose.yml`
+
+### Port Already in Use
+
+```bash
+# Check what's using port 3000
+netstat -ano | findstr :3000
+
+# Kill the process or change PORT in .env
+```
+
+### Migration Errors
+
+```bash
+# Revert last migration
+npm run migration:revert
+
+# Check database connection
+# Verify entity decorators are correct
+```
