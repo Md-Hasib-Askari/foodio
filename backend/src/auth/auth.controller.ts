@@ -12,7 +12,6 @@ import { ChangeRoleDto } from './dto/change-role.dto';
 export class AuthController {
     constructor(private readonly authService: AuthService) { }
 
-    @HttpCode(HttpStatus.OK)
     @Post('login')
     async signIn(@Body() signInRequestDto: SignInRequestDto) {
         return this.authService.signIn(signInRequestDto);
@@ -23,6 +22,8 @@ export class AuthController {
         return this.authService.register(registerRequestDto);
     }
 
+    @UseGuards(AuthGuard, RolesGuard)
+    @Roles(Role.Admin)
     @Patch('change-role/:userId')
     async changeUserRole(@Param('userId') userId: string, @Body('role') changeRoleDto: ChangeRoleDto) {
         const { role } = changeRoleDto;
