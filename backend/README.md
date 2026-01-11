@@ -111,7 +111,7 @@ npm run migration:run
 npm run migration:revert
 
 # Generate a new migration
-npm run migration:generate -- src/migrations/MigrationName
+npm run migration:generate -- src/database/migrations/MigrationName -d src/database/data-source.ts
 ```
 
 ## 🚀 Running the Application
