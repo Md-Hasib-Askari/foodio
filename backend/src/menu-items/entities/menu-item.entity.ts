@@ -21,7 +21,7 @@ export class MenuItem {
     @Column('varchar', { nullable: true, length: 255 })
     description: string;
 
-    @Column('varchar', { length: 255 })
+    @Column('varchar', { nullable: true, length: 255 })
     imageUrl: string;
 
     @Column('decimal', { precision: 10, scale: 2 })

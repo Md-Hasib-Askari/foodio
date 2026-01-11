@@ -1,30 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateMenuItemDto } from './dto/create-menu-item.dto';
 import { UpdateMenuItemDto } from './dto/update-menu-item.dto';
+import { MenuItemsRepository } from './menu-items.repo';
 
 @Injectable()
 export class MenuItemsService {
-  create(createMenuItemDto: CreateMenuItemDto) {
-    return 'This action adds a new menuItem';
+  constructor(
+    private readonly _menuItemsRepo: MenuItemsRepository,
+  ) { }
+
+  async create(createMenuItemDto: CreateMenuItemDto) {
+    return await this._menuItemsRepo.create(createMenuItemDto);
   }
 
-  findAll() {
-    return `This action returns all menuItems`;
+  async findAll() {
+    return await this._menuItemsRepo.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} menuItem`;
+  async findOne(menuItemId: string) {
+    return await this._menuItemsRepo.findOne(menuItemId);
   }
 
-  findAllByCategory(categoryId: string) {
-    return `This action returns all menuItems for category #${categoryId}`;
+  async findAllByCategory(categoryId: string) {
+    return await this._menuItemsRepo.findAllByCategory(categoryId);
   }
 
-  update(id: number, updateMenuItemDto: UpdateMenuItemDto) {
-    return `This action updates a #${id} menuItem`;
+  async update(menuItemId: string, updateMenuItemDto: UpdateMenuItemDto) {
+    return await this._menuItemsRepo.update(menuItemId, updateMenuItemDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} menuItem`;
+  async remove(menuItemId: string) {
+    return await this._menuItemsRepo.remove(menuItemId);
   }
 }

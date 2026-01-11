@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MenuItem } from './entities/menu-item.entity';
 import { Order } from 'src/orders/entities/order.entity';
 import { Category } from 'src/categories/entities/category.entity';
+import { MenuItemsRepository } from './menu-items.repo';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MenuItem, Order, Category])],
   controllers: [MenuItemsController],
-  providers: [MenuItemsService],
+  providers: [MenuItemsService, MenuItemsRepository],
 })
 export class MenuItemsModule { }

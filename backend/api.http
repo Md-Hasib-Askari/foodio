@@ -1,21 +1,23 @@
 ### Variables
 @baseUrl = http://localhost:3000
 @contentType = application/json
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1NDM4YWUwMC04YzI5LTQyMzktYTE1NC1kMmI2MDBlZDA2ODAiLCJlbWFpbCI6ImphbmUyQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3Njc5NzY2NzIsImV4cCI6MTc2ODA2MzA3Mn0.dLTCt-B-HFem7pZi82IQfpP111jWRYSlXjUFfULspKc
-@ADMIN_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzZjc4OWVkOC01YTQwLTQ0ZmQtYmNiZC1mMDhlYmM0YjQ0MDEiLCJlbWFpbCI6ImphbmUzQGV4YW1wbGUuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzY3OTc2NjU3LCJleHAiOjE3NjgwNjMwNTd9.EuVjlUqVOJ60PfdbIuKcArV_2fBak9IbF8V99QcYF4Y
+@ADMIN_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmVlZmYxMS00ZWIwLTQ1MmItYTBiNy1lMDU5N2MxZDlhM2QiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NjgxNjAzMjMsImV4cCI6MTc2ODE2MzkyM30.0gLuL-ho_YuZrxgkgMXYi25FEer07YvmGSW8ZkXJT5A
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMTQ1YjQ2Ni00MGE1LTRhYzktOWU0ZS0wMTA5OWIxMmYzZDkiLCJlbWFpbCI6InVzZXIyQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NjgxNjAyNjgsImV4cCI6MTc2ODE2Mzg2OH0.taX22kWjOcHtONE_86RVYKykHaI7st8A_CzqY5ZgcUU
 
 ### Health Check
 GET {{baseUrl}}/health
+
+### Auth
 
 ### Auth - Register
 POST {{baseUrl}}/auth/register
 Content-Type: {{contentType}}
 
 {
-  "email": "user@example.com",
-  "password1": "password123",
-  "password2": "password123",
-  "fullName": "John Doe"
+  "email": "user2@example.com",
+  "password1": "SecureP@ssw0rd!123",
+  "password2": "SecureP@ssw0rd!123",
+  "fullName": "John Doe 3"
 }
 
 ### Auth - Login
@@ -23,8 +25,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "jane2@example.com",
-  "password": "securepassword"
+  "email": "user@example.com",
+  "password": "SecureP@ssw0rd!123"
 }
 
 ### Auth - Change Password
@@ -32,9 +34,9 @@ POST {{baseUrl}}/auth/change-password
 Content-Type: {{contentType}}
 
 {
-  "currentPassword": "securepassword",
-  "newPassword1": "newsecurepassword",
-  "newPassword2": "newsecurepassword"
+  "currentPassword": "SecureP@ssw0rd!123",
+  "newPassword1": "NewSecure@ssw0rd!123",
+  "newPassword2": "NewSecure@ssw0rd!123"
 }
 
 ### Auth - Get Profile
@@ -46,16 +48,15 @@ Authorization: Bearer {{token}}
 @userId = 110e6e64-f4d1-40f9-a4bc-71711fac7691
 ### Users - Get All
 GET {{baseUrl}}/users
-Authorization: Bearer {{token}}
+Authorization: Bearer {{ADMIN_TOKEN}}
 
 ### Users - Get By ID
 GET {{baseUrl}}/users/{{userId}}
-Authorization: Bearer {{token}}
-
+Authorization: Bearer {{ADMIN_TOKEN}}
 ### Users - Update
 PATCH  {{baseUrl}}/users/{{userId}}
 Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {{ADMIN_TOKEN}}
 
 {
   "fullName": "Jane Smith 55",
@@ -64,18 +65,19 @@ Authorization: Bearer {{token}}
 
 ### Users - Delete
 DELETE {{baseUrl}}/users/{{userId}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {{ADMIN_TOKEN}}
 
 ### Categories
-@categoryId = f4e6ce22-70e4-42f0-a940-2195ad29240d
+@categoryId = b80b1c4a-0756-4fb4-949e-e35436339a0b
 
 ### Categories - Create
 POST {{baseUrl}}/categories
 Content-Type: {{contentType}}
+Authorization: Bearer {{ADMIN_TOKEN}}
 
 {
-  "name": "Fast Food",
-  "description": "Quick and convenient meals"
+  "name": "Lunch Specials",
+  "description": "Delicious lunch options for a quick meal"
 }
 
 ### Categories - Get All
@@ -87,6 +89,7 @@ GET {{baseUrl}}/categories/{{categoryId}}
 ### Categories - Update
 PATCH {{baseUrl}}/categories/{{categoryId}}
 Content-Type: {{contentType}}
+Authorization: Bearer {{ADMIN_TOKEN}}
 
 {
   "name": "Updated Fast Food",
@@ -95,3 +98,87 @@ Content-Type: {{contentType}}
 
 ### Categories - Delete
 DELETE {{baseUrl}}/categories/{{categoryId}}
+Authorization: Bearer {{ADMIN_TOKEN}}
+
+### Menu Items
+@menuItemId = 862197c0-d08a-4b0e-8150-d5895847e63d
+
+### Menu Items - Create
+POST {{baseUrl}}/menu-items
+Content-Type: {{contentType}}
+Authorization: Bearer {{ADMIN_TOKEN}}
+
+{
+  "name": "Chicken Nuggets",
+  "description": "Crispy fried chicken nuggets",
+  "price": 5.99,
+  "available": true,
+  "categoryId": "{{categoryId}}"
+}
+
+### Menu Items - Get All
+GET {{baseUrl}}/menu-items
+
+### Menu Items - Get By ID
+GET {{baseUrl}}/menu-items/{{menuItemId}}
+
+### Menu Items - Get By Category
+GET {{baseUrl}}/menu-items/category/{{categoryId}}
+Authorization: Bearer {{ADMIN_TOKEN}}
+
+### Menu Items - Update
+PATCH {{baseUrl}}/menu-items/{{menuItemId}}
+Content-Type: {{contentType}}
+Authorization: Bearer {{ADMIN_TOKEN}}
+
+{
+  "price": 5.49,
+  "available": false
+}
+
+### Menu Items - Delete
+DELETE {{baseUrl}}/menu-items/{{menuItemId}}
+Authorization: Bearer {{ADMIN_TOKEN}}
+
+### Orders
+@orderId = a1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+### Orders - Create
+POST {{baseUrl}}/orders
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "items": [
+    {
+      "menuItemId": "{{menuItemId}}",
+      "quantity": 2
+    }
+  ],
+  "totalPrice": 21.98
+}
+
+### Orders - Get All
+GET {{baseUrl}}/orders
+Authorization: Bearer {{token}}
+
+### Orders - Get By User
+GET {{baseUrl}}/orders/my
+Authorization: Bearer {{token}}
+
+### Orders - Get By ID
+GET {{baseUrl}}/orders/{{orderId}}
+Authorization: Bearer {{token}}
+
+### Orders - Update Status
+PATCH {{baseUrl}}/orders/{{orderId}}/status
+Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
+
+{
+  "status": "completed"
+}
+
+### Orders - Delete
+DELETE {{baseUrl}}/orders/{{orderId}}
+Authorization: Bearer {{token}}

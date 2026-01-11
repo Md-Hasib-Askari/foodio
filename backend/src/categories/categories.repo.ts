@@ -9,24 +9,28 @@ import { Category } from './entities/category.entity';
 export class CategoriesRepository {
   constructor(
     @InjectRepository(Category)
-    private readonly _repo: Repository<Category>,
+    private readonly _db: Repository<Category>,
   ) { }
 
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    const category = this._repo.create(createCategoryDto);
-    return await this._repo.save(category);
+    const category = this._db.create(createCategoryDto);
+    return await this._db.save(category);
   }
 
   async findAll(): Promise<Category[]> {
-    return await this._repo.find();
+    return await this._db.find();
   }
 
   async findOne(categoryId: string): Promise<Category | null> {
-    return await this._repo.findOneBy({ categoryId });
+    return await this._db.findOneBy({ categoryId });
   }
 
   async update(categoryId: string, updateCategoryDto: UpdateCategoryDto): Promise<Category | null> {
-    const result = await this._repo.update(categoryId, updateCategoryDto);
+    const { name, description } = updateCategoryDto;
+    const result = await this._db.update(categoryId, {
+      ...(name && { name }),
+      ...(description && { description }),
+    });
     if (result.affected && result.affected > 0) {
       return this.findOne(categoryId);
     }
@@ -34,7 +38,7 @@ export class CategoriesRepository {
   }
 
   async remove(categoryId: string): Promise<boolean> {
-    const result = await this._repo.delete(categoryId);
+    const result = await this._db.delete({ categoryId });
     return !!(result.affected && result.affected > 0);
   }
 }

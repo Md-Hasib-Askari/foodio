@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Logger } from '@nestjs/common';
 import { MenuItemsService } from './menu-items.service';
 import { CreateMenuItemDto } from './dto/create-menu-item.dto';
 import { UpdateMenuItemDto } from './dto/update-menu-item.dto';
@@ -14,35 +14,36 @@ export class MenuItemsController {
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @Post()
-  create(@Body() createMenuItemDto: CreateMenuItemDto) {
-    return this.menuItemsService.create(createMenuItemDto);
+  async create(@Body() createMenuItemDto: CreateMenuItemDto) {
+    return await this.menuItemsService.create(createMenuItemDto);
   }
 
   @Get()
-  findAll() {
-    return this.menuItemsService.findAll();
+  async findAll() {
+    return await this.menuItemsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.menuItemsService.findOne(+id);
+  @Get(':menuItemId')
+  async findOne(@Param('menuItemId') menuItemId: string) {
+    return await this.menuItemsService.findOne(menuItemId);
   }
 
-  findAllByCategory(@Param('categoryId') categoryId: string) {
-    return this.menuItemsService.findAllByCategory(categoryId);
-  }
-
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles(Role.Admin)
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMenuItemDto: UpdateMenuItemDto) {
-    return this.menuItemsService.update(+id, updateMenuItemDto);
+  @Get('category/:categoryId')
+  async findAllByCategory(@Param('categoryId') categoryId: string) {
+    return await this.menuItemsService.findAllByCategory(categoryId);
   }
 
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.menuItemsService.remove(+id);
+  @Patch(':menuItemId')
+  async update(@Param('menuItemId') menuItemId: string, @Body() updateMenuItemDto: UpdateMenuItemDto) {
+    return await this.menuItemsService.update(menuItemId, updateMenuItemDto);
+  }
+
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @Delete(':menuItemId')
+  async remove(@Param('menuItemId') menuItemId: string) {
+    return await this.menuItemsService.remove(menuItemId);
   }
 }
