@@ -11,5 +11,6 @@ import { MenuItemsRepository } from './menu-items.repo';
   imports: [TypeOrmModule.forFeature([MenuItem, Order, Category])],
   controllers: [MenuItemsController],
   providers: [MenuItemsService, MenuItemsRepository],
+  exports: [MenuItemsService],
 })
 export class MenuItemsModule { }

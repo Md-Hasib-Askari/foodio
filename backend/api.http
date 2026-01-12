@@ -1,8 +1,8 @@
 ### Variables
 @baseUrl = http://localhost:3000
 @contentType = application/json
-@ADMIN_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmVlZmYxMS00ZWIwLTQ1MmItYTBiNy1lMDU5N2MxZDlhM2QiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NjgxNjAzMjMsImV4cCI6MTc2ODE2MzkyM30.0gLuL-ho_YuZrxgkgMXYi25FEer07YvmGSW8ZkXJT5A
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMTQ1YjQ2Ni00MGE1LTRhYzktOWU0ZS0wMTA5OWIxMmYzZDkiLCJlbWFpbCI6InVzZXIyQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NjgxNjAyNjgsImV4cCI6MTc2ODE2Mzg2OH0.taX22kWjOcHtONE_86RVYKykHaI7st8A_CzqY5ZgcUU
+@ADMIN_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmVlZmYxMS00ZWIwLTQ1MmItYTBiNy1lMDU5N2MxZDlhM2QiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NjgyMTA0NTYsImV4cCI6MTc2ODIxNDA1Nn0.8icuufau_UxZ0UPX7QltZqd4S_uPaWS4ihG_dAu__Vw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTkxMWMwMi1kYTlkLTQyNGMtODMzMC1mYmU3ZmZkOTFkNDUiLCJlbWFpbCI6InVzZXIxQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NjgyMTA0NjgsImV4cCI6MTc2ODIxNDA2OH0.sfVwaJd6eocErPqlP0KuBRDzlWHul4M15Sf1AHLY0vo
 
 ### Health Check
 GET {{baseUrl}}/health
@@ -25,7 +25,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "user@example.com",
+  "email": "user1@example.com",
   "password": "SecureP@ssw0rd!123"
 }
 
@@ -142,6 +142,7 @@ Authorization: Bearer {{ADMIN_TOKEN}}
 
 ### Orders
 @orderId = a1b2c3d4-e5f6-7890-abcd-ef1234567890
+@menuItemId = 459aedee-223d-4da8-b992-ac0b9ac8244d
 
 ### Orders - Create
 POST {{baseUrl}}/orders
@@ -149,36 +150,38 @@ Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 
 {
-  "items": [
+  "orderItems": [
     {
       "menuItemId": "{{menuItemId}}",
-      "quantity": 2
+      "quantity": 3
     }
-  ],
-  "totalPrice": 21.98
+  ]
 }
 
 ### Orders - Get All
 GET {{baseUrl}}/orders
-Authorization: Bearer {{token}}
+Authorization: Bearer {{ADMIN_TOKEN}}
 
 ### Orders - Get By User
-GET {{baseUrl}}/orders/my
+GET {{baseUrl}}/orders/my-orders
 Authorization: Bearer {{token}}
 
 ### Orders - Get By ID
+@orderId = 62d3f6ef-b507-4d0f-a378-1c13fc34b338
 GET {{baseUrl}}/orders/{{orderId}}
 Authorization: Bearer {{token}}
 
 ### Orders - Update Status
+# @orderId = 62d3f6ef-b507-4d0f-a378-1c13fc34b338
 PATCH {{baseUrl}}/orders/{{orderId}}/status
 Content-Type: {{contentType}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {{ADMIN_TOKEN}}
 
 {
-  "status": "completed"
+  "status": "READY"
 }
 
 ### Orders - Delete
+# @orderId = 3861ea32-a468-4a7c-a165-d4b21b31f5bc
 DELETE {{baseUrl}}/orders/{{orderId}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {{ADMIN_TOKEN}}

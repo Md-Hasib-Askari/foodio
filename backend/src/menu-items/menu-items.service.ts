@@ -21,6 +21,10 @@ export class MenuItemsService {
     return await this._menuItemsRepo.findOne(menuItemId);
   }
 
+  async findByIds(menuItemIds: string[]) {
+    return await this._menuItemsRepo.findMany(menuItemIds);
+  }
+
   async findAllByCategory(categoryId: string) {
     return await this._menuItemsRepo.findAllByCategory(categoryId);
   }

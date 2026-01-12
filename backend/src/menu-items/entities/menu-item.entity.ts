@@ -5,10 +5,11 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     ManyToOne,
-    JoinColumn
+    JoinColumn,
+    OneToMany
 } from 'typeorm';
 import { Category } from '../../categories/entities/category.entity';
-import { Order } from '../../orders/entities/order.entity';
+import { OrderItem } from '../../orders/entities/order-item.entity';
 
 @Entity('menu_items')
 export class MenuItem {
@@ -37,9 +38,8 @@ export class MenuItem {
     @JoinColumn({ name: 'categoryId' })
     category: Category;
 
-    @ManyToOne(() => Order, order => order.menuItem)
-    @JoinColumn({ name: 'orderId' })
-    orders: Order[];
+    @OneToMany(() => OrderItem, orderItem => orderItem.menuItem)
+    orderItems: OrderItem[];
 
     @CreateDateColumn()
     createdAt: Date;

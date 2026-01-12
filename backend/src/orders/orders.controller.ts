@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Logger } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -14,31 +14,52 @@ export class OrdersController {
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin, Role.User)
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
+  async create(@Request() req, @Body() createOrderDto: CreateOrderDto) {
+    const userId = req.user.sub;
+    return await this.ordersService.create(userId, createOrderDto);
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Get()
-  findAll() {
-    return this.ordersService.findAll();
+  async findAll() {
+    return await this.ordersService.findAll();
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.User)
+  @Get('my-orders')
+  async findByUserId(@Request() req) {
+    Logger.log('Fetching orders for user:', req.user);
+    const userId = req.user.userId;
+    return await this.ordersService.findByUserId(userId);
+  }
+
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.User)
   @Get(':orderId')
-  findOne(@Param('orderId') orderId: string) {
-    return this.ordersService.findOne(orderId);
+  async findOne(@Param('orderId') orderId: string) {
+    return await this.ordersService.findOne(orderId);
   }
 
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @Patch(':orderId')
-  update(@Param('orderId') orderId: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.ordersService.update(orderId, updateOrderDto);
+  async update(@Param('orderId') orderId: string, @Body() updateOrderDto: UpdateOrderDto) {
+    return await this.ordersService.update(orderId, updateOrderDto);
+  }
+
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @Patch(':orderId/status')
+  async updateStatus(@Param('orderId') orderId: string, @Body() updateOrderDto: UpdateOrderDto) {
+    return await this.ordersService.updateStatus(orderId, updateOrderDto);
   }
 
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
   @Delete(':orderId')
-  remove(@Param('orderId') orderId: string) {
-    return this.ordersService.remove(orderId);
+  async remove(@Param('orderId') orderId: string) {
+    return await this.ordersService.remove(orderId);
   }
 }

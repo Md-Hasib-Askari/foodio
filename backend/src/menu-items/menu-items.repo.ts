@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CreateMenuItemDto } from './dto/create-menu-item.dto';
 import { UpdateMenuItemDto } from './dto/update-menu-item.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -30,6 +30,10 @@ export class MenuItemsRepository {
 
   async findOne(menuItemId: string) {
     return await this._db.findOneBy({ menuItemId });
+  }
+
+  async findMany(menuItemIds: string[]) {
+    return await this._db.findBy({ menuItemId: In(menuItemIds) });
   }
 
   async findAllByCategory(categoryId: string) {

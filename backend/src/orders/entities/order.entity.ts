@@ -1,22 +1,23 @@
-import { MenuItem } from "../../menu-items/entities/menu-item.entity";
 import { User } from "../../users/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { OrderItem } from "./order-item.entity";
+import { OrderStatus } from "../../common/enums/order-status.enum";
 
 @Entity('orders')
 export class Order {
     @PrimaryGeneratedColumn('uuid')
     orderId: string;
 
-    @Column('decimal', { precision: 10, scale: 2 })
-    orderPrice: number;
-
-    @Column('enum', { enum: ['PENDING', 'PREPARING', 'READY', 'COMPLETED', 'CANCELLED'], default: 'PENDING' })
-    status: 'PENDING' | 'PREPARING' | 'READY' | 'COMPLETED' | 'CANCELLED';
+    @Column('enum', { enum: OrderStatus, default: OrderStatus.PENDING })
+    status: OrderStatus;
 
     @ManyToOne(() => User, user => user.orders)
+    @JoinColumn({ name: 'userId' })
     user: User;
 
-    @ManyToOne(() => MenuItem)
-    @JoinColumn({ name: 'menuItemId' })
-    menuItem: MenuItem;
+    @OneToMany(() => OrderItem, orderItem => orderItem.order, {
+        cascade: true,
+        eager: true,
+    })
+    orderItems: OrderItem[];
 }
