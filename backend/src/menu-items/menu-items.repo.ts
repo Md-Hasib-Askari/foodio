@@ -33,7 +33,7 @@ export class MenuItemsRepository {
   }
 
   async findMany(menuItemIds: string[]) {
-    return await this._db.findBy({ menuItemId: In(menuItemIds) });
+    return await this._db.findBy({ menuItemId: In(menuItemIds), available: true });
   }
 
   async findAllByCategory(categoryId: string) {

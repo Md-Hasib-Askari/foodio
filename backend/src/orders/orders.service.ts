@@ -16,7 +16,14 @@ export class OrdersService {
 
     const fetchedMenuItems = await this._menuItemsService.findByIds(menuItems);
     if (fetchedMenuItems.length !== menuItems.length) {
-      throw new BadRequestException('One or more menu items are invalid');
+      const unavailableItems = menuItems.filter(itemId =>
+        !fetchedMenuItems.some(fetchedItem => fetchedItem.menuItemId === itemId)
+      );
+      Logger.warn(`Unavailable menu items: ${unavailableItems.join(', ')}`, 'OrdersService');
+      throw new BadRequestException({
+        message: 'One or more menu items are unavailable',
+        unavailableItems
+      });
     }
 
     const orderItems = fetchedMenuItems.map(menuItem => {
