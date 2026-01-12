@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { BiFoodMenu } from "react-icons/bi";
+import { FaArrowRight } from "react-icons/fa";
 
 
 export default function Hero() {
     return (
-        <section className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 px-10 py-16 items-center">
+        <section className="max-w-309 mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 py-16 items-center">
             <div className="">
                 <span className="inline-flex items-center gap-2 bg-secondary text-primary px-4 py-1 rounded-full text-sm mb-6">
                     <BiFoodMenu className="text-lg inline-block mr-2" />
@@ -23,7 +24,7 @@ export default function Hero() {
 
                 <div className="flex gap-4">
                     <button className="bg-primary text-white px-6 py-3 rounded-full">
-                        Order Now →
+                        Order Now <FaArrowRight className="inline-block ml-2" />
                     </button>
                     <button className="border border-primary text-primary px-6 py-3 rounded-full">
                         View Menu

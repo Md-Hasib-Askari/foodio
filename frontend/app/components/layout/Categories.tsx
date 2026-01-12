@@ -23,7 +23,7 @@ const categories = [
 export default function Categories() {
 
     return (
-        <section className="py-16 px-8 max-w-7xl mx-auto">
+        <section className="py-16 max-w-309 mx-auto">
             <div className="text-center mb-12">
                 <h2 className="text-4xl font-serif text-teal-900 mb-4">Curated Categories</h2>
                 <p className="text-gray-600">Explore our diverse menu of culinary delights.</p>

@@ -5,7 +5,7 @@ export default function MenuItem({ item }: { item: { name: string; price: number
     return (
         <div
             key={item.name}
-            className="bg-secondary rounded-3xl p-6 w-84 relative pt-43"
+            className="bg-secondary rounded-3xl p-6 w-65 relative pt-43"
         >
             <div className="absolute -top-12.5 -left-8.75  flex justify-center mb-6">
                 <Image
