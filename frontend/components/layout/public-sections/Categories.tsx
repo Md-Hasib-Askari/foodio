@@ -1,6 +1,6 @@
-import StarterIcon from "../icons/StarterIcon";
-import MainCourseIcon from "../icons/MainCourseIcon";
-import DessertIcon from "../icons/DessertIcon";
+import StarterIcon from "../../icons/StarterIcon";
+import MainCourseIcon from "../../icons/MainCourseIcon";
+import DessertIcon from "../../icons/DessertIcon";
 
 const categories = [
     {

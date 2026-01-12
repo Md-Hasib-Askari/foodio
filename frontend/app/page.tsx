@@ -1,8 +1,8 @@
-import Navbar from "./components/layout/Navbar";
-import Hero from "./components/layout/Hero";
-import Categories from "./components/layout/Categories";
-import MenuGrid from "./components/layout/MenuGrid";
-import Footer from "./components/layout/Footer";
+import Navbar from "../components/layout/public-sections/Navbar";
+import Hero from "../components/layout/public-sections/Hero";
+import Categories from "../components/layout/public-sections/Categories";
+import MenuGrid from "../components/layout/public-sections/MenuGrid";
+import Footer from "../components/layout/public-sections/Footer";
 
 const items = [
   { name: "Golden Crunch Bites", price: 15 },

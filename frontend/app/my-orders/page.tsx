@@ -1,0 +1,35 @@
+'use client';
+
+import Footer from "@/components/layout/public-sections/Footer";
+import Navbar from "@/components/layout/public-sections/Navbar";
+import OrderSection from "@/components/layout/user-sections/OrderSection";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+export default function MyOrders() {
+    const { isAuthenticated, loading } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!loading && !isAuthenticated) {
+            router.push("/login");
+            return;
+        }
+    }, [isAuthenticated, loading, router]);
+
+    if (loading || !isAuthenticated) {
+        return <div>Loading...</div>;
+    }
+    if (!isAuthenticated) {
+        return null;
+    }
+
+    return (
+        <section>
+            <Navbar />
+            <OrderSection />
+            <Footer />
+        </section>
+    )
+}
