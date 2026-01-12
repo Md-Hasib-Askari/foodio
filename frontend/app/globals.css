@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #1A3C34;
+  --secondary: #FEF7EA;
 }
 
 @theme inline {
@@ -10,14 +12,27 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-section: var(--font-cormorant);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
 }
 
-@media (prefers-color-scheme: dark) {
+@layer components {
+  .text-section-title {
+    font-family: var(--font-section);
+    font-weight: 600;
+    font-size: clamp(32px, 5vw, 54px);
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+}
+
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 body {
   background: var(--background);
