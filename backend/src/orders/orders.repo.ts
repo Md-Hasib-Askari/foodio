@@ -28,7 +28,28 @@ export class OrdersRepository {
   }
 
   async findAll(): Promise<Order[]> {
-    return await this._db.find();
+    return await this._db.find({
+      select: {
+        orderId: true,
+        orderDate: true,
+        user: {
+          fullName: true,
+          address: true,
+        },
+        status: true,
+        orderItems: {
+          quantity: true,
+          priceAtOrder: true,
+        }
+      },
+      relations: {
+        user: true,
+        orderItems: {
+          menuItem: true,
+        }
+      },
+      order: { orderDate: 'DESC' },
+    });
   }
 
   async findOne(orderId: string): Promise<Order | null> {

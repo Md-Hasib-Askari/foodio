@@ -25,7 +25,9 @@ export class MenuItemsRepository {
   }
 
   async findAll() {
-    return await this._db.find();
+    return await this._db.find({
+      relations: ['category'],
+    });
   }
 
   async findOne(menuItemId: string) {

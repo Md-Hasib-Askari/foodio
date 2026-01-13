@@ -1,7 +1,10 @@
-import React from 'react'
+'use client';
+
+import { useEffect, useState } from 'react'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import EditItemModal from './EditItemModal';
 import DeleteItemModal from './DeleteItemModal';
+import { fetchAllMenuItems } from '@/api/menu-item.api';
 
 type ItemType = {
     name: string;
@@ -11,13 +14,28 @@ type ItemType = {
     available: boolean;
 };
 
-type MenuItemsTableProps = {
-    menuItems: ItemType[];
-}
+export default function MenuItemsTable() {
+    const [openModal, setOpenModal] = useState<null | 'edit-item' | 'delete-item'>(null);
+    const [selectedItem, setSelectedItem] = useState<ItemType | null>(null);
+    const [menuItems, setMenuItems] = useState<ItemType[]>([]);
 
-export default function MenuItemsTable({ menuItems }: MenuItemsTableProps) {
-    const [openModal, setOpenModal] = React.useState<null | 'edit-item' | 'delete-item'>(null);
-    const [selectedItem, setSelectedItem] = React.useState<ItemType | null>(null);
+    useEffect(() => {
+        (async function () {
+            const fetchedItems = await fetchAllMenuItems();
+            console.log(fetchedItems);
+
+            if (fetchedItems) {
+                setMenuItems(fetchedItems.map((item: any) => ({
+                    name: item.name,
+                    price: Number(item.price),
+                    category: item.category.name,
+                    description: item.description,
+                    available: item.available
+                })));
+            }
+        })()
+
+    }, []);
 
     const getModal = () => {
         switch (openModal) {
@@ -58,7 +76,7 @@ export default function MenuItemsTable({ menuItems }: MenuItemsTableProps) {
                             <td className="px-6 py-4 text-gray-600">{item.category}</td>
                             <td className="px-6 py-4 text-gray-900">{formatPrice(item.price)}</td>
                             <td className="px-6 py-4">
-                                <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium">
+                                <span className={`px-3 py-1 rounded-full text-sm font-medium ${item.available ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
                                     {item.available ? 'Available' : 'Unavailable'}
                                 </span>
                             </td>

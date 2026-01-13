@@ -28,3 +28,15 @@ export async function getUserOrders(): Promise<any[]> {
     }
     return [];
 }
+
+export async function getAllOrders(): Promise<any[]> {
+    try {
+        const response = await axiosInstance.get('/orders');
+        if (response.status === 200) {
+            return response.data;
+        }
+    } catch (error) {
+        console.error(error);
+    }
+    return [];
+}

@@ -7,42 +7,40 @@ import CategoriesTable from "@/components/layout/admin-sections/CategoriesTable"
 import MenuItemsTable from "@/components/layout/admin-sections/MenuItemsTable";
 import OrdersTable from "@/components/layout/admin-sections/OrdersTable";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiPlus } from "react-icons/bi";
 
-const menuItems = [
-    { name: "Golden Crunch Bites", category: "Appetizers", price: 15, description: 'Available', available: true },
-    { name: "Mediterranean Olive Medley", category: "Appetizers", price: 25, description: 'Available', available: true },
-    { name: "Citrus Swirl Delights", category: "Desserts", price: 35, description: 'Available', available: true },
-    { name: "Creamy Garlic Shrimp Pasta", category: "Main Course", price: 10, description: 'Available', available: true },
-];
+// const menuItems = [
+//     { name: "Golden Crunch Bites", category: "Appetizers", price: 15, description: 'Available', available: true },
+//     { name: "Mediterranean Olive Medley", category: "Appetizers", price: 25, description: 'Available', available: true },
+//     { name: "Citrus Swirl Delights", category: "Desserts", price: 35, description: 'Available', available: true },
+//     { name: "Creamy Garlic Shrimp Pasta", category: "Main Course", price: 10, description: 'Available', available: true },
+// ];
 
-const categories = [
-    { name: "Starters" },
-    { name: "Main Courses" },
-    { name: "Desserts" }
-];
+// const categories = [
+//     { name: "Starters" },
+//     { name: "Main Courses" },
+//     { name: "Desserts" }
+// ];
 
-const orders = [
-    { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$24.00", status: "Pending", address: "123 Main St, Springfield, IL" },
-    { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Preparing", address: "456 Elm St, Springfield, IL" },
-    { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "789 Oak St, Springfield, IL" },
-    { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "101 Pine St, Springfield, IL" },
-    { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "202 Maple St, Springfield, IL" },
-    { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "303 Birch St, Springfield, IL" },
-    { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Completed", address: "404 Cedar St, Springfield, IL" },
-    { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "505 Walnut St, Springfield, IL" },
-    { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "606 Chestnut St, Springfield, IL" },
-    { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Pending", address: "707 Ash St, Springfield, IL" }
-];
+// const orders = [
+//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$24.00", status: "Pending", address: "123 Main St, Springfield, IL" },
+//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Preparing", address: "456 Elm St, Springfield, IL" },
+//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "789 Oak St, Springfield, IL" },
+//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "101 Pine St, Springfield, IL" },
+//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "202 Maple St, Springfield, IL" },
+//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "303 Birch St, Springfield, IL" },
+//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Completed", address: "404 Cedar St, Springfield, IL" },
+//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "505 Walnut St, Springfield, IL" },
+//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "606 Chestnut St, Springfield, IL" },
+//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Pending", address: "707 Ash St, Springfield, IL" }
+// ];
 
 type activeViewType = 'menu-items' | 'orders';
 type activeTabType = 'items' | 'categories';
 
 export default function AdminDashboard() {
     const { isAuthenticated } = useAuth();
-    const router = useRouter();
     const [activeView, setActiveView] = useState<activeViewType>('menu-items');
     const [activeTab, setActiveTab] = useState<activeTabType>('items');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -119,17 +117,17 @@ export default function AdminDashboard() {
                             </div>
 
                             {activeTab === 'items' && (
-                                <MenuItemsTable menuItems={menuItems} />
+                                <MenuItemsTable />
                             )}
 
                             {activeTab === 'categories' && (
-                                <CategoriesTable categories={categories} />
+                                <CategoriesTable />
                             )}
                         </div>
                     )}
 
                     {activeView === 'orders' && (
-                        <OrdersTable orders={orders} />
+                        <OrdersTable />
                     )}
                 </div>
                 <div>

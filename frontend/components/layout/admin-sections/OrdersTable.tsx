@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi';
 import OrderStatusDropdown from './OrderStatusDropdown';
 import OrderDetailsModal from './OrderDetails';
+import { getAllOrders } from '@/api/order.api';
 
 export type OrderItem = {
     name: string;
@@ -10,7 +11,7 @@ export type OrderItem = {
 }
 
 export type Order = {
-    id: string;
+    orderId: string;
     date: string;
     customer: string;
     total: string;
@@ -19,13 +20,39 @@ export type Order = {
     items?: OrderItem[];
 }
 
-type OrdersTableProps = {
-    orders: Order[];
-}
-
-export default function OrdersTable({ orders }: OrdersTableProps) {
+export default function OrdersTable() {
     const [openOrder, setOpenOrder] = useState<boolean>(false);
     const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+    const [orders, setOrders] = useState<Order[]>([]);
+
+    useEffect(() => {
+        (async function () {
+            const fetchedOrders = await getAllOrders();
+            console.log(fetchedOrders);
+
+            if (fetchedOrders) {
+                setOrders(fetchedOrders.map((order: any) => ({
+                    orderId: order.orderId,
+                    date: new Date(order.orderDate).toLocaleString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                    }),
+                    customer: order.user.fullName,
+                    total: order.orderItems.reduce((acc: number, item: any) => acc + (item.priceAtOrder * item.quantity), 0).toFixed(2),
+                    status: order.status,
+                    address: order.user.address,
+                    items: order.orderItems.map((item: any) => ({
+                        name: item.menuItem.name,
+                        quantity: item.quantity,
+                        price: item.priceAtOrder,
+                    })),
+                })));
+            }
+        })();
+
+    }, []);
 
     const showDetails = (order: Order) => {
         setSelectedOrder(order);
@@ -33,7 +60,7 @@ export default function OrdersTable({ orders }: OrdersTableProps) {
     }
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-xl border border-gray-200">
             <table className="w-full">
                 <thead className="bg-[#FBFAF8] border-b border-gray-200">
                     <tr>
@@ -48,10 +75,10 @@ export default function OrdersTable({ orders }: OrdersTableProps) {
                 <tbody className="divide-y divide-gray-200">
                     {orders.map((order, index) => (
                         <tr key={index} className="hover:bg-gray-50">
-                            <td className="px-6 py-4 text-gray-900">{order.id}</td>
+                            <td className="px-6 py-4 text-gray-900">{order.orderId}</td>
                             <td className="px-6 py-4 text-gray-600">{order.date}</td>
                             <td className="px-6 py-4 text-gray-900">{order.customer}</td>
-                            <td className="px-6 py-4 text-gray-900">{order.total}</td>
+                            <td className="px-6 py-4 text-gray-900">${order.total}</td>
                             <td className="px-6 py-4">
                                 <OrderStatusDropdown />
                             </td>
