@@ -3,6 +3,9 @@
 import { ORDER_STATUS } from '@/constants/order-status.enum';
 import { useState } from 'react';
 import { BiCheck, BiChevronDown } from 'react-icons/bi';
+import { Order } from './OrdersTable';
+import { updateOrderStatus } from '@/api/order.api';
+import { toast } from 'react-toastify';
 
 const STATUSES = [
     ORDER_STATUS.PENDING,
@@ -11,9 +14,30 @@ const STATUSES = [
     ORDER_STATUS.READY,
 ];
 
-export default function OrderStatusDropdown() {
+interface OrderStatusDropdownProps {
+    order: Order;
+}
+
+export default function OrderStatusDropdown({ order }: OrderStatusDropdownProps) {
     const [open, setOpen] = useState(false);
-    const [status, setStatus] = useState<string>(ORDER_STATUS.PENDING);
+    const [status, setStatus] = useState<string>(order.status);
+
+    const handleStatusChange = async (newStatus: string) => {
+        try {
+            const success = await updateOrderStatus(order.orderId, newStatus);
+            if (success) {
+                setStatus(newStatus);
+                toast.success('Order status updated successfully');
+            } else {
+                toast.error('Failed to update order status');
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error('An error occurred while updating order status');
+        } finally {
+            setOpen(false);
+        }
+    }
 
     return (
         <div className="relative inline-block text-left w-30">
@@ -31,8 +55,7 @@ export default function OrderStatusDropdown() {
                         <button
                             key={item}
                             onClick={() => {
-                                setStatus(item);
-                                setOpen(false);
+                                handleStatusChange(item);
                             }}
                             className="flex w-full items-center justify-between px-4 py-2 text-sm hover:bg-gray-100"
                         >

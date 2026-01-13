@@ -40,3 +40,13 @@ export async function getAllOrders(): Promise<any[]> {
     }
     return [];
 }
+
+export async function updateOrderStatus(orderId: string, status: string): Promise<boolean> {
+    try {
+        const response = await axiosInstance.patch(`/orders/${orderId}/status`, { status });
+        return response.status === 200;
+    } catch (error) {
+        console.error(error);
+    }
+    return false;
+}

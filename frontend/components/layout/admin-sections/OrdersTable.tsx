@@ -80,7 +80,7 @@ export default function OrdersTable() {
                             <td className="px-6 py-4 text-gray-900">{order.customer}</td>
                             <td className="px-6 py-4 text-gray-900">${order.total}</td>
                             <td className="px-6 py-4">
-                                <OrderStatusDropdown />
+                                <OrderStatusDropdown order={order} />
                             </td>
                             <td className="px-6 py-4">
                                 <button
