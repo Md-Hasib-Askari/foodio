@@ -33,7 +33,6 @@ export default function AdminLoginForm() {
                         </div>
                     </div>
 
-                    {/* Form */}
                     <Formik<AdminLoginFormDataType>
                         initialValues={{ email: '', password: '' }}
                         validationSchema={adminLoginValidationSchema}

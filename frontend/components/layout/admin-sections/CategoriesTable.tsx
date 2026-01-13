@@ -1,32 +1,34 @@
-import React, { useEffect, useState } from 'react'
+import React, { Dispatch, useEffect, useState } from 'react'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import EditCategoryModal from './EditCategoryModal';
 import DeleteCategoryModal from './DeleteCategoryModal';
 import { fetchCategories } from '@/api/category.api';
 
-type Category = {
+export type Category = {
+    categoryId: string;
     name: string;
 }
 
-type CategoriesTableProps = {
-    categories: Category[];
+interface CategoriesTableProps {
+    newCategory?: Category | null;
 }
 
-export default function CategoriesTable() {
+export default function CategoriesTable({ newCategory }: CategoriesTableProps) {
+    const [categories, setCategories] = useState<Category[]>([]);
     const [openModal, setOpenModal] = useState<null | 'edit-category' | 'delete-category'>(null);
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-    const [categories, setCategories] = useState<Category[]>([]);
 
     useEffect(() => {
         (async function () {
             const fetchedCategories = await fetchCategories();
             if (fetchedCategories) {
                 setCategories(fetchedCategories.map((cat: any) => ({
+                    categoryId: cat.categoryId,
                     name: cat.name
                 })));
             }
         })()
-    }, []);
+    }, [newCategory]);
 
     const showModal = (type: 'edit-category' | 'delete-category', category: Category) => {
         setSelectedCategory(category);

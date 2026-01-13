@@ -19,7 +19,6 @@ export const addItemValidationSchema = Yup.object({
 
     image: Yup.mixed<File>()
         .nullable()
-        .required('Image is required')
         .test(
             'fileSize',
             'File size must be less than 2MB',

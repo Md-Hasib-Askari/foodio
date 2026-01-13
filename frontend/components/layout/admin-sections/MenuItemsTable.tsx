@@ -1,20 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import EditItemModal from './EditItemModal';
 import DeleteItemModal from './DeleteItemModal';
 import { fetchAllMenuItems } from '@/api/menu-item.api';
+import { ItemType } from '@/app/page';
 
-type ItemType = {
-    name: string;
-    price: number;
-    category: string;
-    description: string;
-    available: boolean;
-};
+// type ItemType = {
+//     name: string;
+//     price: number;
+//     category: string;
+//     description: string;
+//     available: boolean;
+// };
 
-export default function MenuItemsTable() {
+interface MenuItemsTableProps {
+    newItem?: ItemType | null;
+}
+
+export default function MenuItemsTable({ newItem }: MenuItemsTableProps) {
     const [openModal, setOpenModal] = useState<null | 'edit-item' | 'delete-item'>(null);
     const [selectedItem, setSelectedItem] = useState<ItemType | null>(null);
     const [menuItems, setMenuItems] = useState<ItemType[]>([]);
@@ -35,14 +40,15 @@ export default function MenuItemsTable() {
             }
         })()
 
-    }, []);
+    }, [newItem]);
 
     const getModal = () => {
+        if (!selectedItem) return null;
         switch (openModal) {
             case 'edit-item':
                 return <EditItemModal open={true} onClose={() => setOpenModal(null)} item={selectedItem} />;
             case 'delete-item':
-                return <DeleteItemModal onConfirm={() => { }} open={true} onClose={() => setOpenModal(null)} itemName="" />;
+                return <DeleteItemModal onConfirm={() => { }} open={true} onClose={() => setOpenModal(null)} itemName={selectedItem.name} />;
             default:
                 return null;
         }

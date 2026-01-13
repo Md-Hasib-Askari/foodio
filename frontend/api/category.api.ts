@@ -20,3 +20,33 @@ export const fetchTopCategories = async (): Promise<any[]> => {
     }
 
 }
+
+export const createCategory = async (name: string) => {
+    try {
+        const response = await axiosInstance.post("/categories", { name });
+        return response.data;
+    } catch (error) {
+        console.error("Error creating category:", error);
+        throw error;
+    }
+}
+
+export const updateCategory = async (categoryId: string, name: string) => {
+    try {
+        const response = await axiosInstance.put(`/categories/${categoryId}`, { name });
+        return response.data;
+    } catch (error) {
+        console.error("Error updating category:", error);
+        throw error;
+    }
+}
+
+export const deleteCategory = async (categoryId: string) => {
+    try {
+        const response = await axiosInstance.delete(`/categories/${categoryId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error deleting category:", error);
+        throw error;
+    }
+}

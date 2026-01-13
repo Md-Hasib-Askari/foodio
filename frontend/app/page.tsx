@@ -22,8 +22,10 @@ export type ItemType = {
   name: string;
   description: string;
   price: number;
+  category: string;
   categoryId: string;
   imageUrl: string;
+  available: boolean;
 }
 
 export default function Home() {

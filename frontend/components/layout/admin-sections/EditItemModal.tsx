@@ -3,19 +3,20 @@
 import { CgClose } from 'react-icons/cg';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { addItemValidationSchema } from '@/validators/add-item-validation';
+import { ItemType } from '@/app/page';
 
-type ItemType = {
-    name: string;
-    price: number;
-    category: string;
-    description: string;
-    available: boolean;
-};
+// type ItemType = {
+//     name: string;
+//     price: number;
+//     category: string;
+//     description: string;
+//     available: boolean;
+// };
 
 interface EditItemModalProps {
     open: boolean;
     onClose: () => void;
-    item: ItemType | null;
+    item: ItemType;
 }
 
 export default function EditItemModal({ open, onClose, item }: EditItemModalProps) {

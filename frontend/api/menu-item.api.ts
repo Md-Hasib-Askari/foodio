@@ -22,7 +22,16 @@ export async function fetchAllMenuItems() {
     }
 }
 
-export async function createMenuItem(itemData: any) {
+
+interface CreateMenuItemData {
+    name: string;
+    price: number;
+    categoryId: string;
+    description: string;
+    imageUrl: string;
+    available: boolean;
+}
+export async function createMenuItem(itemData: CreateMenuItemData) {
     try {
         const response = await axiosInstance.post('/menu-items', itemData);
         return response.data;

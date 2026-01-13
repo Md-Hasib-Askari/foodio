@@ -3,10 +3,13 @@
 import { CgClose } from 'react-icons/cg';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { addCategoryValidationSchema } from '@/validators/add-category-validation';
+import { createCategory } from '@/api/category.api';
+import { toast } from 'react-toastify';
 
 interface AddCategoryModalProps {
     open: boolean;
     onClose: () => void;
+    setNewCategory: (category: any) => void;
 }
 
 type AddCategoryFormValues = {
@@ -16,6 +19,7 @@ type AddCategoryFormValues = {
 export default function AddCategoryModal({
     open,
     onClose,
+    setNewCategory,
 }: AddCategoryModalProps) {
     if (!open) return null;
 
@@ -37,9 +41,15 @@ export default function AddCategoryModal({
                 <Formik<AddCategoryFormValues>
                     initialValues={{ name: '' }}
                     validationSchema={addCategoryValidationSchema}
-                    onSubmit={(values, { setSubmitting }) => {
+                    onSubmit={async (values, { setSubmitting }) => {
                         console.log('Add category:', values);
-                        setSubmitting(false);
+                        const response = await createCategory(values.name);
+                        if (response) {
+                            console.log('Category created:', response);
+                            setSubmitting(false);
+                            toast.success('Category added successfully');
+                            setNewCategory(response);
+                        }
                         onClose();
                     }}
                 >

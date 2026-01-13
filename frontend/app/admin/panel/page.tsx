@@ -1,13 +1,16 @@
 'use client';
 
+import { ItemType } from "@/app/page";
 import AddCategoryModal from "@/components/layout/admin-sections/AddCategoryModal";
 import AddItemModal from "@/components/layout/admin-sections/AddItemModal";
 import AdminSidebar from "@/components/layout/admin-sections/AdminSidebar";
 import CategoriesTable from "@/components/layout/admin-sections/CategoriesTable";
 import MenuItemsTable from "@/components/layout/admin-sections/MenuItemsTable";
 import OrdersTable from "@/components/layout/admin-sections/OrdersTable";
+import { CategoryType } from "@/components/layout/public-sections/Categories";
 import { useAuth } from "@/context/AuthContext";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { BiPlus } from "react-icons/bi";
 
 // const menuItems = [
@@ -40,10 +43,13 @@ type activeViewType = 'menu-items' | 'orders';
 type activeTabType = 'items' | 'categories';
 
 export default function AdminDashboard() {
-    const { isAuthenticated } = useAuth();
+    const router = useRouter();
+    const { isAuthenticated, loading } = useAuth();
     const [activeView, setActiveView] = useState<activeViewType>('menu-items');
     const [activeTab, setActiveTab] = useState<activeTabType>('items');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [newCategory, setNewCategory] = useState<CategoryType | null>(null);
+    const [newItem, setNewItem] = useState<ItemType | null>(null);
 
     const showModalForm = () => {
         setIsModalOpen(true);
@@ -56,6 +62,7 @@ export default function AdminDashboard() {
                     <AddItemModal
                         open={isModalOpen}
                         onClose={() => setIsModalOpen(false)}
+                        setNewItem={(item) => setNewItem(item)}
                     />
                 )
             case 'categories':
@@ -63,14 +70,21 @@ export default function AdminDashboard() {
                     <AddCategoryModal
                         open={isModalOpen}
                         onClose={() => setIsModalOpen(false)}
+                        setNewCategory={(category) => setNewCategory(category)}
                     />
                 )
         }
     }
 
 
-    if (!isAuthenticated) {
-        return <div>You are not authorized to view this page.</div>;
+    useEffect(() => {
+        if (!isAuthenticated && !loading) {
+            router.push('/auth/admin');
+        }
+    }, [isAuthenticated, loading, router]);
+
+    if (!isAuthenticated || loading) {
+        return null;
     }
 
     return (
@@ -117,11 +131,11 @@ export default function AdminDashboard() {
                             </div>
 
                             {activeTab === 'items' && (
-                                <MenuItemsTable />
+                                <MenuItemsTable newItem={newItem} />
                             )}
 
                             {activeTab === 'categories' && (
-                                <CategoriesTable />
+                                <CategoriesTable newCategory={newCategory} />
                             )}
                         </div>
                     )}

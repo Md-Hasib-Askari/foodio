@@ -4,10 +4,16 @@ import { BiUpload } from 'react-icons/bi';
 import { CgClose } from 'react-icons/cg';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { addItemValidationSchema } from '@/validators/add-item-validation';
+import { createMenuItem } from '@/api/menu-item.api';
+import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
+import { fetchCategories } from '@/api/category.api';
+import { Category } from './CategoriesTable';
 
 interface AddItemModalProps {
     open: boolean;
     onClose: () => void;
+    setNewItem: (item: any) => void;
 }
 
 type AddItemFormValues = {
@@ -19,13 +25,26 @@ type AddItemFormValues = {
     available: boolean;
 };
 
-export default function AddItemModal({ open, onClose }: AddItemModalProps) {
+export default function AddItemModal({ open, onClose, setNewItem }: AddItemModalProps) {
+    const [categories, setCategories] = useState<Category[]>([]);
+
+    useEffect(() => {
+        (async function () {
+            const fetchedCategories = await fetchCategories();
+            if (fetchedCategories) {
+                setCategories(fetchedCategories.map((cat: any) => ({
+                    categoryId: cat.categoryId,
+                    name: cat.name
+                })));
+            }
+        })()
+    }, []);
+
     if (!open) return null;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
             <div className="w-full max-w-2xl rounded-2xl bg-[#FAF8F4] p-8 shadow-xl">
-                {/* Header */}
                 <div className="mb-6 flex items-center justify-between">
                     <h2 className="text-2xl font-semibold text-[#1F3D2B]">
                         Add New Item
@@ -48,14 +67,28 @@ export default function AddItemModal({ open, onClose }: AddItemModalProps) {
                         available: true,
                     }}
                     validationSchema={addItemValidationSchema}
-                    onSubmit={(values) => {
+                    onSubmit={async (values) => {
+                        const response = await createMenuItem({
+                            name: values.name,
+                            price: Number(values.price),
+                            categoryId: values.category,
+                            description: values.description,
+                            imageUrl: values.image ? URL.createObjectURL(values.image) : '',
+                            available: values.available,
+                        });
+
+                        if (response) {
+
+                            toast.success("Menu item added successfully");
+                            onClose();
+                            setNewItem(response);
+                        }
+
                         console.log('Add item submit:', values);
-                        onClose();
                     }}
                 >
                     {({ setFieldValue, values, isSubmitting }) => (
                         <Form className="space-y-6">
-                            {/* Name & Price */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
                                     <label className="block text-sm font-medium">Name</label>
@@ -77,7 +110,6 @@ export default function AddItemModal({ open, onClose }: AddItemModalProps) {
                                 </div>
                             </div>
 
-                            {/* Category */}
                             <div className="space-y-1">
                                 <label className="block text-sm font-medium">Category</label>
                                 <Field
@@ -86,14 +118,15 @@ export default function AddItemModal({ open, onClose }: AddItemModalProps) {
                                     className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-[#1F3D2B]"
                                 >
                                     <option value="">Select category</option>
-                                    <option value="starters">Starters</option>
-                                    <option value="main">Main Course</option>
-                                    <option value="desserts">Desserts</option>
+                                    {categories.map((category) => (
+                                        <option key={category.categoryId} value={category.categoryId}>
+                                            {category.name}
+                                        </option>
+                                    ))}
                                 </Field>
                                 <ErrorMessage name="category" component="p" className="text-xs text-red-500" />
                             </div>
 
-                            {/* Description */}
                             <div className="space-y-1">
                                 <label className="block text-sm font-medium">Description</label>
                                 <Field
@@ -105,7 +138,6 @@ export default function AddItemModal({ open, onClose }: AddItemModalProps) {
                                 <ErrorMessage name="description" component="p" className="text-xs text-red-500" />
                             </div>
 
-                            {/* Image Upload */}
                             <div className="space-y-2">
                                 <label className="block text-sm font-medium">Image</label>
 
@@ -130,7 +162,6 @@ export default function AddItemModal({ open, onClose }: AddItemModalProps) {
                                 <ErrorMessage name="image" component="p" className="text-xs text-red-500" />
                             </div>
 
-                            {/* Uploaded File Preview */}
                             {values.image && (
                                 <div className="flex items-center justify-between rounded-lg border border-gray-300 px-4 py-2">
                                     <span className="text-sm text-gray-600">
@@ -146,7 +177,6 @@ export default function AddItemModal({ open, onClose }: AddItemModalProps) {
                                 </div>
                             )}
 
-                            {/* Availability */}
                             <div className="flex items-center gap-3">
                                 <label className="relative inline-flex cursor-pointer items-center">
                                     <Field type="checkbox" name="available" className="peer sr-only" />
@@ -157,7 +187,6 @@ export default function AddItemModal({ open, onClose }: AddItemModalProps) {
                                 <span className="text-sm font-medium">Available for Order</span>
                             </div>
 
-                            {/* Action */}
                             <div className="flex justify-end pt-4">
                                 <button
                                     type="submit"
