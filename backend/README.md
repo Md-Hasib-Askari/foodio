@@ -2,7 +2,7 @@
 
 A RESTful API backend for the Foodio food ordering application built with NestJS, PostgreSQL, and TypeORM.
 
-## 🚀 Features
+## Features
 
 - **Authentication & Authorization**: JWT-based authentication with role-based access control (RBAC)
 - **User Management**: User registration, profile management, and role assignment
@@ -12,7 +12,7 @@ A RESTful API backend for the Foodio food ordering application built with NestJS
 - **Database Migrations**: TypeORM migration support for database versioning
 - **Docker Support**: Containerized deployment with Docker Compose
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before you begin, ensure you have the following installed:
 
@@ -21,7 +21,7 @@ Before you begin, ensure you have the following installed:
 - **PostgreSQL**: v16 (or use Docker)
 - **Docker & Docker Compose** (optional, for containerized setup)
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **Framework**: NestJS 11.x
 - **Database**: PostgreSQL 16
@@ -32,7 +32,7 @@ Before you begin, ensure you have the following installed:
 - **Testing**: Jest
 - **Linting**: ESLint with Prettier
 
-## ⚙️ Installation
+## Installation
 
 ### 1. Clone the Repository
 
@@ -70,7 +70,7 @@ JWT_EXPIRATION=1d
 
 > **Note**: Replace `your-secret-key-here` with a secure random string for production.
 
-## 🐳 Docker Setup (Recommended)
+## Docker Setup (Recommended)
 
 ### Start with Docker Compose
 
@@ -99,7 +99,7 @@ docker-compose down
 docker-compose down -v
 ```
 
-## 📦 Database Setup
+## Database Setup
 
 ### Run Migrations
 
@@ -111,10 +111,10 @@ npm run migration:run
 npm run migration:revert
 
 # Generate a new migration
-npm run migration:generate -- src/database/migrations/MigrationName -d src/database/data-source.ts
+npm run migration:generate -- src/database/migrations/MigrationName
 ```
 
-## 🚀 Running the Application
+## Running the Application
 
 ### Development Mode
 
@@ -141,7 +141,7 @@ npm run build
 npm run start:prod
 ```
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run unit tests
@@ -157,7 +157,7 @@ npm run test:cov
 npm run test:e2e
 ```
 
-## 📚 API Documentation
+## API Documentation
 
 The API includes the following main modules:
 
@@ -169,7 +169,7 @@ The API includes the following main modules:
 
 You can test the API endpoints using the provided `api.http` file with REST Client extension in VS Code.
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 backend/
@@ -192,7 +192,7 @@ backend/
 └── package.json           # Dependencies and scripts
 ```
 
-## 🔧 Development Scripts
+## Development Scripts
 
 ```bash
 # Format code
@@ -205,7 +205,7 @@ npm run lint
 npm run build
 ```
 
-## 🐋 Docker Deployment
+## Docker Deployment
 
 ### Build Docker Image
 
@@ -227,37 +227,25 @@ Uncomment the `app` service in `docker-compose.yml` and run:
 docker-compose up -d
 ```
 
-## 🔐 Authentication Flow
+## Authentication Flow
 
 1. Users register or sign in through `/auth/signin`
 2. Server returns JWT token
 3. Include token in Authorization header: `Bearer <token>`
 4. Protected routes validate token and check user roles
 
-## 📝 Migration Workflow
+## Migration Workflow
 
 1. Make changes to entity files
 2. Generate migration: `npm run migration:generate -- src/migrations/DescriptionOfChange`
 3. Review the generated migration file
 4. Run migration: `npm run migration:run`
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature`
-3. Commit changes: `git commit -m 'Add some feature'`
-4. Push to branch: `git push origin feature/your-feature`
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under UNLICENSED.
-
-## 👥 Author
+## Author
 
 - Md Hasib Askari - [GitHub](https://github.com/Md-Hasib-Askari)
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Database Connection Issues
 
