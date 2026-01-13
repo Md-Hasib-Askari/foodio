@@ -49,8 +49,6 @@ export default function Home() {
         }));
         return acc.concat(itemsForCategory);
       }, []);
-      console.log(menuItems);
-
 
       const categoriesWithIcons: CategoryType[] = topCategoriesFromApi.map((cat: any, index: number) => ({
         categoryId: cat.categoryId,
