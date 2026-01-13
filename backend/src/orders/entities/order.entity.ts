@@ -1,5 +1,5 @@
 import { User } from "../../users/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { OrderItem } from "./order-item.entity";
 import { OrderStatus } from "../../common/enums/order-status.enum";
 
@@ -20,4 +20,7 @@ export class Order {
         eager: true,
     })
     orderItems: OrderItem[];
+
+    @CreateDateColumn()
+    orderDate: Date;
 }

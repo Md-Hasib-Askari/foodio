@@ -1,6 +1,9 @@
+'use client';
+
+import { getUserOrders } from '@/api/order.api';
 import { ORDER_STATUS } from '@/constants/order-status.enum';
 import { ORDERS } from '@/data';
-import React from 'react'
+import { useEffect, useState } from 'react';
 
 const getOrderStatus = (status: string) => {
     switch (status) {
@@ -17,17 +20,35 @@ const getOrderStatus = (status: string) => {
     }
 }
 
-const orders = ORDERS.map(order => ({
-    id: order.orderId,
-    date: order.orderDate,
-    items: order.items,
-    total: order.totalAmount,
-    status: order.status,
-    address: order.address,
-    progress: getOrderStatus(order.status),
-}));
+interface OrderType {
+    orderId: string;
+    orderDate: string;
+    items: { name: string; quantity: number; price: number }[];
+    totalAmount: number;
+    status: string;
+    address: string;
+    progress: number;
+}
 
 export default function OrderSection() {
+    const [orders, setOrders] = useState<OrderType[]>([]);
+
+    useEffect(() => {
+        (async function () {
+            const fetchedOrders = await getUserOrders();
+            console.log(fetchedOrders);
+
+            setOrders(fetchedOrders.map((order) => ({
+                ...order,
+                progress: getOrderStatus(order.status),
+            })));
+        })();
+    }, []);
+
+    useEffect(() => {
+        console.log(orders);
+    }, [orders]);
+
 
     const getStatusColor = (status: string) => {
         switch (status) {
@@ -53,11 +74,11 @@ export default function OrderSection() {
                     <div key={index} className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                         <div className="flex justify-between items-start mb-6">
                             <div>
-                                <h2 className="text-xl font-semibold text-primary mb-2">Order {order.id}</h2>
-                                <p className="text-gray-500 text-sm">Placed on {order.date}</p>
+                                <h2 className="text-xl font-semibold text-primary mb-2">Order #{order.orderId}</h2>
+                                <p className="text-gray-500 text-sm">Placed on {order.orderDate}</p>
                             </div>
                             <div className="flex items-center gap-4">
-                                <span className="text-2xl font-bold text-primary">${order.total.toFixed(2)}</span>
+                                <span className="text-2xl font-bold text-primary">${order.totalAmount.toFixed(2)}</span>
                                 <span className={`px-4 py-1.5 rounded-lg text-sm font-medium ${getStatusColor(order.status)}`}>
                                     {order.status}
                                 </span>
@@ -69,7 +90,7 @@ export default function OrderSection() {
                             {order.items.map((item, idx) => (
                                 <div key={idx} className="flex justify-between items-center py-2">
                                     <span className="text-gray-700">{item.quantity}x {item.name}</span>
-                                    <span className="text-gray-500">${item.price.toFixed(2)}</span>
+                                    <span className="text-gray-500">${Number(item.price).toFixed(2)}</span>
                                 </div>
                             ))}
                         </div>

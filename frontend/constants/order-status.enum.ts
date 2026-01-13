@@ -1,6 +1,6 @@
 export const ORDER_STATUS = {
-    PENDING: 'Pending',
-    PREPARING: 'Preparing',
-    READY: 'Ready',
-    COMPLETED: 'Completed',
+    PENDING: 'PENDING',
+    PREPARING: 'PREPARING',
+    READY: 'READY',
+    COMPLETED: 'COMPLETED',
 } as const;

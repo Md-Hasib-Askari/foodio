@@ -36,7 +36,16 @@ export class OrdersRepository {
   }
 
   async findByUserId(userId: string): Promise<Order[]> {
-    return await this._db.find({ where: { user: { userId } } });
+    return await this._db.find({
+      where: { user: { userId } },
+      relations: {
+        user: true,
+        orderItems: {
+          menuItem: true,
+        }
+      },
+      order: { orderDate: 'DESC' },
+    });
   }
 
   async update(orderId: string, updateOrderDto: UpdateOrderDto) {

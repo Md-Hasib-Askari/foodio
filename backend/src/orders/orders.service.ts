@@ -53,7 +53,24 @@ export class OrdersService {
   }
 
   async findByUserId(userId: string) {
-    return await this._ordersRepo.findByUserId(userId);
+    const orders = await this._ordersRepo.findByUserId(userId);
+    return orders.map(order => {
+      const items = order.orderItems.map(orderItem => ({
+        name: orderItem.menuItem.name,
+        quantity: orderItem.quantity,
+        price: orderItem.priceAtOrder,
+      }));
+      const totalAmount = order.orderItems.reduce((total, item) => total + (item.priceAtOrder * item.quantity), 0);
+
+      return {
+        orderId: order.orderId,
+        orderDate: order.orderDate,
+        items,
+        totalAmount,
+        status: order.status,
+        address: order.user.address,
+      };
+    });
   }
 
   async update(orderId: string, updateOrderDto: UpdateOrderDto) {
