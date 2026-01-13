@@ -1,29 +1,47 @@
 'use client';
 
-import { CATEGORIES, ITEMS } from '@/data';
-import Footer from './Footer';
 import MenuGrid from './MenuGrid'
 import { ItemType } from '@/app/page';
 import { CategoryType } from './Categories';
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
+import { fetchCategories } from '@/api/category.api';
+import { fetchMenuItems } from '@/api/menu-item.api';
 
-const categories: CategoryType[] = CATEGORIES;
-const items: ItemType[] = ITEMS;
 
 export default function AllMenu() {
-    const [selectedCategory, setSelectedCategory] = useState<string>('1');
-    const [filteredItems, setFilteredItems] = useState<ItemType[]>(items);
+    const [categories, setCategories] = useState<CategoryType[]>([]);
+    const [items, setItems] = useState<ItemType[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<string | 'all'>('all');
+    const [filteredItems, setFilteredItems] = useState<ItemType[]>([]);
 
-    const handleCategoryClick = (categoryId: string) => {
-        if (categoryId === 'all') {
-            setFilteredItems(items);
-            setSelectedCategory('all');
-        } else {
-            const newItems = items.filter(item => item.categoryId === categoryId);
-            setFilteredItems(newItems);
-            setSelectedCategory(categoryId);
-        }
-    };
+    // Initialize with all items
+    useEffect(() => {
+        (async function () {
+            const categories = await fetchCategories();
+            setCategories(categories);
+
+            if (categories.length > 0) {
+                const allItems: ItemType[] = [];
+                for (const category of categories) {
+                    const categoryItems = await fetchMenuItems(category.categoryId);
+                    allItems.push(...categoryItems);
+                }
+                setItems(allItems);
+                setFilteredItems(allItems);
+            }
+        })();
+    }, []);
+
+    useEffect(() => {
+        (async function () {
+            if (selectedCategory === 'all') {
+                setFilteredItems(items);
+            } else {
+                const newItems = await fetchMenuItems(selectedCategory);
+                setFilteredItems(newItems);
+            }
+        })();
+    }, [selectedCategory]);
 
     return (
         <section className="py-16">
@@ -33,13 +51,13 @@ export default function AllMenu() {
                     <p className="text-gray-600">Discover our selection of premium dishes, crafted with passion.</p>
                 </div>
                 <div className="flex justify-center gap-4 mb-24">
-                    <button onClick={() => handleCategoryClick('all')} className={`px-8 py-3 rounded-full border border-gray-300 hover:border-primary transition ${selectedCategory === 'all' ? 'bg-primary text-white' : 'bg-white text-gray-700'}`}>
+                    <button onClick={() => setSelectedCategory('all')} className={`px-8 py-3 rounded-full border border-gray-300 hover:border-primary transition ${selectedCategory === 'all' ? 'bg-primary text-white' : 'bg-white text-gray-700'}`}>
                         All
                     </button>
                     {
                         categories.map((cat) => (
-                            <button key={cat.categoryId} onClick={() => handleCategoryClick(cat.categoryId)} className={`px-8 py-3 rounded-full border border-gray-300 hover:border-primary transition ${selectedCategory === cat.categoryId ? 'bg-primary text-white' : 'bg-white text-gray-700'}`}>
-                                {cat.category}
+                            <button key={cat.categoryId} onClick={() => setSelectedCategory(cat.categoryId)} className={`px-8 py-3 rounded-full border border-gray-300 hover:border-primary transition ${selectedCategory === cat.categoryId ? 'bg-primary text-white' : 'bg-white text-gray-700'}`}>
+                                {cat.name}
                             </button>
                         ))
                     }
