@@ -1,0 +1,592 @@
+--
+-- PostgreSQL database cluster dump
+--
+
+-- Started on 2026-01-13 16:10:13 UTC
+
+\restrict Jm3Wvvxkubl5X85bJlgqZL7XHhqADcUNPexGuQBOM33avZtOnlvzo1WsihQcNkG
+
+SET default_transaction_read_only = off;
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+
+--
+-- Roles
+--
+
+CREATE ROLE foodio_user;
+ALTER ROLE foodio_user WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS PASSWORD 'SCRAM-SHA-256$4096:AaLOYrDPcrtCrIz7wxyX8w==$lj4iiUI5bZfJOOWQ0NkiSnoOsf22Qv3HmdtyJHOF5QU=:SHXIhLuO+RLpVM5ddb0s+NaCDh2Bfw7tyWwHNSkxao8=';
+
+--
+-- User Configurations
+--
+
+
+
+
+
+
+
+
+\unrestrict Jm3Wvvxkubl5X85bJlgqZL7XHhqADcUNPexGuQBOM33avZtOnlvzo1WsihQcNkG
+
+--
+-- Databases
+--
+
+--
+-- Database "template1" dump
+--
+
+\connect template1
+
+--
+-- PostgreSQL database dump
+--
+
+\restrict ODUKjUCsTcOb7eFPCYPZbbZ8eVi6FQiIepyiIgIEEoWKdl0N5lSJGhQbiXiLIBq
+
+-- Dumped from database version 16.11
+-- Dumped by pg_dump version 16.10
+
+-- Started on 2026-01-13 16:10:13 UTC
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+-- Completed on 2026-01-13 16:10:13 UTC
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict ODUKjUCsTcOb7eFPCYPZbbZ8eVi6FQiIepyiIgIEEoWKdl0N5lSJGhQbiXiLIBq
+
+--
+-- Database "foodio" dump
+--
+
+--
+-- PostgreSQL database dump
+--
+
+\restrict BdYKbh348radr3VHdJnQ7iLT77mv4wFa6aOefJs5JcoVXjVZCfXhxjreIfjbnhk
+
+-- Dumped from database version 16.11
+-- Dumped by pg_dump version 16.10
+
+-- Started on 2026-01-13 16:10:13 UTC
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 3496 (class 1262 OID 16384)
+-- Name: foodio; Type: DATABASE; Schema: -; Owner: foodio_user
+--
+
+CREATE DATABASE foodio WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'en_US.utf8';
+
+
+ALTER DATABASE foodio OWNER TO foodio_user;
+
+\unrestrict BdYKbh348radr3VHdJnQ7iLT77mv4wFa6aOefJs5JcoVXjVZCfXhxjreIfjbnhk
+\connect foodio
+\restrict BdYKbh348radr3VHdJnQ7iLT77mv4wFa6aOefJs5JcoVXjVZCfXhxjreIfjbnhk
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 2 (class 3079 OID 16389)
+-- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
+
+
+--
+-- TOC entry 3497 (class 0 OID 0)
+-- Dependencies: 2
+-- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
+
+
+--
+-- TOC entry 866 (class 1247 OID 16631)
+-- Name: orders_status_enum; Type: TYPE; Schema: public; Owner: foodio_user
+--
+
+CREATE TYPE public.orders_status_enum AS ENUM (
+    'PENDING',
+    'PREPARING',
+    'READY',
+    'COMPLETED',
+    'CANCELLED'
+);
+
+
+ALTER TYPE public.orders_status_enum OWNER TO foodio_user;
+
+--
+-- TOC entry 872 (class 1247 OID 16649)
+-- Name: users_role_enum; Type: TYPE; Schema: public; Owner: foodio_user
+--
+
+CREATE TYPE public.users_role_enum AS ENUM (
+    'USER',
+    'ADMIN'
+);
+
+
+ALTER TYPE public.users_role_enum OWNER TO foodio_user;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 218 (class 1259 OID 16605)
+-- Name: categories; Type: TABLE; Schema: public; Owner: foodio_user
+--
+
+CREATE TABLE public.categories (
+    "categoryId" uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    name character varying NOT NULL,
+    description character varying,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL,
+    "updatedAt" timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.categories OWNER TO foodio_user;
+
+--
+-- TOC entry 219 (class 1259 OID 16617)
+-- Name: menu_items; Type: TABLE; Schema: public; Owner: foodio_user
+--
+
+CREATE TABLE public.menu_items (
+    "menuItemId" uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    name character varying(100) NOT NULL,
+    description character varying(255),
+    "imageUrl" character varying(255),
+    price numeric(10,2) NOT NULL,
+    available boolean DEFAULT true NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL,
+    "updatedAt" timestamp without time zone DEFAULT now() NOT NULL,
+    "categoryId" uuid
+);
+
+
+ALTER TABLE public.menu_items OWNER TO foodio_user;
+
+--
+-- TOC entry 217 (class 1259 OID 16516)
+-- Name: migrations; Type: TABLE; Schema: public; Owner: foodio_user
+--
+
+CREATE TABLE public.migrations (
+    id integer NOT NULL,
+    "timestamp" bigint NOT NULL,
+    name character varying NOT NULL
+);
+
+
+ALTER TABLE public.migrations OWNER TO foodio_user;
+
+--
+-- TOC entry 216 (class 1259 OID 16515)
+-- Name: migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: foodio_user
+--
+
+CREATE SEQUENCE public.migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.migrations_id_seq OWNER TO foodio_user;
+
+--
+-- TOC entry 3498 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: foodio_user
+--
+
+ALTER SEQUENCE public.migrations_id_seq OWNED BY public.migrations.id;
+
+
+--
+-- TOC entry 222 (class 1259 OID 24582)
+-- Name: order_items; Type: TABLE; Schema: public; Owner: foodio_user
+--
+
+CREATE TABLE public.order_items (
+    "orderItemId" uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    quantity integer NOT NULL,
+    "priceAtOrder" numeric(10,2) NOT NULL,
+    "menuItemId" uuid NOT NULL,
+    "orderId" uuid
+);
+
+
+ALTER TABLE public.order_items OWNER TO foodio_user;
+
+--
+-- TOC entry 220 (class 1259 OID 16641)
+-- Name: orders; Type: TABLE; Schema: public; Owner: foodio_user
+--
+
+CREATE TABLE public.orders (
+    "orderId" uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    status public.orders_status_enum DEFAULT 'PENDING'::public.orders_status_enum NOT NULL,
+    "userId" uuid,
+    "orderDate" timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.orders OWNER TO foodio_user;
+
+--
+-- TOC entry 221 (class 1259 OID 16653)
+-- Name: users; Type: TABLE; Schema: public; Owner: foodio_user
+--
+
+CREATE TABLE public.users (
+    "userId" uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    email character varying(100) NOT NULL,
+    "hashedPassword" character varying(100) NOT NULL,
+    "fullName" character varying(100) NOT NULL,
+    role public.users_role_enum DEFAULT 'USER'::public.users_role_enum NOT NULL,
+    "isActive" boolean DEFAULT false NOT NULL,
+    "createdAt" timestamp without time zone DEFAULT now() NOT NULL,
+    "updatedAt" timestamp without time zone DEFAULT now() NOT NULL,
+    address character varying(200) DEFAULT 'UNKNOWN'::character varying
+);
+
+
+ALTER TABLE public.users OWNER TO foodio_user;
+
+--
+-- TOC entry 3301 (class 2604 OID 16519)
+-- Name: migrations id; Type: DEFAULT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.migrations ALTER COLUMN id SET DEFAULT nextval('public.migrations_id_seq'::regclass);
+
+
+--
+-- TOC entry 3486 (class 0 OID 16605)
+-- Dependencies: 218
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: foodio_user
+--
+
+COPY public.categories ("categoryId", name, description, "createdAt", "updatedAt") FROM stdin;
+daae3ed4-2ae1-497c-a815-687951600940	Drinks	Beverages and refreshments	2026-01-11 18:08:44.0073	2026-01-11 18:08:44.0073
+93993e00-22d3-4b83-86e9-0d1e2f66509f	Lunch Specials	Delicious lunch options for a quick meal	2026-01-11 18:08:59.745796	2026-01-11 18:08:59.745796
+6699015e-7aa8-4afa-953f-9fbb21813452	Main Courses	\N	2026-01-13 13:46:12.369411	2026-01-13 13:46:12.369411
+9f15347d-2d48-441d-8919-38c6b814fd08	Desserts	\N	2026-01-13 13:48:32.900869	2026-01-13 13:48:32.900869
+b80b1c4a-0756-4fb4-949e-e35436339a0b	Fast Food	Updated description for quick meals	2026-01-11 18:08:15.603523	2026-01-13 14:17:17.279726
+2070d5d7-afb8-45f3-8574-9109145e10b5	Uncategorized	\N	2026-01-13 15:01:42.451499	2026-01-13 15:01:42.451499
+\.
+
+
+--
+-- TOC entry 3487 (class 0 OID 16617)
+-- Dependencies: 219
+-- Data for Name: menu_items; Type: TABLE DATA; Schema: public; Owner: foodio_user
+--
+
+COPY public.menu_items ("menuItemId", name, description, "imageUrl", price, available, "createdAt", "updatedAt", "categoryId") FROM stdin;
+459aedee-223d-4da8-b992-ac0b9ac8244d	Mojo	A soft drink with a refreshing taste	\N	0.99	t	2026-01-11 18:34:27.605521	2026-01-11 18:34:27.605521	daae3ed4-2ae1-497c-a815-687951600940
+e8685752-fc51-49ba-a7c1-de1769512d4c	Chicken Nuggets	Crispy fried chicken nuggets	\N	5.99	t	2026-01-11 18:37:26.066452	2026-01-11 18:37:26.066452	b80b1c4a-0756-4fb4-949e-e35436339a0b
+862197c0-d08a-4b0e-8150-d5895847e63d	Double Cheeseburger	A double patty cheeseburger with extra cheese	\N	5.49	f	2026-01-11 18:36:29.330284	2026-01-11 19:45:45.485644	daae3ed4-2ae1-497c-a815-687951600940
+572fb4c5-3103-437b-90fb-b918465bf195	Citrus Swirl Delights	Grilled chicken breast with a tangy citrus glaze.	\N	35.00	t	2026-01-13 13:56:49.028756	2026-01-13 13:56:49.028756	6699015e-7aa8-4afa-953f-9fbb21813452
+5a0431a5-51b6-4dd5-9b4d-159492c3da49	Chocolate Milkshake	A very melting chocolaty flavored milkshake	\N	20.00	t	2026-01-13 14:06:13.352423	2026-01-13 14:06:13.352423	daae3ed4-2ae1-497c-a815-687951600940
+a22170be-a538-4e7f-9311-e240a449fb20	Chicken Pizza	A really fulling food you will every had.	\N	50.00	t	2026-01-13 14:10:41.48482	2026-01-13 14:10:41.48482	b80b1c4a-0756-4fb4-949e-e35436339a0b
+bac47451-4369-4711-9dcc-5beb593d0c01	Creamy Garlic Shrimp Pasta	Creamy pasta with garlic shrimp and herbs.	\N	10.00	f	2026-01-13 13:57:47.075948	2026-01-13 14:48:15.487081	6699015e-7aa8-4afa-953f-9fbb21813452
+e4e7d3ca-b1c0-4314-865e-76dea785c944	Oreo Milkshake	A heartwarming milkshake using Oreo buscuits.	\N	30.00	f	2026-01-13 14:06:46.181392	2026-01-13 14:49:26.702205	daae3ed4-2ae1-497c-a815-687951600940
+939bb890-3365-4e83-ac24-96f07cd98f3e	Herb-Roasted Chicken	Juicy herb-roasted chicken with a crispy skin.	\N	28.00	f	2026-01-13 13:57:07.318228	2026-01-13 14:50:13.09051	6699015e-7aa8-4afa-953f-9fbb21813452
+e0649426-9c1d-4bb8-aa1e-51ebd5b82067	Decadent Chocolate Lava Cake	Warm chocolate cake with a gooey molten center.	\N	20.00	f	2026-01-13 13:58:44.562313	2026-01-13 14:50:28.437096	9f15347d-2d48-441d-8919-38c6b814fd08
+4ff2d50a-da11-4e83-80ff-e13644a659e0	Golden Crunch Bites	Jumbo scallops with cauliflower purée and truffle oil.	\N	15.00	t	2026-01-13 13:55:43.386782	2026-01-13 13:55:43.386782	\N
+f2af266e-e778-49bf-9f43-c38f356f515d	Mediterranean Olive Medley	A mix of green and black olives marinated in herbs and spices.	\N	25.00	t	2026-01-13 13:56:11.285604	2026-01-13 13:56:11.285604	\N
+1155e777-c58f-47b6-9645-f9a2d275f05e	Spicy Buffalo Wings	Spicy chicken wings tossed in a tangy buffalo sauce.	\N	18.00	t	2026-01-13 13:56:30.361371	2026-01-13 13:56:30.361371	\N
+\.
+
+
+--
+-- TOC entry 3485 (class 0 OID 16516)
+-- Dependencies: 217
+-- Data for Name: migrations; Type: TABLE DATA; Schema: public; Owner: foodio_user
+--
+
+COPY public.migrations (id, "timestamp", name) FROM stdin;
+2	1768153993070	Init1768153993070
+3	1768187041103	OrderQuantityAdded1768187041103
+4	1768187207855	OrderFKUserId1768187207855
+5	1768189728725	OrderMany2manyMenuitems1768189728725
+6	1768189841368	OrderItemFKRename1768189841368
+7	1768297362950	UserAddressFieldAdded1768297362950
+8	1768305582506	UserOrderDateColumn1768305582506
+9	1768316883832	CategoryNullableEnabled1768316883832
+\.
+
+
+--
+-- TOC entry 3490 (class 0 OID 24582)
+-- Dependencies: 222
+-- Data for Name: order_items; Type: TABLE DATA; Schema: public; Owner: foodio_user
+--
+
+COPY public.order_items ("orderItemId", quantity, "priceAtOrder", "menuItemId", "orderId") FROM stdin;
+bf716e81-0345-472a-8f62-db745778f796	2	5.49	862197c0-d08a-4b0e-8150-d5895847e63d	62d3f6ef-b507-4d0f-a378-1c13fc34b338
+4bf732de-d35b-4ed3-8f88-e1716b2f0542	3	5.49	862197c0-d08a-4b0e-8150-d5895847e63d	096b1875-297a-447d-8754-c40950bbf744
+6df91096-6a77-45a9-880b-68921ed92f34	3	0.99	459aedee-223d-4da8-b992-ac0b9ac8244d	dae7321e-c310-483c-a2c5-bc4b56674ebc
+4334c311-c615-4258-8448-2169c77d0ed6	3	5.99	e8685752-fc51-49ba-a7c1-de1769512d4c	3707726e-5ee4-4cc1-b819-4b32cfe85b01
+11fc9c68-e8ab-4456-a58d-a448b8633af5	5	0.99	459aedee-223d-4da8-b992-ac0b9ac8244d	0f10a8a4-57c4-4011-ab24-618ba9f9927b
+270127dd-4ba8-4ca8-8770-8013debd7b08	10	5.99	e8685752-fc51-49ba-a7c1-de1769512d4c	c751584f-ca53-45a7-96b4-aa651219584e
+795c969a-3556-4038-ac1e-5971809a5042	2	20.00	5a0431a5-51b6-4dd5-9b4d-159492c3da49	bdf3b627-8a04-43e7-abe8-08020c65fc1e
+\.
+
+
+--
+-- TOC entry 3488 (class 0 OID 16641)
+-- Dependencies: 220
+-- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: foodio_user
+--
+
+COPY public.orders ("orderId", status, "userId", "orderDate") FROM stdin;
+dae7321e-c310-483c-a2c5-bc4b56674ebc	PENDING	79911c02-da9d-424c-8330-fbe7ffd91d45	2026-01-13 12:00:00.620539
+3707726e-5ee4-4cc1-b819-4b32cfe85b01	PENDING	8de770e1-0a9f-40a3-abd2-f5d87155d825	2026-01-13 12:00:00.620539
+62d3f6ef-b507-4d0f-a378-1c13fc34b338	PREPARING	79911c02-da9d-424c-8330-fbe7ffd91d45	2026-01-13 12:00:00.620539
+096b1875-297a-447d-8754-c40950bbf744	COMPLETED	79911c02-da9d-424c-8330-fbe7ffd91d45	2026-01-13 12:00:00.620539
+0f10a8a4-57c4-4011-ab24-618ba9f9927b	READY	8de770e1-0a9f-40a3-abd2-f5d87155d825	2026-01-13 12:00:00.620539
+c751584f-ca53-45a7-96b4-aa651219584e	PENDING	52eeff11-4eb0-452b-a0b7-e0597c1d9a3d	2026-01-13 13:50:57.281366
+bdf3b627-8a04-43e7-abe8-08020c65fc1e	PENDING	18821ad6-599c-4ca4-820f-c3233df8251f	2026-01-13 14:09:10.717155
+\.
+
+
+--
+-- TOC entry 3489 (class 0 OID 16653)
+-- Dependencies: 221
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: foodio_user
+--
+
+COPY public.users ("userId", email, "hashedPassword", "fullName", role, "isActive", "createdAt", "updatedAt", address) FROM stdin;
+79911c02-da9d-424c-8330-fbe7ffd91d45	user1@example.com	$2b$10$eIN7lZs7g5WQkotKr8nGdenUMBDJ1nD6VSSSzsy6mN4tEBbPPBh7e	John Doe 2	USER	f	2026-01-11 18:00:08.924124	2026-01-11 18:00:08.924124	UNKNOWN
+d145b466-40a5-4ac9-9e4e-01099b12f3d9	user2@example.com	$2b$10$geNA5yUOtpXyP5wmr/aZVu5upZQFF.q8Z6qO0Xr5fXumsfEELA.ka	John Doe 3	USER	f	2026-01-11 18:00:21.864263	2026-01-11 18:00:21.864263	UNKNOWN
+52eeff11-4eb0-452b-a0b7-e0597c1d9a3d	user@example.com	$2b$10$sQTe/cIaPu850UqthFtIdO/2ABasei.AA4nV5c8EmgjvIc5DnngDe	John Doe	ADMIN	f	2026-01-11 17:59:27.894543	2026-01-11 17:59:27.894543	UNKNOWN
+d8828110-cac1-4745-8945-a5905044d8d3	rahim.khan@example.com	$2b$10$ae/cVJ42CdXScGBkkyLxte5RDsYYR5TgFSQZ2VOhqGcVibtzh2Rsy	Rahim Khan	USER	f	2026-01-13 09:43:20.333064	2026-01-13 09:43:20.333064	House 12, Road 5, Dhanmondi, Dhaka
+42b35d38-1650-4aa9-863e-aa83ac368811	sadia.akter@example.com	$2b$10$zDwqjkp7VVt/M3NgTORgP.Lrk2v8/aXlyO/wBXPpmnuul2dKbw51K	Sadia Akter	USER	f	2026-01-13 09:45:47.398901	2026-01-13 09:45:47.398901	Flat B3, Block C, Mirpur 10, Dhaka
+8de770e1-0a9f-40a3-abd2-f5d87155d825	tanvir.ahmed@example.com	$2b$10$ccJDB3f98TTI5b.bRnWKR.ES9n7QOQIufsFdTC4mF/iZA6R6OP1Z6	Tanvir Ahmed	USER	f	2026-01-13 09:46:09.488275	2026-01-13 09:46:09.488275	Sector 7, Uttara, Dhaka
+18821ad6-599c-4ca4-820f-c3233df8251f	rnadoha@gmail.com	$2b$10$Ml/M2e2ML/S8o0ymWmlXF.HdSuhgtfTh2TG9igutJBYC2XHa/EY/m	RNA Doha	USER	f	2026-01-13 14:08:56.623034	2026-01-13 14:08:56.623034	Satirpara, Narsingdi
+\.
+
+
+--
+-- TOC entry 3499 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: foodio_user
+--
+
+SELECT pg_catalog.setval('public.migrations_id_seq', 9, true);
+
+
+--
+-- TOC entry 3330 (class 2606 OID 16647)
+-- Name: orders PK_41ba27842ac1a2c24817ca59eaa; Type: CONSTRAINT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT "PK_41ba27842ac1a2c24817ca59eaa" PRIMARY KEY ("orderId");
+
+
+--
+-- TOC entry 3336 (class 2606 OID 24587)
+-- Name: order_items PK_4e1bb5fea3ad96dcc899be6cc7d; Type: CONSTRAINT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.order_items
+    ADD CONSTRAINT "PK_4e1bb5fea3ad96dcc899be6cc7d" PRIMARY KEY ("orderItemId");
+
+
+--
+-- TOC entry 3332 (class 2606 OID 16662)
+-- Name: users PK_8bf09ba754322ab9c22a215c919; Type: CONSTRAINT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT "PK_8bf09ba754322ab9c22a215c919" PRIMARY KEY ("userId");
+
+
+--
+-- TOC entry 3320 (class 2606 OID 16523)
+-- Name: migrations PK_8c82d7f526340ab734260ea46be; Type: CONSTRAINT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.migrations
+    ADD CONSTRAINT "PK_8c82d7f526340ab734260ea46be" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3322 (class 2606 OID 16614)
+-- Name: categories PK_c9594c262e6781893a1068d91be; Type: CONSTRAINT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT "PK_c9594c262e6781893a1068d91be" PRIMARY KEY ("categoryId");
+
+
+--
+-- TOC entry 3326 (class 2606 OID 16627)
+-- Name: menu_items PK_fd65f248548a5469696184bd038; Type: CONSTRAINT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.menu_items
+    ADD CONSTRAINT "PK_fd65f248548a5469696184bd038" PRIMARY KEY ("menuItemId");
+
+
+--
+-- TOC entry 3328 (class 2606 OID 16629)
+-- Name: menu_items UQ_69bf08c96d8fada9f36f101216e; Type: CONSTRAINT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.menu_items
+    ADD CONSTRAINT "UQ_69bf08c96d8fada9f36f101216e" UNIQUE (name);
+
+
+--
+-- TOC entry 3324 (class 2606 OID 16616)
+-- Name: categories UQ_8b0be371d28245da6e4f4b61878; Type: CONSTRAINT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT "UQ_8b0be371d28245da6e4f4b61878" UNIQUE (name);
+
+
+--
+-- TOC entry 3334 (class 2606 OID 16664)
+-- Name: users UQ_97672ac88f789774dd47f7c8be3; Type: CONSTRAINT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE (email);
+
+
+--
+-- TOC entry 3338 (class 2606 OID 24577)
+-- Name: orders FK_151b79a83ba240b0cb31b2302d1; Type: FK CONSTRAINT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT "FK_151b79a83ba240b0cb31b2302d1" FOREIGN KEY ("userId") REFERENCES public.users("userId");
+
+
+--
+-- TOC entry 3337 (class 2606 OID 32781)
+-- Name: menu_items FK_d56e5ccc298e8bf721f75a7eb96; Type: FK CONSTRAINT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.menu_items
+    ADD CONSTRAINT "FK_d56e5ccc298e8bf721f75a7eb96" FOREIGN KEY ("categoryId") REFERENCES public.categories("categoryId") ON DELETE SET NULL;
+
+
+--
+-- TOC entry 3339 (class 2606 OID 24598)
+-- Name: order_items FK_d8453d5a71e525d9b406c35aab8; Type: FK CONSTRAINT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.order_items
+    ADD CONSTRAINT "FK_d8453d5a71e525d9b406c35aab8" FOREIGN KEY ("menuItemId") REFERENCES public.menu_items("menuItemId");
+
+
+--
+-- TOC entry 3340 (class 2606 OID 24603)
+-- Name: order_items FK_f1d359a55923bb45b057fbdab0d; Type: FK CONSTRAINT; Schema: public; Owner: foodio_user
+--
+
+ALTER TABLE ONLY public.order_items
+    ADD CONSTRAINT "FK_f1d359a55923bb45b057fbdab0d" FOREIGN KEY ("orderId") REFERENCES public.orders("orderId");
+
+
+-- Completed on 2026-01-13 16:10:13 UTC
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict BdYKbh348radr3VHdJnQ7iLT77mv4wFa6aOefJs5JcoVXjVZCfXhxjreIfjbnhk
+
+--
+-- Database "postgres" dump
+--
+
+\connect postgres
+
+--
+-- PostgreSQL database dump
+--
+
+\restrict p46pUUzJnW7qENcgGUV7RKUSK56HEFMRoyMDg0FdoXdcb5kTdJJ2zaqwSjCgmgZ
+
+-- Dumped from database version 16.11
+-- Dumped by pg_dump version 16.10
+
+-- Started on 2026-01-13 16:10:13 UTC
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+-- Completed on 2026-01-13 16:10:14 UTC
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict p46pUUzJnW7qENcgGUV7RKUSK56HEFMRoyMDg0FdoXdcb5kTdJJ2zaqwSjCgmgZ
+
+-- Completed on 2026-01-13 16:10:14 UTC
+
+--
+-- PostgreSQL database cluster dump complete
+--
+
