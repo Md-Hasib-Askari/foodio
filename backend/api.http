@@ -87,6 +87,9 @@ GET {{baseUrl}}/categories
 ### Categories - Get By ID
 GET {{baseUrl}}/categories/{{categoryId}}
 
+### Categories - Get Top Categories
+GET {{baseUrl}}/categories/top-categories
+
 ### Categories - Update
 PATCH {{baseUrl}}/categories/{{categoryId}}
 Content-Type: {{contentType}}

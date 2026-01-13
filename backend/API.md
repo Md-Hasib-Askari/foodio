@@ -318,6 +318,21 @@ Retrieve a specific category by ID.
 
 ---
 
+### Get Top Categories
+
+```http
+GET /categories/top-categories
+```
+
+Retrieve top categories with items.
+
+**Response:**
+- `200 OK`: Returns array of top categories with their items
+
+**Authentication:** Not required
+
+---
+
 ### Update Category
 
 ```http
