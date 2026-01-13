@@ -4,6 +4,7 @@ import ConfirmOrderModal from '../user-sections/ConfirmOrderModal';
 
 
 export type menuItem = {
+    menuItemId: string;
     name: string;
     description: string;
     price: number;

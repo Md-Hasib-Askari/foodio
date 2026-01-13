@@ -9,6 +9,7 @@ import SuccessToast from './SuccessToast';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/routes';
+import { placeOrder } from '@/api/order.api';
 
 interface ConfirmOrderModalProps {
     orderItem: menuItem;
@@ -25,7 +26,7 @@ export default function ConfirmOrderModal({
     const router = useRouter();
     const [qty, setQty] = useState(1);
 
-    const handleOrder = (item: menuItem, quantity: number) => {
+    const handleOrder = async (item: menuItem, quantity: number) => {
         if (!isAuthenticated) {
             toast.error("You must be logged in to place an order.", {
                 position: "top-right",
@@ -36,6 +37,18 @@ export default function ConfirmOrderModal({
             router.push(ROUTES.LOGIN);
             return;
         }
+
+        const response = await placeOrder({ menuItemId: item.menuItemId, quantity });
+        if (!response) {
+            toast.error("Failed to place order. Please try again.", {
+                position: "top-right",
+                autoClose: 3000,
+                closeButton: false,
+                hideProgressBar: true,
+            });
+            return;
+        }
+
 
         toast(
             <SuccessToast message={`Successfully ordered ${quantity} x ${item.name}`} />,
