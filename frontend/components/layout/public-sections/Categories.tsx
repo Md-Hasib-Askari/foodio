@@ -1,26 +1,23 @@
-import StarterIcon from "../../icons/StarterIcon";
-import MainCourseIcon from "../../icons/MainCourseIcon";
-import DessertIcon from "../../icons/DessertIcon";
+'use client';
 
-const categories = [
-    {
-        category: "Starters",
-        icon: <StarterIcon className="size-13.5 mb-4.5 mx-auto" />,
-        active: true
-    },
-    {
-        category: "Main Courses",
-        icon: <MainCourseIcon className="size-13.5 mb-4.5 mx-auto" />,
-        active: false
-    },
-    {
-        category: "Desserts",
-        icon: <DessertIcon className="size-13.5 mb-4.5 mx-auto" />,
-        active: false
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+
+export type CategoryType = {
+    categoryId: string;
+    category: string;
+    icon: React.ReactElement;
+}
+interface CategoriesProps {
+    categories: CategoryType[];
+    selectedCategory: string;
+    setSelectedCategory: Dispatch<SetStateAction<string>>;
+}
+
+
+export default function Categories({ categories, selectedCategory, setSelectedCategory }: CategoriesProps) {
+    const handleCategoryChange = (categoryId: string) => {
+        setSelectedCategory(categoryId);
     }
-];
-
-export default function Categories() {
 
     return (
         <section className="py-16 max-w-309 mx-auto">
@@ -31,7 +28,7 @@ export default function Categories() {
             <div className="flex flex-row justify-center gap-6">
                 {
                     categories.map((cat) => (
-                        <div key={cat.category} className={`${cat.active ? "bg-secondary shadow-xl" : "bg-[#FBFAF8]"} rounded-tl-2xl rounded-br-2xl py-4 px-15 text-center hover:shadow-lg transition`}>
+                        <div onClick={() => handleCategoryChange(cat.categoryId)} key={cat.category} className={`${cat.categoryId === selectedCategory ? "bg-secondary shadow-xl" : "bg-[#FBFAF8]"} rounded-tl-2xl rounded-br-2xl py-4 px-15 text-center hover:shadow-lg transition cursor-pointer`}>
                             {cat.icon}
                             <h3 className="text-xl font-semibold text-primary">{cat.category}</h3>
                         </div>

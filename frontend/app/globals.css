@@ -17,6 +17,12 @@
   --color-secondary: var(--secondary);
 }
 
+@layer base {
+  button {
+    cursor: pointer;
+  }
+}
+
 @layer components {
   .text-section-title {
     font-family: var(--font-section);

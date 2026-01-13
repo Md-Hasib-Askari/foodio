@@ -1,9 +1,14 @@
+'use client';
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { BiFoodMenu } from "react-icons/bi";
 import { FaArrowRight } from "react-icons/fa";
 
 
 export default function Hero() {
+    const router = useRouter();
+
     return (
         <section className="max-w-309 mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 py-16 items-center">
             <div className="">
@@ -23,10 +28,10 @@ export default function Hero() {
                 </p>
 
                 <div className="flex gap-4">
-                    <button className="bg-primary text-white px-6 py-3 rounded-full">
+                    <button onClick={() => router.push('/food-menu')} className="bg-primary text-white px-6 py-3 rounded-full">
                         Order Now <FaArrowRight className="inline-block ml-2" />
                     </button>
-                    <button className="border border-primary text-primary px-6 py-3 rounded-full">
+                    <button onClick={() => router.push('/food-menu')} className="border border-primary text-primary px-6 py-3 rounded-full">
                         View Menu
                     </button>
                 </div>

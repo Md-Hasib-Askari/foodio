@@ -17,8 +17,9 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<AuthUser | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-    const isAuthenticated = !!user;
+    // const isAuthenticated = !!user;
 
     // Fetch user profile 
     useEffect(() => {
