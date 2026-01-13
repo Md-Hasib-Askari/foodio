@@ -25,7 +25,7 @@ export default function OrderDetailsModal({
                             Order Details
                         </h2>
                         <p className="mt-1 text-lg font-medium text-[#1F3D2B]">
-                            #{order.id}
+                            #{order.orderId}
                         </p>
                     </div>
 
@@ -57,19 +57,13 @@ export default function OrderDetailsModal({
                             </div>
                         ))
                     }
-                    {/* TODO: MAKE Items DYNAMIC */}
-
-                    <div className="flex items-center justify-between text-gray-700">
-                        <span>1x Pan-Seared Scallops</span>
-                        <span>$24.00</span>
-                    </div>
                 </div>
 
                 <hr className="mb-6 border-gray-300" />
 
                 <div className="flex items-center justify-between">
                     <span className="text-xl font-semibold">Total</span>
-                    <span className="text-2xl font-bold">{order.total}</span>
+                    <span className="text-2xl font-bold">${order.total}</span>
                 </div>
             </div>
         </div>
