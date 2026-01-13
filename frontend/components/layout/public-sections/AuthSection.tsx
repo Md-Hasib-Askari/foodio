@@ -12,7 +12,7 @@ type ActiveTab = 'signin' | 'register';
 
 export default function AuthSection() {
     const router = useRouter();
-    const [activeTab, setActiveTab] = useState<ActiveTab>('register');
+    const [activeTab, setActiveTab] = useState<ActiveTab>('signin');
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {

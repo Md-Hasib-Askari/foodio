@@ -41,7 +41,7 @@ Content-Type: {{contentType}}
 }
 
 ### Auth - Get Profile
-GET {{baseUrl}}/auth/profile
+GET {{baseUrl}}/auth/verify
 # Authorization: Bearer {{ADMIN_TOKEN}}
 Authorization: Bearer {{token}}
 

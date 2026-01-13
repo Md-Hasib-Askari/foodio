@@ -2,7 +2,6 @@
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { loginValidationSchema } from '@/validators/login-validation';
-import { loginAPI } from '@/api/user.api';
 import { toast } from 'react-toastify';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -20,7 +19,6 @@ export default function LoginForm() {
                 try {
                     await login(values.email, values.password);
                     router.push(ROUTES.HOME);
-
                 } catch (error) {
                     toast.error('Invalid email or password.');
                     setStatus('Invalid email or password');

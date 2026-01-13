@@ -18,29 +18,46 @@ export const registerAPI = async (registerDto: RegisterDto): Promise<boolean> =>
     return false;
 }
 
-export const getUserProfile = async (): Promise<AuthUser | undefined> => {
+export const verifyUserAPI = async (): Promise<AuthUser | undefined> => {
     try {
-        // Placeholder function to simulate fetching user profile
+        const user = await axiosInstance.get('/auth/verify');
+        if (!user || !user.data.success) {
+            return undefined;
+        }
         return {
-            id: "123",
-            email: "abc@gmail.com",
-            role: "ADMIN" as const,
-            isAdmin: true
+            id: user.data.data.userId,
+            email: user.data.data.email,
+            role: user.data.data.role,
+            isAdmin: user.data.data.role === "ADMIN"
         };
     } catch (error) {
         console.error(error);
     }
 }
 
-export const loginAPI = async (email: string, password: string): Promise<AuthUser | undefined> => {
+
+interface LoginDto {
+    email: string;
+    password: string;
+}
+
+export const loginAPI = async (loginDto: LoginDto): Promise<AuthUser | undefined> => {
+    const { email, password } = loginDto;
     try {
-        // Placeholder function to simulate user login
-        // return;
+        const user = await axiosInstance.post('/auth/login', { email, password });
+        if (!user || !user.data.success) {
+            return undefined;
+        }
+
+        const token = user.data.accessToken;
+        // Store the token in localStorage or cookies as needed
+        localStorage.setItem('authToken', token);
+
         return {
-            id: "123",
-            email,
-            role: "ADMIN" as const,
-            isAdmin: true
+            id: user.data.data.userId,
+            email: email,
+            role: user.data.data.role,
+            isAdmin: user.data.data.role === "ADMIN"
         };
     } catch (error) {
         console.error(error);
@@ -49,6 +66,7 @@ export const loginAPI = async (email: string, password: string): Promise<AuthUse
 
 export const logoutAPI = async (): Promise<void> => {
     try {
+        localStorage.removeItem('authToken');
         return;
     } catch (error) {
         console.error(error);

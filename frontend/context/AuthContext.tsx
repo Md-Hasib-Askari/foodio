@@ -1,6 +1,6 @@
 'use client';
 
-import { getUserProfile, loginAPI, logoutAPI } from "@/api/user.api";
+import { verifyUserAPI, loginAPI, logoutAPI } from "@/api/user.api";
 import { AuthUser } from "@/types/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -20,11 +20,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const isAuthenticated = !!user;
 
-    // Fetch user profile 
+    // verify if the user is logged in
     useEffect(() => {
         (async () => {
             try {
-                const user = await getUserProfile();
+                const user = await verifyUserAPI();
                 setUser(user ?? null);
             } finally {
                 setLoading(false);
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     const login = async (email: string, password: string) => {
-        const user = await loginAPI(email, password);
+        const user = await loginAPI({ email, password });
         setUser(user ?? null);
 
         if (!user) {

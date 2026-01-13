@@ -33,6 +33,11 @@ export class AuthService {
         return {
             success: true,
             accessToken: accessToken,
+            data: {
+                userId: user.userId,
+                email: user.email,
+                role: user.role
+            }
         };
     }
 
@@ -47,6 +52,21 @@ export class AuthService {
         };
         const createdUser = await this.usersService.create(userToCreate);
         return createdUser;
+    }
+
+    async verifyUser(userId: string): Promise<any> {
+        const user = await this.usersService.findOne(userId);
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+        return {
+            success: true,
+            data: {
+                userId: user.userId,
+                email: user.email,
+                role: user.role
+            }
+        };
     }
 
     async changeUserRole(userId: string, newRole: Role): Promise<any> {

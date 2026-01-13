@@ -32,8 +32,12 @@ export class AuthController {
 
     @UseGuards(AuthGuard, RolesGuard)
     @Roles(Role.Admin, Role.User)
-    @Get('profile')
-    getProfile(@Request() req) {
-        return req.user;
+    @Get('verify')
+    async getProfile(@Request() req) {
+        const userId = req.user.sub;
+        if (!userId) {
+            throw new Error('User ID not found in request');
+        }
+        return await this.authService.verifyUser(userId);
     }
 }

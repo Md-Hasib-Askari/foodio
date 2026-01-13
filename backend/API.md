@@ -93,7 +93,13 @@ Authenticate a user and receive a JWT token.
 - `200 OK`: Returns JWT token
 ```json
 {
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "success": true,
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "data": {
+    "userId": "uuid",
+    "email": "email@email.com",
+    "role": "USER"
+  }
 }
 ```
 
@@ -130,10 +136,10 @@ Change the current user's password.
 
 ---
 
-### Get Profile
+### Verify User
 
 ```http
-GET /auth/profile
+GET /auth/verify
 Authorization: Bearer <token>
 ```
 
@@ -143,10 +149,12 @@ Get the authenticated user's profile information.
 - `200 OK`: Returns user profile
 ```json
 {
-  "id": "uuid",
-  "email": "user@example.com",
-  "fullName": "John Doe",
-  "role": "USER"
+  "success": true,
+  "data": {
+    "userId": "uuid",
+    "email": "email@email.com",
+    "role": "USER"
+  }
 }
 ```
 
