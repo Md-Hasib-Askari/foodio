@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+import EditCategoryModal from './EditCategoryModal';
+import DeleteCategoryModal from './DeleteCategoryModal';
 
 type Category = {
     name: string;
@@ -10,6 +12,25 @@ type CategoriesTableProps = {
 }
 
 export default function CategoriesTable({ categories }: CategoriesTableProps) {
+    const [openModal, setOpenModal] = useState<null | 'edit-category' | 'delete-category'>(null);
+    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+
+    const showModal = (type: 'edit-category' | 'delete-category', category: Category) => {
+        setSelectedCategory(category);
+        setOpenModal(type);
+    }
+
+    const getModal = () => {
+        switch (openModal) {
+            case 'edit-category':
+                return <EditCategoryModal open={true} onClose={() => setOpenModal(null)} category={selectedCategory!} />;
+            case 'delete-category':
+                return <DeleteCategoryModal onConfirm={() => { }} open={true} onClose={() => setOpenModal(null)} categoryName={selectedCategory!.name} />;
+            default:
+                return null;
+        }
+    }
+
     return (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
             <table className="w-full">
@@ -25,10 +46,14 @@ export default function CategoriesTable({ categories }: CategoriesTableProps) {
                             <td className="px-6 py-4 text-gray-900">{category.name}</td>
                             <td className="px-6 py-4">
                                 <div className="flex items-center gap-3">
-                                    <button className="text-gray-400 hover:text-teal-900 transition">
+                                    <button
+                                        onClick={() => showModal('edit-category', category)}
+                                        className="text-gray-400 hover:text-teal-900 transition">
                                         <FiEdit2 className="w-4 h-4" />
                                     </button>
-                                    <button className="text-gray-400 hover:text-red-600 transition">
+                                    <button
+                                        onClick={() => showModal('delete-category', category)}
+                                        className="text-gray-400 hover:text-red-600 transition">
                                         <FiTrash2 className="w-4 h-4" />
                                     </button>
                                 </div>
@@ -37,6 +62,7 @@ export default function CategoriesTable({ categories }: CategoriesTableProps) {
                     ))}
                 </tbody>
             </table>
+            {getModal()}
         </div>
     )
 }

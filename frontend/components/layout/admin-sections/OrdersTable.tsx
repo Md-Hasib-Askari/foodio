@@ -1,12 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi';
+import OrderStatusDropdown from './OrderStatusDropdown';
+import OrderDetailsModal from './OrderDetails';
 
-type Order = {
+export type OrderItem = {
+    name: string;
+    quantity: number;
+    price: number;
+}
+
+export type Order = {
     id: string;
     date: string;
     customer: string;
     total: string;
     status: string;
+    address: string;
+    items?: OrderItem[];
 }
 
 type OrdersTableProps = {
@@ -14,6 +24,14 @@ type OrdersTableProps = {
 }
 
 export default function OrdersTable({ orders }: OrdersTableProps) {
+    const [openOrder, setOpenOrder] = useState<boolean>(false);
+    const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+
+    const showDetails = (order: Order) => {
+        setSelectedOrder(order);
+        setOpenOrder(true);
+    }
+
     return (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
             <table className="w-full">
@@ -35,13 +53,12 @@ export default function OrdersTable({ orders }: OrdersTableProps) {
                             <td className="px-6 py-4 text-gray-900">{order.customer}</td>
                             <td className="px-6 py-4 text-gray-900">{order.total}</td>
                             <td className="px-6 py-4">
-                                <button className="w-30 flex justify-between items-center gap-2 px-4 py-2 bg-[#FBFAF8] border border-gray-200 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition">
-                                    {order.status}
-                                    <BiChevronDown className="w-4 h-4" />
-                                </button>
+                                <OrderStatusDropdown />
                             </td>
                             <td className="px-6 py-4">
-                                <button className="bg-[#E6E2D8] px-4 py-2 hover:bg-[#E6E2D3] rounded-lg transition border-2 border-gray-300">
+                                <button
+                                    onClick={() => showDetails(order)}
+                                    className="bg-[#E6E2D8] px-4 py-2 hover:bg-[#E6E2D3] rounded-lg transition border-2 border-gray-300">
                                     Details
                                 </button>
                             </td>
@@ -49,6 +66,11 @@ export default function OrdersTable({ orders }: OrdersTableProps) {
                     ))}
                 </tbody>
             </table>
+            {
+                openOrder && selectedOrder && (
+                    <OrderDetailsModal order={selectedOrder} open={openOrder} onClose={() => setOpenOrder(false)} />
+                )
+            }
         </div>
     )
 }

@@ -1,20 +1,42 @@
 import React from 'react'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+import EditItemModal from './EditItemModal';
+import DeleteItemModal from './DeleteItemModal';
 
-type MenuItem = {
+type ItemType = {
     name: string;
-    category: string;
     price: number;
-    status: string;
-}
+    category: string;
+    description: string;
+    available: boolean;
+};
 
 type MenuItemsTableProps = {
-    menuItems: MenuItem[];
+    menuItems: ItemType[];
 }
 
 export default function MenuItemsTable({ menuItems }: MenuItemsTableProps) {
+    const [openModal, setOpenModal] = React.useState<null | 'edit-item' | 'delete-item'>(null);
+    const [selectedItem, setSelectedItem] = React.useState<ItemType | null>(null);
+
+    const getModal = () => {
+        switch (openModal) {
+            case 'edit-item':
+                return <EditItemModal open={true} onClose={() => setOpenModal(null)} item={selectedItem} />;
+            case 'delete-item':
+                return <DeleteItemModal onConfirm={() => { }} open={true} onClose={() => setOpenModal(null)} itemName="" />;
+            default:
+                return null;
+        }
+    }
+
     const formatPrice = (price: number) => {
         return `$${price.toFixed(2)}`;
+    }
+
+    const showModal = (type: 'edit-item' | 'delete-item', item: ItemType) => {
+        setSelectedItem(item);
+        setOpenModal(type);
     }
 
     return (
@@ -37,15 +59,15 @@ export default function MenuItemsTable({ menuItems }: MenuItemsTableProps) {
                             <td className="px-6 py-4 text-gray-900">{formatPrice(item.price)}</td>
                             <td className="px-6 py-4">
                                 <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium">
-                                    {item.status}
+                                    {item.available ? 'Available' : 'Unavailable'}
                                 </span>
                             </td>
                             <td className="px-6 py-4">
                                 <div className="flex items-center gap-3">
-                                    <button className="text-gray-400 hover:text-teal-900 transition">
+                                    <button onClick={() => showModal('edit-item', item)} className="text-gray-400 hover:text-teal-900 transition">
                                         <FiEdit2 className="w-4 h-4" />
                                     </button>
-                                    <button className="text-gray-400 hover:text-red-600 transition">
+                                    <button onClick={() => showModal('delete-item', item)} className="text-gray-400 hover:text-red-600 transition">
                                         <FiTrash2 className="w-4 h-4" />
                                     </button>
                                 </div>
@@ -54,6 +76,9 @@ export default function MenuItemsTable({ menuItems }: MenuItemsTableProps) {
                     ))}
                 </tbody>
             </table>
+            {
+                getModal()
+            }
         </div>
     )
 }

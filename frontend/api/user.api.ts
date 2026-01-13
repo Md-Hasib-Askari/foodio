@@ -6,7 +6,8 @@ export const getUserProfile = async (): Promise<AuthUser | undefined> => {
         return {
             id: "123",
             email: "abc@gmail.com",
-            role: "USER" as const,
+            role: "ADMIN" as const,
+            isAdmin: true
         };
     } catch (error) {
         console.error(error);
@@ -16,10 +17,12 @@ export const getUserProfile = async (): Promise<AuthUser | undefined> => {
 export const loginAPI = async (email: string, password: string): Promise<AuthUser | undefined> => {
     try {
         // Placeholder function to simulate user login
+        // return;
         return {
             id: "123",
             email,
-            role: "USER" as const,
+            role: "ADMIN" as const,
+            isAdmin: true
         };
     } catch (error) {
         console.error(error);

@@ -1,80 +1,88 @@
-import React from 'react'
+'use client';
 
-interface RegisterFormProps {
-  formData: {
-    fullName: string;
-    email: string;
-    address: string;
-    password: string;
-  };
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: () => void;
-}
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { registerValidationSchema } from '@/validators/register-validation';
 
-export default function RegisterForm({ formData, handleInputChange, handleSubmit }: RegisterFormProps) {
+export default function RegisterForm() {
   return (
-    <div className="space-y-5">
-      <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
-          Full Name
-        </label>
-        <input
-          type="text"
-          name="fullName"
-          value={formData.fullName}
-          onChange={handleInputChange}
-          placeholder="John Doe"
-          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-900 focus:border-transparent transition"
-        />
-      </div>
+    <Formik
+      initialValues={{
+        fullName: '',
+        email: '',
+        password: '',
+        address: '',
+      }}
+      validationSchema={registerValidationSchema}
+      onSubmit={(values) => {
+        console.log('Register submit:', values);
+      }}
+    >
+      {({ isSubmitting }) => (
+        <Form className="space-y-4">
+          <div className="space-y-1">
+            <Field
+              name="fullName"
+              placeholder="Full name"
+              className="w-full rounded-lg border px-3 py-2 text-sm focus:ring-2 focus:ring-teal-900/20 focus:outline-none"
+            />
+            <ErrorMessage
+              name="fullName"
+              component="p"
+              className="text-xs text-red-500"
+            />
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
-          Email
-        </label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-          placeholder="name@example.com"
-          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-900 focus:border-transparent transition"
-        />
-      </div>
+          <div className="space-y-1">
+            <Field
+              name="email"
+              type="email"
+              placeholder="Email"
+              className="w-full rounded-lg border px-3 py-2 text-sm focus:ring-2 focus:ring-teal-900/20 focus:outline-none"
+            />
+            <ErrorMessage
+              name="email"
+              component="p"
+              className="text-xs text-red-500"
+            />
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
-          Address
-        </label>
-        <input
-          type="text"
-          name="address"
-          value={formData.address}
-          onChange={handleInputChange}
-          placeholder="e.g. House-23, Road-23, Jamaica, USA"
-          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-900 focus:border-transparent transition"
-        />
-      </div>
+          <div className="space-y-1">
+            <Field
+              name="password"
+              type="password"
+              placeholder="Password"
+              className="w-full rounded-lg border px-3 py-2 text-sm focus:ring-2 focus:ring-teal-900/20 focus:outline-none"
+            />
+            <ErrorMessage
+              name="password"
+              component="p"
+              className="text-xs text-red-500"
+            />
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
-          Password
-        </label>
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
-        />
-      </div>
+          <div className="space-y-1">
+            <Field
+              name="address"
+              placeholder="Address"
+              className="w-full rounded-lg border px-3 py-2 text-sm focus:ring-2 focus:ring-teal-900/20 focus:outline-none"
+            />
+            <ErrorMessage
+              name="address"
+              component="p"
+              className="text-xs text-red-500"
+            />
+          </div>
 
-      <button
-        onClick={handleSubmit}
-        className="w-full py-3.5 bg-primary text-white rounded-full font-medium hover:bg-primary-dark transition shadow-sm"
-      >
-        Create Account
-      </button>
-    </div>
-  )
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full rounded-xl bg-teal-900 py-2.5 text-white text-sm font-medium
+            transition active:scale-[0.98] disabled:opacity-50"
+          >
+            Create account
+          </button>
+        </Form>
+      )}
+    </Formik>
+  );
 }

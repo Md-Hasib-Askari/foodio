@@ -1,7 +1,21 @@
 import Image from 'next/image';
-import React from 'react'
+import React, { useState } from 'react'
+import ConfirmOrderModal from '../user-sections/ConfirmOrderModal';
 
-export default function MenuItem({ item }: { item: { name: string; price: number } }) {
+
+export type menuItem = {
+    name: string;
+    description: string;
+    price: number;
+}
+
+type MenuItemProps = {
+    item: menuItem;
+}
+
+export default function MenuItem({ item }: MenuItemProps) {
+    const [open, setOpen] = useState(false);
+
     return (
         <div
             key={item.name}
@@ -22,14 +36,15 @@ export default function MenuItem({ item }: { item: { name: string; price: number
 
             <h3 className="font-semibold mb-2">{item.name}</h3>
             <p className="text-sm text-gray-500 mb-4">
-                Jumbo scallops with cauliflower purée and truffle oil.
+                {item.description}
             </p>
 
             <div className="flex items-center justify-between">
                 <span className="font-semibold text-lg">${item.price}.00</span>
-                <button className="absolute -bottom-5.75 right-0 w-35 h-11.25 bg-primary text-white px-4 py-2 rounded-full rounded-tr-none text-sm">
+                <button className="absolute -bottom-5.75 right-0 w-35 h-11.25 bg-primary text-white px-4 py-2 rounded-full rounded-tr-none text-sm" onClick={() => setOpen(true)}>
                     Order Now +
                 </button>
+                <ConfirmOrderModal orderItem={item} open={open} onClose={() => setOpen(false)} />
             </div>
         </div>
     )

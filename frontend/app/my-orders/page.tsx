@@ -19,7 +19,7 @@ export default function MyOrders() {
         }
     }, [isAuthenticated, loading, router]);
 
-    if (loading || !isAuthenticated) {
+    if (loading) {
         return <div>Loading...</div>;
     }
     if (!isAuthenticated) {

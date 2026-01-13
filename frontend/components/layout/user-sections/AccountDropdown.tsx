@@ -1,5 +1,6 @@
 'use client';
 
+import { useAuth } from '@/context/AuthContext';
 import { BiCheck, BiLogOut } from 'react-icons/bi';
 
 interface AccountDropdownProps {
@@ -9,6 +10,7 @@ interface AccountDropdownProps {
 }
 
 export default function AccountDropdown({ open, setOpen, onClose }: AccountDropdownProps) {
+    const { logout } = useAuth();
 
     return (
         <div className="absolute mt-2 right-0 z-50 inline-block text-left">
@@ -26,7 +28,7 @@ export default function AccountDropdown({ open, setOpen, onClose }: AccountDropd
 
                     <div className="my-1 h-px bg-gray-200" />
 
-                    <button className="flex w-full items-center gap-2 rounded-b-xl px-4 py-2 text-sm text-red-500 hover:bg-red-50" onClick={onClose}>
+                    <button className="flex w-full items-center gap-2 rounded-b-xl px-4 py-2 text-sm text-red-500 hover:bg-red-50" onClick={() => { logout(); onClose(); }}>
                         <BiLogOut size={16} />
                         Sign out
                     </button>

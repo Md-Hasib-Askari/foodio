@@ -3,24 +3,57 @@
 import { useState } from 'react';
 import { BiMinus, BiPlus } from 'react-icons/bi';
 import { CgClose } from 'react-icons/cg';
+import { menuItem } from '../public-sections/MenuItem';
+import { toast } from 'react-toastify';
+import SuccessToast from './SuccessToast';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/constants/routes';
 
 interface ConfirmOrderModalProps {
+    orderItem: menuItem;
     open: boolean;
     onClose: () => void;
 }
 
 export default function ConfirmOrderModal({
+    orderItem,
     open,
     onClose,
 }: ConfirmOrderModalProps) {
+    const { isAuthenticated } = useAuth();
+    const router = useRouter();
     const [qty, setQty] = useState(1);
+
+    const handleOrder = (item: menuItem, quantity: number) => {
+        if (!isAuthenticated) {
+            toast.error("You must be logged in to place an order.", {
+                position: "top-right",
+                autoClose: 3000,
+                closeButton: false,
+                hideProgressBar: true,
+            });
+            router.push(ROUTES.LOGIN);
+            return;
+        }
+
+        toast(
+            <SuccessToast message={`Successfully ordered ${quantity} x ${item.name}`} />,
+            {
+                position: "top-right",
+                autoClose: 3000,
+                closeButton: false,
+                hideProgressBar: true,
+            }
+        );
+        onClose();
+    }
 
     if (!open) return null;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
             <div className="w-full max-w-3xl rounded-2xl bg-[#FAF8F4] p-10 shadow-xl">
-                {/* Header */}
                 <div className="mb-8 flex items-start justify-between">
                     <h2 className="text-2xl font-semibold text-[#1F3D2B]">
                         Are you sure want to buy?
@@ -33,16 +66,14 @@ export default function ConfirmOrderModal({
                     </button>
                 </div>
 
-                {/* Items */}
                 <div className="mb-10">
                     <p className="mb-4 text-sm text-gray-500">Items</p>
 
                     <div className="flex items-center justify-between">
                         <span className="text-lg font-medium">
-                            Golden Crunch Bites
+                            {orderItem.name}
                         </span>
 
-                        {/* Quantity Control */}
                         <div className="flex items-center gap-3">
                             <button
                                 onClick={() => setQty((q) => Math.max(1, q - 1))}
@@ -65,7 +96,6 @@ export default function ConfirmOrderModal({
                     </div>
                 </div>
 
-                {/* Actions */}
                 <div className="flex justify-center gap-6">
                     <button
                         onClick={onClose}
@@ -75,6 +105,7 @@ export default function ConfirmOrderModal({
                     </button>
 
                     <button
+                        onClick={() => handleOrder(orderItem, qty)}
                         className="rounded-full bg-[#1F3D2B] px-10 py-3 text-white hover:bg-[#183024]"
                     >
                         Confirm Order
