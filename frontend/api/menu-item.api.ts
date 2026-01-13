@@ -40,3 +40,23 @@ export async function createMenuItem(itemData: CreateMenuItemData) {
         throw error;
     }
 }
+
+export async function updateMenuItem(menuItemId: string, itemData: Partial<CreateMenuItemData>) {
+    try {
+        const response = await axiosInstance.patch(`/menu-items/${menuItemId}`, itemData);
+        return response.data;
+    } catch (error) {
+        console.error("Error updating menu item:", error);
+        throw error;
+    }
+}
+
+export async function deleteMenuItem(menuItemId: string) {
+    try {
+        const response = await axiosInstance.delete(`/menu-items/${menuItemId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error deleting menu item:", error);
+        throw error;
+    }
+}

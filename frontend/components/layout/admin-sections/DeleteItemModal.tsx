@@ -1,20 +1,41 @@
 'use client';
 
+import { deleteMenuItem } from '@/api/menu-item.api';
+import { ItemType } from '@/app/page';
+import { Dispatch, SetStateAction } from 'react';
 import { CgClose } from 'react-icons/cg';
+import { toast } from 'react-toastify';
 
 interface DeleteItemModalProps {
     open: boolean;
     onClose: () => void;
-    itemName: string;
+    menuItem: ItemType;
     onConfirm: () => void;
+    setMenuItems?: Dispatch<SetStateAction<ItemType[]>>;
 }
 
 export default function DeleteItemModal({
     open,
     onClose,
-    itemName,
+    menuItem,
     onConfirm,
+    setMenuItems
 }: DeleteItemModalProps) {
+    const handleDelete = async () => {
+        const response = await deleteMenuItem(menuItem.menuItemId);
+        if (response) {
+            console.log('Item deleted:', response);
+            toast.success(`Item "${menuItem.name}" deleted successfully.`);
+            onConfirm();
+            onClose();
+            if (setMenuItems) {
+                setMenuItems((prevItems) => prevItems.filter((item) => item.menuItemId !== menuItem.menuItemId));
+            }
+        } else {
+            toast.error(`Failed to delete item "${menuItem.name}".`);
+        }
+    }
+
     if (!open) return null;
 
     return (
@@ -28,7 +49,7 @@ export default function DeleteItemModal({
                 </div>
 
                 <p className="text-sm text-gray-600">
-                    Are you sure you want to delete <strong>{itemName}</strong>? This action
+                    Are you sure you want to delete <strong>{menuItem.name}</strong>? This action
                     cannot be undone.
                 </p>
 
@@ -37,10 +58,7 @@ export default function DeleteItemModal({
                         Cancel
                     </button>
                     <button
-                        onClick={() => {
-                            onConfirm();
-                            onClose();
-                        }}
+                        onClick={() => handleDelete()}
                         className="rounded-full bg-red-600 px-4 py-2 text-white"
                     >
                         Delete

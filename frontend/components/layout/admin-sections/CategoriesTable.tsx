@@ -38,9 +38,9 @@ export default function CategoriesTable({ newCategory }: CategoriesTableProps) {
     const getModal = () => {
         switch (openModal) {
             case 'edit-category':
-                return <EditCategoryModal open={true} onClose={() => setOpenModal(null)} category={selectedCategory!} />;
+                return <EditCategoryModal open={true} onClose={() => setOpenModal(null)} category={selectedCategory!} setCategories={setCategories} />;
             case 'delete-category':
-                return <DeleteCategoryModal onConfirm={() => { }} open={true} onClose={() => setOpenModal(null)} categoryName={selectedCategory!.name} />;
+                return <DeleteCategoryModal onConfirm={() => { }} open={true} onClose={() => setOpenModal(null)} category={selectedCategory!} setCategories={setCategories} />;
             default:
                 return null;
         }

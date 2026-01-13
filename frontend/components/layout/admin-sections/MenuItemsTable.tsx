@@ -7,14 +7,6 @@ import DeleteItemModal from './DeleteItemModal';
 import { fetchAllMenuItems } from '@/api/menu-item.api';
 import { ItemType } from '@/app/page';
 
-// type ItemType = {
-//     name: string;
-//     price: number;
-//     category: string;
-//     description: string;
-//     available: boolean;
-// };
-
 interface MenuItemsTableProps {
     newItem?: ItemType | null;
 }
@@ -31,6 +23,7 @@ export default function MenuItemsTable({ newItem }: MenuItemsTableProps) {
 
             if (fetchedItems) {
                 setMenuItems(fetchedItems.map((item: any) => ({
+                    menuItemId: item.menuItemId,
                     name: item.name,
                     price: Number(item.price),
                     category: item.category.name,
@@ -42,13 +35,17 @@ export default function MenuItemsTable({ newItem }: MenuItemsTableProps) {
 
     }, [newItem]);
 
+    useEffect(() => {
+        console.log('Menu items updated:', menuItems);
+    }, [menuItems]);
+
     const getModal = () => {
         if (!selectedItem) return null;
         switch (openModal) {
             case 'edit-item':
-                return <EditItemModal open={true} onClose={() => setOpenModal(null)} item={selectedItem} />;
+                return <EditItemModal open={true} onClose={() => setOpenModal(null)} item={selectedItem} setMenuItems={setMenuItems} />;
             case 'delete-item':
-                return <DeleteItemModal onConfirm={() => { }} open={true} onClose={() => setOpenModal(null)} itemName={selectedItem.name} />;
+                return <DeleteItemModal onConfirm={() => { }} open={true} onClose={() => setOpenModal(null)} menuItem={selectedItem} setMenuItems={setMenuItems} />;
             default:
                 return null;
         }

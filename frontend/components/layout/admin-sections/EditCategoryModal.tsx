@@ -3,19 +3,22 @@
 import { CgClose } from 'react-icons/cg';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { addCategoryValidationSchema } from '@/validators/add-category-validation';
+import { updateCategory } from '@/api/category.api';
 
 interface EditCategoryModalProps {
     open: boolean;
     onClose: () => void;
-    category: { name: string };
+    category: { categoryId: string; name: string } | null;
+    setCategories?: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 export default function EditCategoryModal({
     open,
     onClose,
     category,
+    setCategories,
 }: EditCategoryModalProps) {
-    if (!open) return null;
+    if (!open || !category) return null;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
@@ -24,7 +27,10 @@ export default function EditCategoryModal({
                     <h2 className="text-2xl font-semibold text-[#1F3D2B]">
                         Edit Category
                     </h2>
-                    <button onClick={onClose}>
+                    <button
+                        onClick={onClose}
+                        className="rounded-full p-2 text-gray-500 hover:bg-gray-200"
+                    >
                         <CgClose size={20} />
                     </button>
                 </div>
@@ -32,24 +38,54 @@ export default function EditCategoryModal({
                 <Formik
                     initialValues={category}
                     validationSchema={addCategoryValidationSchema}
-                    onSubmit={(values) => {
-                        console.log('Edit category:', values);
+                    enableReinitialize
+                    onSubmit={async (values) => {
+                        const response = await updateCategory(values.categoryId, values.name);
+                        if (response) {
+                            console.log('Category updated:', response);
+                            if (setCategories) {
+                                setCategories((prevCategories) =>
+                                    prevCategories.map((cat) =>
+                                        cat.categoryId === response.categoryId ? response : cat
+                                    )
+                                );
+                            }
+                        }
+                        console.log('Edit category submit:', values);
                         onClose();
                     }}
                 >
-                    <Form className="space-y-6">
-                        <div>
-                            <label className="block text-sm font-medium">Name</label>
-                            <Field name="name" className="input" />
-                            <ErrorMessage name="name" component="p" className="error" />
-                        </div>
+                    {({ isSubmitting }) => (
+                        <Form className="space-y-6">
+                            <div className="space-y-1">
+                                <label className="block text-sm font-medium">
+                                    Category Name
+                                </label>
+                                <Field
+                                    name="name"
+                                    className="w-full rounded-lg border border-gray-300
+                                    px-4 py-2 focus:ring-2 focus:ring-[#1F3D2B]"
+                                />
+                                <ErrorMessage
+                                    name="name"
+                                    component="p"
+                                    className="text-xs text-red-500"
+                                />
+                            </div>
 
-                        <div className="flex justify-end">
-                            <button type="submit" className="btn-primary">
-                                Save
-                            </button>
-                        </div>
-                    </Form>
+                            <div className="flex justify-end pt-4">
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="rounded-full bg-[#1F3D2B] px-6 py-2
+                                    text-white hover:bg-[#183024]
+                                    disabled:opacity-50"
+                                >
+                                    Save Changes
+                                </button>
+                            </div>
+                        </Form>
+                    )}
                 </Formik>
             </div>
         </div>

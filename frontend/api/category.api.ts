@@ -33,7 +33,7 @@ export const createCategory = async (name: string) => {
 
 export const updateCategory = async (categoryId: string, name: string) => {
     try {
-        const response = await axiosInstance.put(`/categories/${categoryId}`, { name });
+        const response = await axiosInstance.patch(`/categories/${categoryId}`, { name });
         return response.data;
     } catch (error) {
         console.error("Error updating category:", error);
