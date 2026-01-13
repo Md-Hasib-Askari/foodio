@@ -33,7 +33,7 @@ export class MenuItem {
 
     @ManyToOne(() => Category, category => category.menuItems, {
         onDelete: 'SET NULL',
-        nullable: false,
+        nullable: true,
     })
     @JoinColumn({ name: 'categoryId' })
     category: Category;

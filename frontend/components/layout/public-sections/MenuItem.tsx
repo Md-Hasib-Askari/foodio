@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import React, { useState } from 'react'
 import ConfirmOrderModal from '../user-sections/ConfirmOrderModal';
+import { useAuth } from '@/context/AuthContext';
+import { toast } from 'react-toastify';
 
 
 export type menuItem = {
@@ -15,7 +17,16 @@ type MenuItemProps = {
 }
 
 export default function MenuItem({ item }: MenuItemProps) {
+    const { isAuthenticated } = useAuth();
     const [open, setOpen] = useState(false);
+
+    const handleOrderNow = () => {
+        if (!isAuthenticated) {
+            toast.error("Please login to place an order.");
+            return;
+        }
+        setOpen(true);
+    }
 
     return (
         <div
@@ -42,7 +53,7 @@ export default function MenuItem({ item }: MenuItemProps) {
 
             <div className="flex items-center justify-between">
                 <span className="font-semibold text-lg">${item.price}.00</span>
-                <button className="absolute -bottom-5.75 right-0 w-35 h-11.25 bg-primary text-white px-4 py-2 rounded-full rounded-tr-none text-sm" onClick={() => setOpen(true)}>
+                <button className="absolute -bottom-5.75 right-0 w-35 h-11.25 bg-primary text-white px-4 py-2 rounded-full rounded-tr-none text-sm" onClick={() => handleOrderNow()}>
                     Order Now +
                 </button>
                 <ConfirmOrderModal orderItem={item} open={open} onClose={() => setOpen(false)} />
