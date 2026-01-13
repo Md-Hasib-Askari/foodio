@@ -1,36 +1,276 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Foodio Frontend
 
-## Getting Started
+A modern Next.js food ordering application with admin panel and user authentication.
 
-First, run the development server:
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Running the Application](#running-the-application)
+- [Project Structure](#project-structure)
+- [Available Scripts](#available-scripts)
+- [User Roles](#user-roles)
+- [API Integration](#api-integration)
+
+## Features
+
+- **User Features**
+  - User registration and authentication
+  - Browse food menu by categories
+  - Place orders
+  - View order history
+  - Track order status
+
+- **Admin Features**
+  - Admin authentication
+  - Manage categories (Add, Edit, Delete)
+  - Manage menu items (Add, Edit, Delete)
+  - View and manage orders
+  - Update order status
+
+## Tech Stack
+
+- **Framework:** Next.js 16.1.1
+- **React:** 19.2.3
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS 4
+- **Form Management:** Formik + Yup
+- **HTTP Client:** Axios
+- **Icons:** React Icons
+- **Notifications:** React Toastify
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your system:
+
+- **Node.js** (v18 or higher recommended)
+- **npm** or **yarn** or **pnpm**
+- **Backend API** running (see backend README for setup)
+
+## Installation
+
+### 1. Clone the repository (if not already done)
+
+```bash
+git clone <repository-url>
+cd foodio/frontend
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+Or using yarn:
+
+```bash
+yarn install
+```
+
+Or using pnpm:
+
+```bash
+pnpm install
+```
+
+## Environment Variables
+
+Create a `.env` file in the `frontend` directory with the following variables:
+
+```env
+# Frontend Port (default: 3000, but you can use any port)
+NEXT_PUBLIC_PORT=5555
+
+# Backend API URL
+NEXT_PUBLIC_API_URL=http://localhost:5555/api/v1/
+```
+
+### Environment Variables Explanation
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_PORT` | Port number for the frontend application | `5555` |
+| `NEXT_PUBLIC_API_URL` | Backend API base URL | `http://localhost:5555/api/v1/` |
+
+**Important Notes:**
+- Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser
+- Make sure the backend API is running on the URL specified in `NEXT_PUBLIC_API_URL`
+- Update the API URL if your backend runs on a different port
+
+## Running the Application
+
+### Development Mode
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at:
+- Default: `http://localhost:3000`
+- Or the port specified in your script/config
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production Mode
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Build the application:
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+2. Start the production server:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 Project Structure
 
-## Deploy on Vercel
+```
+frontend/
+├── api/                    # API integration layer
+│   ├── axios.config.ts     # Axios instance with interceptors
+│   ├── category.api.ts     # Category API calls
+│   ├── menu-item.api.ts    # Menu items API calls
+│   ├── order.api.ts        # Orders API calls
+│   └── user.api.ts         # User/Auth API calls
+├── app/                    # Next.js App Router
+│   ├── page.tsx            # Landing page
+│   ├── layout.tsx          # Root layout
+│   ├── globals.css         # Global styles
+│   ├── admin/              # Admin routes
+│   │   └── panel/          # Admin panel
+│   ├── auth/               # Authentication routes
+│   │   ├── admin/          # Admin login
+│   │   └── user/           # User login/register
+│   ├── food-menu/          # Food menu page
+│   └── my-orders/          # User orders page
+├── components/             # React components
+│   ├── icons/              # Icon components
+│   ├── layout/             # Layout components
+│   │   ├── admin-sections/ # Admin panel components
+│   │   ├── public-sections/# Public facing components
+│   │   └── user-sections/  # User-specific components
+│   ├── shared/             # Shared components
+│   └── ui/                 # UI components
+├── constants/              # App constants
+│   ├── order-status.enum.ts# Order status enums
+│   └── routes.ts           # Route definitions
+├── context/                # React Context
+│   └── AuthContext.tsx     # Authentication context
+├── types/                  # TypeScript types
+│   └── auth.ts             # Auth-related types
+├── validators/             # Form validation schemas
+│   ├── add-category-validation.ts
+│   ├── add-item-validation.ts
+│   ├── admin-login-validation.ts
+│   ├── login-validation.ts
+│   └── register-validation.ts
+├── public/                 # Static assets
+│   └── landing-page/       # Landing page images
+├── .env                    # Environment variables
+├── next.config.ts          # Next.js configuration
+├── tsconfig.json           # TypeScript configuration
+├── tailwind.config.js      # Tailwind CSS configuration
+└── package.json            # Project dependencies
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Available Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Starts the development server |
+| `npm run build` | Creates an optimized production build |
+| `npm start` | Runs the production server |
+| `npm run lint` | Runs ESLint to check code quality |
+
+## User Roles
+
+### Regular Users
+- **Route:** `/auth/user`
+- **Capabilities:**
+  - Register new account
+  - Login/Logout
+  - Browse menu
+  - Place orders
+  - View order history
+
+### Admin Users
+- **Route:** `/auth/admin`
+- **Capabilities:**
+  - Admin login
+  - Manage categories
+  - Manage menu items
+  - View all orders
+  - Update order status
+
+## API Integration
+
+The application uses Axios for API communication. The configuration includes:
+
+- **Base URL:** Set via `NEXT_PUBLIC_API_URL` environment variable
+- **Credentials:** Cookies are sent with requests (`withCredentials: true`)
+- **Authentication:** JWT tokens stored in localStorage and sent in Authorization header
+- **Interceptors:** Automatically adds auth tokens to requests
+
+### API Endpoints Used
+
+- `/auth/*` - Authentication endpoints
+- `/categories/*` - Category management
+- `/menu-items/*` - Menu items management
+- `/orders/*` - Order management
+- `/users/*` - User management
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Port already in use**
+   ```bash
+   # Change the port in your terminal
+   PORT=3001 npm run dev
+   ```
+
+2. **API connection failed**
+   - Ensure the backend server is running
+   - Verify `NEXT_PUBLIC_API_URL` in `.env` is correct
+   - Check backend port matches the URL
+
+3. **Module not found errors**
+   ```bash
+   # Clear cache and reinstall
+   rm -rf node_modules .next
+   npm install
+   ```
+
+4. **Authentication issues**
+   - Clear browser localStorage
+   - Clear browser cookies
+   - Re-login
+
+## Development Workflow
+
+1. **Start the backend** (see backend README)
+2. **Start the frontend** (`npm run dev`)
+3. **Access the application** at `http://localhost:3000`
+4. **Test user flow:**
+   - Register/Login as user
+   - Browse menu
+   - Place an order
+5. **Test admin flow:**
+   - Login as admin
+   - Manage categories and items
+   - Process orders
+
+## Notes
+
+- The application requires the backend API to be running
+- Admin credentials should be created via backend seeding or registration
+- Images for menu items should be hosted/served by the backend
+- All forms use Formik with Yup validation
+- Toast notifications appear for user feedback
