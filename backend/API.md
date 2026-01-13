@@ -52,7 +52,8 @@ Register a new user account.
   "email": "user@example.com",
   "password1": "SecureP@ssw0rd!123",
   "password2": "SecureP@ssw0rd!123",
-  "fullName": "John Doe"
+  "fullName": "John Doe",
+  "address": "123 Uttara, Dhaka, Bangladesh"
 }
 ```
 

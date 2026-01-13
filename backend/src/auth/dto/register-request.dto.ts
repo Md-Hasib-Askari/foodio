@@ -8,13 +8,18 @@ export class RegisterRequestDto {
     @IsStrongPassword()
     @MinLength(6)
     @MaxLength(32)
-    readonly password1: string;
+    readonly password: string;
 
-    @Match('password1', { message: 'Passwords do not match' })
-    readonly password2: string;
+    // @Match('password1', { message: 'Passwords do not match' })
+    // readonly password2: string;
 
     @IsString()
     @MinLength(2)
     @MaxLength(50)
     readonly fullName: string;
+
+    @IsString()
+    @MinLength(10)
+    @MaxLength(100)
+    readonly address: string;
 }

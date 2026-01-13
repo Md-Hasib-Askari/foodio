@@ -1,5 +1,7 @@
 import FoodIcon from '@/components/icons/FoodIcon'
+import { ROUTES } from '@/constants/routes';
 import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 import { BiLogOut, BiMenu, BiShoppingBag } from 'react-icons/bi';
 
 interface AdminSidebarProps {
@@ -9,6 +11,12 @@ interface AdminSidebarProps {
 
 export default function AdminSidebar({ activeView, setActiveView }: AdminSidebarProps) {
     const { logout } = useAuth();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await logout();
+        router.push(ROUTES.ADMIN_LOGIN);
+    }
 
     return (
         <aside className="w-64 bg-[#FBFAF8] border-r border-gray-200 flex flex-col">
@@ -45,7 +53,7 @@ export default function AdminSidebar({ activeView, setActiveView }: AdminSidebar
             </nav>
 
             <div className="mx-4 py-3 border-t border-gray-200">
-                <button onClick={() => logout()} className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition">
+                <button onClick={() => handleLogout()} className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition">
                     <BiLogOut className="w-5 h-5" />
                     <span className="font-medium">Sign Out</span>
                 </button>

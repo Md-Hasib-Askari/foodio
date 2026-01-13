@@ -6,6 +6,7 @@ import { SignInResponseDto } from './dto/signin-response.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UsersRepository } from 'src/users/users.repo';
 import { Role } from 'src/common/enums/roles.enum';
+import { RegisterRequestDto } from './dto/register-request.dto';
 
 @Injectable()
 export class AuthService {
@@ -35,13 +36,14 @@ export class AuthService {
         };
     }
 
-    async register(registerRequestDto: any): Promise<any> {
-        const { email, password1, fullName } = registerRequestDto;
-        const hashedPassword = bcrypt.hashSync(password1, 10);
+    async register(registerRequestDto: RegisterRequestDto): Promise<any> {
+        const { email, password, fullName, address } = registerRequestDto;
+        const hashedPassword = bcrypt.hashSync(password, 10);
         const userToCreate = {
             email,
             hashedPassword,
-            fullName
+            fullName,
+            address
         };
         const createdUser = await this.usersService.create(userToCreate);
         return createdUser;

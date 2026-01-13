@@ -1,5 +1,5 @@
 ### Variables
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:5555/api/v1
 @contentType = application/json
 @ADMIN_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmVlZmYxMS00ZWIwLTQ1MmItYTBiNy1lMDU5N2MxZDlhM2QiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NjgyMTA0NTYsImV4cCI6MTc2ODIxNDA1Nn0.8icuufau_UxZ0UPX7QltZqd4S_uPaWS4ihG_dAu__Vw
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3OTkxMWMwMi1kYTlkLTQyNGMtODMzMC1mYmU3ZmZkOTFkNDUiLCJlbWFpbCI6InVzZXIxQGV4YW1wbGUuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NjgyMTA0NjgsImV4cCI6MTc2ODIxNDA2OH0.sfVwaJd6eocErPqlP0KuBRDzlWHul4M15Sf1AHLY0vo
@@ -17,7 +17,8 @@ Content-Type: {{contentType}}
   "email": "user2@example.com",
   "password1": "SecureP@ssw0rd!123",
   "password2": "SecureP@ssw0rd!123",
-  "fullName": "John Doe 3"
+  "fullName": "John Doe 3",
+  "address": "123 Uttara, Dhaka, Bangladesh"
 }
 
 ### Auth - Login

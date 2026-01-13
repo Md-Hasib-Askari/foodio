@@ -15,6 +15,9 @@ export class User {
     @Column('varchar', { length: 100 })
     fullName: string;
 
+    @Column('varchar', { length: 200, default: 'UNKNOWN', nullable: true })
+    address: string;
+
     @Column('enum', { enum: ['USER', 'ADMIN'], default: 'USER' })
     role: 'USER' | 'ADMIN';
 

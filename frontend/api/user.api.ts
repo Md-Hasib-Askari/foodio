@@ -1,4 +1,22 @@
 import { AuthUser } from "@/types/auth";
+import axiosInstance from "./axios.config";
+
+interface RegisterDto {
+    email: string;
+    password: string;
+    fullName: string;
+    address: string;
+}
+
+export const registerAPI = async (registerDto: RegisterDto): Promise<boolean> => {
+    try {
+        const response = await axiosInstance.post('/auth/register', registerDto);
+        return response.status === 201;
+    } catch (error) {
+        console.error(error);
+    }
+    return false;
+}
 
 export const getUserProfile = async (): Promise<AuthUser | undefined> => {
     try {

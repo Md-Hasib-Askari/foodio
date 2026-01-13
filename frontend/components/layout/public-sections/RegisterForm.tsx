@@ -2,6 +2,8 @@
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { registerValidationSchema } from '@/validators/register-validation';
+import { registerAPI } from '@/api/user.api';
+import { toast } from 'react-toastify';
 
 export default function RegisterForm() {
   return (
@@ -13,8 +15,21 @@ export default function RegisterForm() {
         address: '',
       }}
       validationSchema={registerValidationSchema}
-      onSubmit={(values) => {
+      onSubmit={async (values, { resetForm }) => {
         console.log('Register submit:', values);
+        try {
+          const response = await registerAPI(values);
+          if (response) {
+            toast.success('Registration successful! You can now log in.');
+            resetForm();
+          } else {
+            toast.error('Registration failed. Please try again.');
+          }
+        } catch (error) {
+          toast.error('An error occurred. Please try again.');
+        }
+
+
       }}
     >
       {({ isSubmitting }) => (
