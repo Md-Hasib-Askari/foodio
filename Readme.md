@@ -130,6 +130,12 @@ npm run dev
 - Backend API: http://localhost:5555
 - pgAdmin: http://localhost:5050
 
+*You can now register as a user or admin and start using Foodio!*
+
+### Restore Pre-Populated Database (Optional)
+
+- Use **foodio-backup** file to restore a pre-populated database in **pgAdmin**.
+
 ## Project Structure
 
 ```
