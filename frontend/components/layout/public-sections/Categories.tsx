@@ -1,16 +1,16 @@
 'use client';
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 export type CategoryType = {
     categoryId: string;
-    category: string;
+    name: string;
     icon?: React.ReactElement;
 }
 interface CategoriesProps {
     categories: CategoryType[];
-    selectedCategory: string;
-    setSelectedCategory: Dispatch<SetStateAction<string>>;
+    selectedCategory: string | null;
+    setSelectedCategory: Dispatch<SetStateAction<string | null>>;
 }
 
 
@@ -28,9 +28,9 @@ export default function Categories({ categories, selectedCategory, setSelectedCa
             <div className="flex flex-row justify-center gap-6">
                 {
                     categories.map((cat) => (
-                        <div onClick={() => handleCategoryChange(cat.categoryId)} key={cat.category} className={`${cat.categoryId === selectedCategory ? "bg-secondary shadow-xl" : "bg-[#FBFAF8]"} rounded-tl-2xl rounded-br-2xl py-4 px-15 text-center hover:shadow-lg transition cursor-pointer`}>
+                        <div key={cat.categoryId} onClick={() => handleCategoryChange(cat.categoryId)} className={`${cat.categoryId === selectedCategory ? "bg-secondary shadow-xl" : "bg-[#FBFAF8]"} rounded-tl-2xl rounded-br-2xl py-4 px-15 text-center hover:shadow-lg transition cursor-pointer`}>
                             {cat.icon && cat.icon}
-                            <h3 className="text-xl font-semibold text-primary">{cat.category}</h3>
+                            <h3 className="text-xl font-semibold text-primary">{cat.name}</h3>
                         </div>
                     ))
                 }

@@ -9,7 +9,7 @@ import Footer from "../components/layout/public-sections/Footer";
 import StarterIcon from "../components/icons/StarterIcon";
 import MainCourseIcon from "../components/icons/MainCourseIcon";
 import DessertIcon from "../components/icons/DessertIcon";
-import { CATEGORIES, ITEMS } from "@/data";
+import { fetchTopCategories } from "@/api/category.api";
 
 const icons = [
   <StarterIcon className="size-13.5 mb-4.5 mx-auto" />,
@@ -18,25 +18,58 @@ const icons = [
 ]
 
 export type ItemType = {
-  id: string;
+  menuItemId: string;
   name: string;
+  description: string;
   price: number;
   categoryId: string;
+  imageUrl: string;
 }
 
-const items: ItemType[] = ITEMS;
-const categories: CategoryType[] = CATEGORIES.map((cat, index) => ({
-  ...cat,
-  icon: icons[index]
-}));
-
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("1");
+  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [items, setItems] = useState<ItemType[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [filteredItems, setFilteredItems] = useState<ItemType[]>([]);
 
+  // fetch categories from API
   useEffect(() => {
-    const newItems = items.filter(item => item.categoryId == selectedCategory);
-    setFilteredItems(newItems);
+    (async () => {
+      const topCategoriesFromApi = await fetchTopCategories();
+      const menuItems = topCategoriesFromApi.reduce((acc: ItemType[], cat: any) => {
+        const itemsForCategory = cat.menuItems.map((item: any) => ({
+          menuItemId: item.menuItemId,
+          name: item.name,
+          price: item.price,
+          description: item.description,
+          imageUrl: item.imageUrl,
+          categoryId: cat.categoryId
+        }));
+        return acc.concat(itemsForCategory);
+      }, []);
+      console.log(menuItems);
+
+
+      const categoriesWithIcons: CategoryType[] = topCategoriesFromApi.map((cat: any, index: number) => ({
+        categoryId: cat.categoryId,
+        name: cat.name,
+        icon: icons[index]
+      }));
+
+      setCategories(categoriesWithIcons);
+      setItems(menuItems);
+      setFilteredItems(menuItems);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      const filtered = items.filter(item => item.categoryId === selectedCategory);
+      console.log(filtered);
+      console.log(items);
+
+      setFilteredItems(filtered);
+    }
   }, [selectedCategory]);
 
   return (

@@ -14,13 +14,18 @@ export class CategoriesController {
   @Post()
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoriesService.create(createCategoryDto);
+  async create(@Body() createCategoryDto: CreateCategoryDto) {
+    return await this.categoriesService.create(createCategoryDto);
   }
 
   @Get()
   async findAll() {
     return await this.categoriesService.findAll();
+  }
+
+  @Get('top-categories')
+  async findTopCategories() {
+    return await this.categoriesService.findTopCategories();
   }
 
   @Get(':categoryId')
@@ -31,8 +36,8 @@ export class CategoriesController {
   @Patch(':categoryId')
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.Admin)
-  update(@Param('categoryId') categoryId: string, @Body() updateCategoryDto: UpdateCategoryDto) {
-    return this.categoriesService.update(categoryId, updateCategoryDto);
+  async update(@Param('categoryId') categoryId: string, @Body() updateCategoryDto: UpdateCategoryDto) {
+    return await this.categoriesService.update(categoryId, updateCategoryDto);
   }
 
   @UseGuards(AuthGuard, RolesGuard)

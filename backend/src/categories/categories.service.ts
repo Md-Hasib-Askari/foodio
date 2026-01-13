@@ -15,6 +15,10 @@ export class CategoriesService {
     return await this.categoryRepo.findAll();
   }
 
+  async findTopCategories() {
+    return await this.categoryRepo.findTopCategories();
+  }
+
   async findOne(categoryId: string) {
     return await this.categoryRepo.findOne(categoryId);
   }

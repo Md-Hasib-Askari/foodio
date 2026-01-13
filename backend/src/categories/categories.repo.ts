@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Category } from './entities/category.entity';
 
 @Injectable()
@@ -23,6 +23,17 @@ export class CategoriesRepository {
 
   async findOne(categoryId: string): Promise<Category | null> {
     return await this._db.findOneBy({ categoryId });
+  }
+
+  async findTopCategories(): Promise<Category[]> {
+    const categories = await this._db
+      .createQueryBuilder('category')
+      .leftJoinAndSelect('category.menuItems', 'menuItem')
+      .orderBy('category.createdAt', 'DESC')
+      .take(3)
+      .getMany();
+
+    return categories;
   }
 
   async update(categoryId: string, updateCategoryDto: UpdateCategoryDto): Promise<Category | null> {
