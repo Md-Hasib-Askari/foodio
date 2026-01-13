@@ -26,7 +26,7 @@ export default function MenuItemsTable({ newItem }: MenuItemsTableProps) {
                     menuItemId: item.menuItemId,
                     name: item.name,
                     price: Number(item.price),
-                    category: item.category.name,
+                    category: item.category?.name || 'Uncategorized',
                     description: item.description,
                     available: item.available
                 })));
