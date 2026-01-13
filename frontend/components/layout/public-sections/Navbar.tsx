@@ -8,11 +8,12 @@ import { useAuth } from "@/context/AuthContext";
 import { FiUser } from "react-icons/fi";
 import { useState } from "react";
 import AccountDropdown from "../user-sections/AccountDropdown";
+import { ROUTES } from "@/constants/routes";
 
 const routes = [
-    { name: "Home", path: "/" },
-    { name: "Food Menu", path: "/food-menu" },
-    { name: "My Orders", path: "/my-orders" },
+    { name: "Home", path: ROUTES.HOME },
+    { name: "Food Menu", path: ROUTES.MENU },
+    { name: "My Orders", path: ROUTES.ORDERS },
 ];
 
 export default function Navbar() {
@@ -24,7 +25,7 @@ export default function Navbar() {
 
     const handleUserMenuModal = () => {
         if (!isAuthenticated) {
-            router.push('/auth/user');
+            router.push(ROUTES.LOGIN);
             return;
         } else {
             // Toggle user menu
@@ -35,7 +36,7 @@ export default function Navbar() {
 
     return (
         <nav className="relative max-w-309 mx-auto flex items-center justify-between py-4 z-10">
-            <div className="flex items-center gap-2">
+            <div onClick={() => router.push(ROUTES.HOME)} className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center">
                     <FoodIcon className="absolute w-5 h-5 text-secondary" />
                 </div>

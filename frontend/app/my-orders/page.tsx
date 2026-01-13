@@ -3,6 +3,7 @@
 import Footer from "@/components/layout/public-sections/Footer";
 import Navbar from "@/components/layout/public-sections/Navbar";
 import OrderSection from "@/components/layout/user-sections/OrderSection";
+import { ROUTES } from "@/constants/routes";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -13,7 +14,7 @@ export default function MyOrders() {
 
     useEffect(() => {
         if (!loading && !isAuthenticated) {
-            router.push("/login");
+            router.push(ROUTES.LOGIN);
             return;
         }
     }, [isAuthenticated, loading, router]);

@@ -1,5 +1,6 @@
 'use client';
 
+import { ROUTES } from "@/constants/routes";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { BiFoodMenu } from "react-icons/bi";
@@ -28,10 +29,10 @@ export default function Hero() {
                 </p>
 
                 <div className="flex gap-4">
-                    <button onClick={() => router.push('/food-menu')} className="bg-primary text-white px-6 py-3 rounded-full">
+                    <button onClick={() => router.push(ROUTES.MENU)} className="bg-primary text-white px-6 py-3 rounded-full">
                         Order Now <FaArrowRight className="inline-block ml-2" />
                     </button>
-                    <button onClick={() => router.push('/food-menu')} className="border border-primary text-primary px-6 py-3 rounded-full">
+                    <button onClick={() => router.push(ROUTES.MENU)} className="border border-primary text-primary px-6 py-3 rounded-full">
                         View Menu
                     </button>
                 </div>

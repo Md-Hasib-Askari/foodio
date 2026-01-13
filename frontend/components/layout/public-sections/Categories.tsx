@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 export type CategoryType = {
     categoryId: string;
     category: string;
-    icon: React.ReactElement;
+    icon?: React.ReactElement;
 }
 interface CategoriesProps {
     categories: CategoryType[];
@@ -29,7 +29,7 @@ export default function Categories({ categories, selectedCategory, setSelectedCa
                 {
                     categories.map((cat) => (
                         <div onClick={() => handleCategoryChange(cat.categoryId)} key={cat.category} className={`${cat.categoryId === selectedCategory ? "bg-secondary shadow-xl" : "bg-[#FBFAF8]"} rounded-tl-2xl rounded-br-2xl py-4 px-15 text-center hover:shadow-lg transition cursor-pointer`}>
-                            {cat.icon}
+                            {cat.icon && cat.icon}
                             <h3 className="text-xl font-semibold text-primary">{cat.category}</h3>
                         </div>
                     ))

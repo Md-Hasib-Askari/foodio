@@ -6,6 +6,7 @@ import FoodIcon from '../../icons/FoodIcon';
 import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
 import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/constants/routes';
 
 type activeTabType = 'signin' | 'register';
 
@@ -31,7 +32,7 @@ export default function AuthSection() {
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key.toLowerCase() === 'a') {
-            router.push('/auth/admin');
+            router.push(ROUTES.ADMIN_LOGIN);
         }
     };
 
@@ -66,9 +67,7 @@ export default function AuthSection() {
     return (
         <div className="flex-1 flex items-center justify-center px-4 py-12">
             <div className="w-full max-w-md">
-                {/* Card */}
                 <div className="bg-white rounded-2xl shadow-lg p-8">
-                    {/* Logo and Tagline */}
                     <div className="text-center mb-6">
                         <div className="flex items-center justify-center gap-2 mb-2">
                             <div className="w-8 h-8 rounded-lg flex items-center justify-center">
@@ -79,7 +78,6 @@ export default function AuthSection() {
                         <p className="text-gray-600 text-sm">Premium flavors, delivered.</p>
                     </div>
 
-                    {/* Tab Switcher */}
                     <div className="bg-gray-100 rounded-full p-1 mb-6 flex">
                         <button
                             onClick={() => handleTabChange('signin')}
@@ -115,7 +113,6 @@ export default function AuthSection() {
                     }
                 </div>
 
-                {/* Info Message */}
                 <div className="mt-6 flex items-center justify-baseline gap-2 text-sm text-gray-500">
                     <BiInfoCircle className="w-5 h-5" />
                     <span>For accessing Admin Panel press A from your keyboard.</span>

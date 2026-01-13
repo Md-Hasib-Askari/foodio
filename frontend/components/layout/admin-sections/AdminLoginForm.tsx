@@ -1,6 +1,7 @@
 'use client';
 
 import FoodIcon from '@/components/icons/FoodIcon';
+import { ROUTES } from '@/constants/routes';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react'
 
@@ -81,7 +82,7 @@ export default function AdminLoginForm() {
                         </button>
 
                         <button
-                            onClick={() => router.push('/auth/user')}
+                            onClick={() => router.push(ROUTES.LOGIN)}
                             className="w-full py-3.5 border border-primary text-primary rounded-full font-medium hover:bg-primary-dark transition shadow-sm"
                         >
                             User Sign In
