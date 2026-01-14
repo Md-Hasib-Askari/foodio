@@ -47,7 +47,7 @@ export default function CategoriesTable({ newCategory }: CategoriesTableProps) {
     }
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-xl border border-gray-200 overflow-scroll">
             <table className="w-full">
                 <thead className="bg-[#FBFAF8] border-b border-gray-200">
                     <tr>

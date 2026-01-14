@@ -13,32 +13,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BiPlus } from "react-icons/bi";
 
-// const menuItems = [
-//     { name: "Golden Crunch Bites", category: "Appetizers", price: 15, description: 'Available', available: true },
-//     { name: "Mediterranean Olive Medley", category: "Appetizers", price: 25, description: 'Available', available: true },
-//     { name: "Citrus Swirl Delights", category: "Desserts", price: 35, description: 'Available', available: true },
-//     { name: "Creamy Garlic Shrimp Pasta", category: "Main Course", price: 10, description: 'Available', available: true },
-// ];
-
-// const categories = [
-//     { name: "Starters" },
-//     { name: "Main Courses" },
-//     { name: "Desserts" }
-// ];
-
-// const orders = [
-//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$24.00", status: "Pending", address: "123 Main St, Springfield, IL" },
-//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Preparing", address: "456 Elm St, Springfield, IL" },
-//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "789 Oak St, Springfield, IL" },
-//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "101 Pine St, Springfield, IL" },
-//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "202 Maple St, Springfield, IL" },
-//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "303 Birch St, Springfield, IL" },
-//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Completed", address: "404 Cedar St, Springfield, IL" },
-//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "505 Walnut St, Springfield, IL" },
-//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Ready", address: "606 Chestnut St, Springfield, IL" },
-//     { id: "5b331ea1...", date: "Dec 12, 4:33 PM", customer: "John Doe", total: "$56.00", status: "Pending", address: "707 Ash St, Springfield, IL" }
-// ];
-
 type activeViewType = 'menu-items' | 'orders';
 type activeTabType = 'items' | 'categories';
 
@@ -50,10 +24,9 @@ export default function AdminDashboard() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newCategory, setNewCategory] = useState<CategoryType | null>(null);
     const [newItem, setNewItem] = useState<ItemType | null>(null);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    const showModalForm = () => {
-        setIsModalOpen(true);
-    }
+    const showModalForm = () => setIsModalOpen(true);
 
     const getForm = () => {
         switch (activeTab) {
@@ -64,7 +37,7 @@ export default function AdminDashboard() {
                         onClose={() => setIsModalOpen(false)}
                         setNewItem={(item) => setNewItem(item)}
                     />
-                )
+                );
             case 'categories':
                 return (
                     <AddCategoryModal
@@ -72,10 +45,9 @@ export default function AdminDashboard() {
                         onClose={() => setIsModalOpen(false)}
                         setNewCategory={(category) => setNewCategory(category)}
                     />
-                )
+                );
         }
-    }
-
+    };
 
     useEffect(() => {
         if (!isAuthenticated && !loading) {
@@ -83,30 +55,69 @@ export default function AdminDashboard() {
         }
     }, [isAuthenticated, loading, router]);
 
-    if (!isAuthenticated || loading) {
-        return null;
-    }
+    if (!isAuthenticated || loading) return null;
 
     return (
-        <div className="flex h-screen">
-            <AdminSidebar activeView={activeView} setActiveView={setActiveView} />
+        <div className="flex h-screen flex-col lg:flex-row">
+            {sidebarOpen && (
+                <div
+                    className="fixed inset-0 bg-black/40 z-30 lg:hidden"
+                    onClick={() => setSidebarOpen(false)}
+                />
+            )}
 
-            <main className="flex-1 overflow-auto">
-                <header className="border-b border-gray-200 px-8 py-6">
-                    <h1 className="text-3xl font-serif text-primary font-semibold">
-                        {activeView === 'menu-items' ? 'Menu Items' : 'Order Management'}
+            <div
+                className={`
+                fixed lg:static inset-y-0 left-0 z-40
+                w-64
+                transform bg-white
+                transition-transform duration-300 ease-in-out
+                ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+                lg:translate-x-0
+            `}
+            >
+                <AdminSidebar
+                    activeView={activeView}
+                    setActiveView={(view) => {
+                        setActiveView(view);
+                        setSidebarOpen(false); // auto-close on mobile
+                    }}
+                />
+            </div>
+
+            <main className="flex-1 overflow-x-hidden h-screen">
+                <header className="border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-4 sm:py-6 flex items-center gap-4">
+                    <button
+                        onClick={() => setSidebarOpen(true)}
+                        className="lg:hidden p-2 rounded-md border border-gray-200"
+                    >
+                        <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+
+                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-serif text-primary font-semibold">
+                        {activeView === 'menu-items'
+                            ? 'Menu Items'
+                            : 'Order Management'}
                     </h1>
                 </header>
 
-                <div className="p-8">
+                <div className="p-4 sm:p-6 lg:p-8">
                     {activeView === 'menu-items' && (
-                        <div>
-                            <div className="flex items-center justify-between mb-6">
-                                <div className="flex gap-6 bg-[#F2EFE9] px-2 py-2 rounded-full">
+                        <div className="">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                                <div className="flex gap-2 bg-[#F2EFE9] p-1 rounded-full w-fit">
                                     <button
                                         onClick={() => setActiveTab('items')}
-                                        className={`px-4 py-2 font-medium ${activeTab === 'items'
-                                            ? 'bg-white rounded-4xl shadow-sm'
+                                        className={`px-4 py-2 text-sm font-medium ${activeTab === 'items'
+                                            ? 'bg-white rounded-full shadow-sm'
                                             : ''
                                             }`}
                                     >
@@ -114,40 +125,46 @@ export default function AdminDashboard() {
                                     </button>
                                     <button
                                         onClick={() => setActiveTab('categories')}
-                                        className={`px-4 py-2  font-medium ${activeTab === 'categories'
-                                            ? 'bg-white rounded-4xl shadow-sm'
+                                        className={`px-4 py-2 text-sm font-medium ${activeTab === 'categories'
+                                            ? 'bg-white rounded-full shadow-sm'
                                             : ''
                                             }`}
                                     >
                                         Categories
                                     </button>
                                 </div>
+
                                 <button
-                                    onClick={() => showModalForm()}
-                                    className="flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-full hover:bg-primary-dark transition">
+                                    onClick={showModalForm}
+                                    className="flex items-center justify-center gap-2 px-5 py-2.5 bg-primary text-white rounded-full hover:bg-primary-dark transition text-sm"
+                                >
                                     <BiPlus className="w-4 h-4" />
-                                    {activeTab === 'items' ? 'Add Item' : 'Add Category'}
+                                    {activeTab === 'items'
+                                        ? 'Add Item'
+                                        : 'Add Category'}
                                 </button>
                             </div>
 
-                            {activeTab === 'items' && (
-                                <MenuItemsTable newItem={newItem} />
-                            )}
-
-                            {activeTab === 'categories' && (
-                                <CategoriesTable newCategory={newCategory} />
-                            )}
+                            <div className="">
+                                {activeTab === 'items' && (
+                                    <MenuItemsTable newItem={newItem} />
+                                )}
+                                {activeTab === 'categories' && (
+                                    <CategoriesTable newCategory={newCategory} />
+                                )}
+                            </div>
                         </div>
                     )}
 
                     {activeView === 'orders' && (
-                        <OrdersTable />
+                        <div className="overflow-x-auto">
+                            <OrdersTable />
+                        </div>
                     )}
                 </div>
-                <div>
-                    {isModalOpen && getForm()}
-                </div>
+
+                {isModalOpen && getForm()}
             </main>
         </div>
-    )
+    );
 }

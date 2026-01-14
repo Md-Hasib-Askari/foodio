@@ -19,7 +19,7 @@ export default function AdminSidebar({ activeView, setActiveView }: AdminSidebar
     }
 
     return (
-        <aside className="w-64 bg-[#FBFAF8] border-r border-gray-200 flex flex-col">
+        <aside className="w-64 bg-[#FBFAF8] border-r border-gray-200 flex flex-col h-full">
             <div className="p-6">
                 <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center">
