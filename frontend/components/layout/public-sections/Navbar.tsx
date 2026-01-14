@@ -29,14 +29,12 @@ export default function Navbar() {
             router.push(ROUTES.LOGIN);
             return;
         } else {
-            // Toggle user menu
             setOpen(!open);
-            // console.log("Toggle user menu for", user?.name);
         }
     };
 
     return (
-        <nav className="relative max-w-309 mx-auto flex items-center justify-between py-4 px-4 sm:px-6 lg:px-0 z-10">
+        <nav className="relative max-w-309 mx-auto flex items-center justify-between py-4 px-4 sm:px-6 xl:px-0 z-10">
             <div
                 onClick={() => router.push(ROUTES.HOME)}
                 className="flex items-center gap-2 cursor-pointer shrink-0"
