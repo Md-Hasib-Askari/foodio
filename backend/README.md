@@ -125,6 +125,10 @@ npm run start:dev
 
 The API will be available at `http://localhost:3000`
 
+### Restore Pre-Populated Database (Optional)
+
+- Use **foodio-backup** file to restore a pre-populated database in **pgAdmin**.
+
 ### Debug Mode
 
 ```bash
