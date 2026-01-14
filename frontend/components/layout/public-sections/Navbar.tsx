@@ -99,7 +99,7 @@ export default function Navbar() {
             {/* Mobile Menu */}
             {mobileOpen && (
                 <div className="absolute top-full left-0 w-full bg-white border-t shadow-md md:hidden">
-                    <div className="flex flex-col gap-2 p-4">
+                    <div className="flex flex-col gap-2 p-4 relative z-100">
                         {routes.map((route) => (
                             <Link
                                 key={route.path}

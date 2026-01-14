@@ -11,7 +11,7 @@ export default function Hero() {
 
     return (
         <section className="max-w-309 mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 py-12 md:py-16 px-4 sm:px-6 xl:px-0 items-center overflow-hidden">
-            <div className="z-10">
+            <div className="z-0">
                 <span className="inline-flex items-center gap-2 bg-secondary text-primary px-4 py-1 rounded-full text-xs sm:text-sm mb-6">
                     <BiFoodMenu className="text-base sm:text-lg inline-block mr-2" />
                     <span>Food Ordering Service</span>

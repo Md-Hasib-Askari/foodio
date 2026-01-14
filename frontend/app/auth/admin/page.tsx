@@ -11,7 +11,7 @@ export default function AdminAuthSection() {
 
     return (
         <section className="min-h-screen flex flex-col justify-between bg-background text-foreground">
-            <nav className="relative max-w-309 w-full mx-auto flex items-center justify-between py-4 z-10">
+            <nav className="relative max-w-309 w-full mx-auto flex items-center justify-center lg:justify-between py-4 z-10">
                 <div onClick={() => router.push(ROUTES.HOME)} className="flex items-center gap-2 cursor-pointer">
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center">
                         <FoodIcon className="absolute w-5 h-5 text-secondary" />
