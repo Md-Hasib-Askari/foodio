@@ -7,12 +7,12 @@ import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/routes';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 type ActiveTab = 'signin' | 'register';
 
 export default function AuthSection() {
     const router = useRouter();
-    const [activeTab, setActiveTab] = useState<ActiveTab>('signin');
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -52,31 +52,18 @@ export default function AuthSection() {
                             Premium flavors, delivered.
                         </p>
                     </div>
-
-                    <div className="bg-gray-100 rounded-full p-1 flex">
-                        <button
-                            onClick={() => setActiveTab('signin')}
-                            className={`flex-1 py-2.5 rounded-full text-sm font-medium transition-all duration-200
-              ${activeTab === 'signin'
-                                    ? 'bg-white text-teal-900 shadow-sm'
-                                    : 'text-gray-600 hover:text-teal-900'
-                                }`}
-                        >
-                            Sign in
-                        </button>
-                        <button
-                            onClick={() => setActiveTab('register')}
-                            className={`flex-1 py-2.5 rounded-full text-sm font-medium transition-all duration-200
-              ${activeTab === 'register'
-                                    ? 'bg-white text-teal-900 shadow-sm'
-                                    : 'text-gray-600 hover:text-teal-900'
-                                }`}
-                        >
-                            Register
-                        </button>
-                    </div>
-
-                    {activeTab === 'register' ? <RegisterForm /> : <LoginForm />}
+                    <Tabs defaultValue='login' className="w-full">
+                        <TabsList className="grid w-full grid-cols-2 mb-4 rounded-full bg-gray-100">
+                            <TabsTrigger className='rounded-full' value="login">Sign In</TabsTrigger>
+                            <TabsTrigger className='rounded-full' value="register">Register</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="login">
+                            <LoginForm />
+                        </TabsContent>
+                        <TabsContent value="register">
+                            <RegisterForm />
+                        </TabsContent>
+                    </Tabs>
                 </div>
 
                 <div className="mt-6 flex items-center gap-2 text-sm text-gray-500">

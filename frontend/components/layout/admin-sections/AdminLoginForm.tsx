@@ -7,6 +7,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { adminLoginValidationSchema } from '@/validators/admin-login-validation';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'react-toastify';
+import { Button } from '@/components/ui/button';
 
 type AdminLoginFormDataType = {
     email: string;
@@ -82,23 +83,23 @@ export default function AdminLoginForm() {
                                     />
                                 </div>
 
-                                <button
+                                <Button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="w-full py-2 sm:py-2.5 bg-primary text-white  text-sm rounded-full font-medium
+                                    className="w-full py-2 sm:py-2.5 bg-primary text-white text-sm rounded-full font-medium
                                     hover:bg-primary-dark transition shadow-sm disabled:opacity-50"
                                 >
                                     Admin Sign In
-                                </button>
+                                </Button>
 
-                                <button
+                                <Button
                                     type="button"
                                     onClick={() => router.push(ROUTES.LOGIN)}
-                                    className="w-full py-2 sm:py-2.5 border border-primary text-sm text-primary rounded-full font-medium
-                                    hover:bg-primary-dark hover:text-white transition shadow-sm"
+                                    className="w-full py-2 sm:py-2.5 bg-transparent border border-primary text-sm text-primary rounded-full font-medium
+                                    hover:bg-primary hover:text-white transition shadow-sm"
                                 >
                                     User Sign In
-                                </button>
+                                </Button>
                             </Form>
                         )}
                     </Formik>

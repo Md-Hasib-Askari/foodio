@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/routes';
+import { Button } from '@/components/ui/button';
 
 export default function LoginForm() {
     const { login, user } = useAuth();
@@ -57,14 +58,14 @@ export default function LoginForm() {
                         />
                     </div>
 
-                    <button
+                    <Button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full rounded-xl bg-teal-900 py-2.5 text-white text-sm font-medium
+                        className="w-full bg-teal-900 py-2.5 text-white text-sm font-medium
             transition active:scale-[0.98] disabled:opacity-50"
                     >
                         Sign in
-                    </button>
+                    </Button>
                 </Form>
             )}
         </Formik>

@@ -4,6 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { registerValidationSchema } from '@/validators/register-validation';
 import { registerAPI } from '@/api/user.api';
 import { toast } from 'react-toastify';
+import { Button } from '@/components/ui/button';
 
 export default function RegisterForm() {
   return (
@@ -88,14 +89,14 @@ export default function RegisterForm() {
             />
           </div>
 
-          <button
+          <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-xl bg-teal-900 py-2.5 text-white text-sm font-medium
+            className="w-full bg-teal-900 py-2.5 text-white text-sm font-medium
             transition active:scale-[0.98] disabled:opacity-50"
           >
             Create account
-          </button>
+          </Button>
         </Form>
       )}
     </Formik>
