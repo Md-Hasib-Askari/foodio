@@ -5,24 +5,24 @@ WORKDIR /app
 # Dependencies stage
 FROM base AS dependencies
 COPY package*.json ./
-RUN npm ci
+RUN bun install --frozen-lockfile
 
 # Build stage
 FROM base AS build
 COPY package*.json ./
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
-RUN npm run build
+RUN bun run build
 
 # Production stage
 FROM base AS production
 ENV NODE_ENV=production
 
 COPY package*.json ./
-RUN npm ci --only=production && npm cache clean --force
+RUN bun install --production --frozen-lockfile
 
 COPY --from=build /app/dist ./dist
 
 EXPOSE 3000
 
-CMD ["node", "dist/main"]
+CMD ["bun", "dist/main"]

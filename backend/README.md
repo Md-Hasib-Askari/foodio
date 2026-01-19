@@ -16,8 +16,7 @@ A RESTful API backend for the Foodio food ordering application built with NestJS
 
 Before you begin, ensure you have the following installed:
 
-- **Node.js**: v18 or higher
-- **npm**: v8 or higher
+- **Bun**: v1.0 or higher ([Download](https://bun.sh/))
 - **PostgreSQL**: v16 (or use Docker)
 - **Docker & Docker Compose** (optional, for containerized setup)
 
@@ -44,7 +43,7 @@ cd foodio/backend
 ### 2. Install Dependencies
 
 ```bash
-npm install
+bun install
 ```
 
 ### 3. Environment Configuration
@@ -105,13 +104,13 @@ docker-compose down -v
 
 ```bash
 # Run all pending migrations
-npm run migration:run
+bun run migration:run
 
 # Revert the last migration
-npm run migration:revert
+bun run migration:revert
 
 # Generate a new migration
-npm run migration:generate -- src/database/migrations/MigrationName
+bun run migration:generate -- src/database/migrations/MigrationName
 ```
 
 ## Running the Application
@@ -120,7 +119,7 @@ npm run migration:generate -- src/database/migrations/MigrationName
 
 ```bash
 # Start with hot-reload
-npm run start:dev
+bun run start:dev
 ```
 
 The API will be available at `http://localhost:3000`
@@ -132,33 +131,33 @@ The API will be available at `http://localhost:3000`
 ### Debug Mode
 
 ```bash
-npm run start:debug
+bun run start:debug
 ```
 
 ### Production Mode
 
 ```bash
 # Build the application
-npm run build
+bun run build
 
 # Start production server
-npm run start:prod
+bun run start:prod
 ```
 
 ## Testing
 
 ```bash
 # Run unit tests
-npm run test
+bun run test
 
 # Run tests in watch mode
-npm run test:watch
+bun run test:watch
 
 # Run test coverage
-npm run test:cov
+bun run test:cov
 
 # Run e2e tests
-npm run test:e2e
+bun run test:e2e
 ```
 
 ## API Documentation
@@ -200,13 +199,13 @@ backend/
 
 ```bash
 # Format code
-npm run format
+bun run format
 
 # Lint code
-npm run lint
+bun run lint
 
 # Build application
-npm run build
+bun run build
 ```
 
 ## Docker Deployment
@@ -241,9 +240,9 @@ docker-compose up -d
 ## Migration Workflow
 
 1. Make changes to entity files
-2. Generate migration: `npm run migration:generate -- src/migrations/DescriptionOfChange`
+2. Generate migration: `bun run migration:generate -- src/migrations/DescriptionOfChange`
 3. Review the generated migration file
-4. Run migration: `npm run migration:run`
+4. Run migration: `bun run migration:run`
 
 ## Author
 
@@ -270,7 +269,7 @@ netstat -ano | findstr :3000
 
 ```bash
 # Revert last migration
-npm run migration:revert
+bun run migration:revert
 
 # Check database connection
 # Verify entity decorators are correct

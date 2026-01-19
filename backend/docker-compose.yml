@@ -41,7 +41,7 @@ services:
   #       condition: service_healthy
   #   networks:
   #     - foodio_network
-  #   command: npm run start:dev
+  #   command: bun run start:dev
 
   # pgAdmin (Optional - Database Management UI)
   pgadmin:

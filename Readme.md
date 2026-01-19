@@ -192,7 +192,7 @@ cd backend
 
 #### 2. Install Dependencies
 ```bash
-npm install
+bun install
 ```
 
 #### 3. Configure Environment Variables
@@ -254,7 +254,7 @@ cd frontend
 
 #### 2. Install Dependencies
 ```bash
-npm install
+bun install
 ```
 
 #### 3. Configure Environment Variables
