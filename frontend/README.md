@@ -46,8 +46,7 @@ A modern Next.js food ordering application with admin panel and user authenticat
 
 Before you begin, ensure you have the following installed on your system:
 
-- **Node.js** (v18 or higher recommended)
-- **npm** or **yarn** or **pnpm**
+- **Bun** (v1.0 or higher recommended)
 - **Backend API** running (see backend README for setup)
 
 ## Installation
@@ -62,19 +61,7 @@ cd foodio/frontend
 ### 2. Install dependencies
 
 ```bash
-npm install
-```
-
-Or using yarn:
-
-```bash
-yarn install
-```
-
-Or using pnpm:
-
-```bash
-pnpm install
+bun install
 ```
 
 ## Environment Variables
@@ -108,7 +95,7 @@ NEXT_PUBLIC_API_URL=http://localhost:5555/api/v1/
 Start the development server:
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 The application will be available at:
@@ -120,13 +107,13 @@ The application will be available at:
 1. Build the application:
 
 ```bash
-npm run build
+bun run build
 ```
 
 2. Start the production server:
 
 ```bash
-npm start
+bun start
 ```
 
 ## 📁 Project Structure
@@ -184,10 +171,10 @@ frontend/
 
 | Script | Description |
 |--------|-------------|
-| `npm run dev` | Starts the development server |
-| `npm run build` | Creates an optimized production build |
-| `npm start` | Runs the production server |
-| `npm run lint` | Runs ESLint to check code quality |
+| `bun run dev` | Starts the development server |
+| `bun run build` | Creates an optimized production build |
+| `bun start` | Runs the production server |
+| `bun run lint` | Runs ESLint to check code quality |
 
 ## User Roles
 
@@ -233,7 +220,7 @@ The application uses Axios for API communication. The configuration includes:
 1. **Port already in use**
    ```bash
    # Change the port in your terminal
-   PORT=3001 npm run dev
+   PORT=3001 bun run dev
    ```
 
 2. **API connection failed**
@@ -244,8 +231,8 @@ The application uses Axios for API communication. The configuration includes:
 3. **Module not found errors**
    ```bash
    # Clear cache and reinstall
-   rm -rf node_modules .next
-   npm install
+   rm -rf node_modules .next bun.lockb
+   bun install
    ```
 
 4. **Authentication issues**
@@ -256,7 +243,7 @@ The application uses Axios for API communication. The configuration includes:
 ## Development Workflow
 
 1. **Start the backend** (see backend README)
-2. **Start the frontend** (`npm run dev`)
+2. **Start the frontend** (`bun run dev`)
 3. **Access the application** at `http://localhost:3000`
 4. **Test user flow:**
    - Register/Login as user

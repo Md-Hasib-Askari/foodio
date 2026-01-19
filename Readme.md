@@ -76,8 +76,7 @@ Foodio is a modern food ordering platform that allows users to browse menus, pla
 Before you begin, ensure you have the following installed:
 
 ### Required
-- **Node.js**: v18 or higher ([Download](https://nodejs.org/))
-- **npm**: v8 or higher (comes with Node.js)
+- **Bun**: v1.0 or higher ([Download](https://bun.sh/))
 - **PostgreSQL**: v16 ([Download](https://www.postgresql.org/download/))
   - OR use Docker (recommended)
 
@@ -100,29 +99,29 @@ cd backend
 docker-compose up -d postgres
 
 # 3. Install backend dependencies
-npm install
+bun install
 
 # 4. Set up environment variables
 cp .env.example .env
 # Edit .env with your configuration
 
 # 5. Run database migrations
-npm run migration:generate -- src/database/migrations/InitMigration
-npm run migration:run
+bun run migration:generate -- src/database/migrations/InitMigration
+bun run migration:run
 
 # 6. Start backend server
-npm run start:dev
+bun run start:dev
 
 # 7. In a new terminal, set up frontend
 cd ../frontend
-npm install
+bun install
 
 # 8. Set up frontend environment
 cp .env.example .env
 # Edit .env with your configuration
 
 # 9. Start frontend server
-npm run dev
+bun run dev
 ```
 
 **You're ready!**
@@ -231,17 +230,17 @@ docker-compose up -d postgres
 
 #### 5. Run Database Migrations
 ```bash
-npm run migration:run
+bun run migration:run
 ```
 
 #### 6. Start Backend Server
 ```bash
 # Development mode with hot-reload
-npm run start:dev
+bun run start:dev
 
 # Production mode
-npm run build
-npm run start:prod
+bun run build
+bun run start:prod
 ```
 
 Backend will be available at: `http://localhost:5555`
@@ -273,11 +272,11 @@ NEXT_PUBLIC_API_URL=http://localhost:5555/api/v1/
 #### 4. Start Frontend Server
 ```bash
 # Development mode
-npm run dev
+bun run dev
 
 # Production mode
-npm run build
-npm start
+bun run build
+bun start
 ```
 
 Frontend will be available at: `http://localhost:3000`
@@ -289,13 +288,13 @@ Frontend will be available at: `http://localhost:3000`
 **Terminal 1 - Backend:**
 ```bash
 cd backend
-npm run start:dev
+bun run start:dev
 ```
 
 **Terminal 2 - Frontend:**
 ```bash
 cd frontend
-npm run dev
+bun run dev
 ```
 
 ### Production Mode
@@ -303,15 +302,15 @@ npm run dev
 **Backend:**
 ```bash
 cd backend
-npm run build
-npm run start:prod
+bun run build
+bun run start:prod
 ```
 
 **Frontend:**
 ```bash
 cd frontend
-npm run build
-npm start
+bun run build
+bun start
 ```
 
 ### Access Points
@@ -456,7 +455,7 @@ PORT=3001
 **Frontend:**
 ```bash
 # Run on different port
-PORT=3001 npm run dev
+PORT=3001 bun run dev
 ```
 
 #### Database Connection Failed
@@ -479,15 +478,15 @@ docker exec -it foodio_db psql -U foodio_user -d postgres -c "CREATE DATABASE fo
 
 ```bash
 # Revert last migration
-npm run migration:revert
+bun run migration:revert
 
 # Run migrations again
-npm run migration:run
+bun run migration:run
 
 # If issues persist, drop and recreate database
 docker-compose down -v
 docker-compose up -d postgres
-npm run migration:run
+bun run migration:run
 ```
 
 #### Frontend Cannot Connect to Backend
@@ -506,13 +505,13 @@ curl http://localhost:5555/api/v1/
 ```bash
 # Backend
 cd backend
-rm -rf node_modules package-lock.json
-npm install
+rm -rf node_modules bun.lockb
+bun install
 
 # Frontend
 cd frontend
-rm -rf node_modules .next package-lock.json
-npm install
+rm -rf node_modules .next bun.lockb
+bun install
 ```
 
 #### Docker Issues
@@ -537,16 +536,16 @@ docker-compose up -d --build
 cd backend
 
 # Unit tests
-npm run test
+bun run test
 
 # Watch mode
-npm run test:watch
+bun run test:watch
 
 # Coverage
-npm run test:cov
+bun run test:cov
 
 # E2E tests
-npm run test:e2e
+bun run test:e2e
 ```
 
 ### Frontend Tests
@@ -555,7 +554,7 @@ npm run test:e2e
 cd frontend
 
 # Run linter
-npm run lint
+bun run lint
 ```
 
 ## Development Scripts
@@ -564,25 +563,25 @@ npm run lint
 
 | Script | Description |
 |--------|-------------|
-| `npm run start:dev` | Start development server with hot-reload |
-| `npm run start:debug` | Start in debug mode |
-| `npm run build` | Build for production |
-| `npm run start:prod` | Run production build |
-| `npm run migration:generate` | Generate new migration |
-| `npm run migration:run` | Run pending migrations |
-| `npm run migration:revert` | Revert last migration |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Format code with Prettier |
-| `npm test` | Run unit tests |
+| `bun run start:dev` | Start development server with hot-reload |
+| `bun run start:debug` | Start in debug mode |
+| `bun run build` | Build for production |
+| `bun run start:prod` | Run production build |
+| `bun run migration:generate` | Generate new migration |
+| `bun run migration:run` | Run pending migrations |
+| `bun run migration:revert` | Revert last migration |
+| `bun run lint` | Run ESLint |
+| `bun run format` | Format code with Prettier |
+| `bun test` | Run unit tests |
 
 ### Frontend Scripts
 
 | Script | Description |
 |--------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm start` | Run production build |
-| `npm run lint` | Run ESLint |
+| `bun run dev` | Start development server |
+| `bun run build` | Build for production |
+| `bun start` | Run production build |
+| `bun run lint` | Run ESLint |
 
 ## User Roles
 
